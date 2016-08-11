@@ -5,7 +5,9 @@
 
 const char* dgemm_desc = "Naive, three-loop dgemm.";
 const int L1_BLOCK_SIZE = 512;
-const int L2_BLOCK_SIZE = 512;
+const int L2_BLOCK_SIZE = 256;
+
+/* L1 Block size should be an increment of L2 block size */
 
 void printmatrix (int m, int n, double* M) {
   for (int i = 0; i < m; i++)
@@ -70,34 +72,27 @@ void do_4x4_block(int M, int N, int K, int depth,  double* A, double* B, double*
   _mm256_storeu_pd(C+2*M, c2);
   _mm256_storeu_pd(C+3*M, c3);
 }
-    
-/* This routine performs a dgemm operation
- *  C := C + A * B
- * where A is M x K,
- *       B is K x N,
- *       C is M x N
- * All in column-major format
- * On exit, A and B maintain their input values. */  
-void dgemm (int M, int N, int K, double* A, double* B, double* C) {
+
+void do_l2_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double* A, double* B, double* C) {
   
   int i, j, k;
-  int rboundary = N - (N % 4);
-  int bboundary = M - (M % 4);
-  for (i = 0; i < bboundary; i += 4) {
-    for (j = 0; j < rboundary ; j += 4) {
-      for (k = 0; k < K - 3; k += 4) {
+  int rboundary = jdepth - (jdepth % 4);
+  int bboundary = idepth - (idepth % 4);
+  for (j = 0; j < rboundary; j += 4) {
+    for (i = 0; i < bboundary ; i += 4) {
+      for (k = 0; k < kdepth - 3; k += 4) {
 	do_4x4_block(M, N, K, 4, A + i + k * M, B + k + j * N, C + i + j * M);
       }
-      if (K - k > 0) {
-      	do_4x4_block(M, N, K, K - k, A + i + k * M, B + k + j * N, C + i + j * M);
+      if (kdepth - k > 0) {
+      	do_4x4_block(M, N, K, kdepth - k, A + i + k * M, B + k + j * N, C + i + j * M);
       }	
     }
   }
   /* handle right fringe */
   for (int i = 0; i < bboundary; i++ ) {
-    for (int j = rboundary; j < M; j++ ) {
+    for (int j = rboundary; j < jdepth; j++ ) {
       double t = C[i+j*M];
-      for (int k = 0; k < K; k++ ) {
+      for (int k = 0; k < kdepth; k++ ) {
   	t += A[i+k*M] * B[k+j*N];
       }
       C[i+j*M] = t;
@@ -105,13 +100,36 @@ void dgemm (int M, int N, int K, double* A, double* B, double* C) {
   }
 
   /* handle bottom fringe */
-  for (int i = bboundary; i < M; i++) {
-    for (int j = 0; j < N; j++) {
+  for (int i = bboundary; i < idepth; i++) {
+    for (int j = 0; j < jdepth; j++) {
       double t = C[i+j*M];
-      for (int k = 0; k < K; k++ ) {
+      for (int k = 0; k < kdepth; k++ ) {
   	t += A[i+k*M] * B[k+j*N];
       }
       C[i+j*M] = t;
+    }
+  }
+}
+
+    
+/* This routine performs a dgemm operation
+ *  C := C + A * B
+ * where A is M x K,
+ *       B is K x N,
+ *       C is M x N
+ * All in column-major format
+ * On  exit, A and B maintain their input values. */  
+void dgemm (int M, int N, int K, double* A, double* B, double* C) {
+
+  for (int k = 0; k < K; k += L2_BLOCK_SIZE) {
+    int kdepth = min(L2_BLOCK_SIZE, K - k);
+    for (int j = 0; j < N; j += L2_BLOCK_SIZE) {
+      int jdepth = min(L2_BLOCK_SIZE, N - j);
+      for (int i = 0; i < M; i += L2_BLOCK_SIZE) {
+	int idepth = min(L2_BLOCK_SIZE, M - i);
+	
+	do_l2_block(M, N, K, idepth, jdepth, kdepth, A + i + k * M, B + k + j * N, C + i + j * M);
+      }
     }
   }
 }
