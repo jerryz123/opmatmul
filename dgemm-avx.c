@@ -4,7 +4,7 @@
 #define min(a,b) (((a)<(b))?(a):(b))
 
 const char* dgemm_desc = "Naive, three-loop dgemm.";
-const int L1_BLOCK_SIZE = 512;
+const int L1_BLOCK_SIZE = 32;
 const int L2_BLOCK_SIZE = 256;
 
 /* L1 Block size should be an increment of L2 block size */
@@ -73,7 +73,7 @@ void do_4x4_block(int M, int N, int K, int depth,  double* A, double* B, double*
   _mm256_storeu_pd(C+3*M, c3);
 }
 
-void do_l2_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double* A, double* B, double* C) {
+void do_l1_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double* A, double* B, double* C) {
   
   int i, j, k;
   int rboundary = jdepth - (jdepth % 4);
@@ -111,6 +111,19 @@ void do_l2_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double
   }
 }
 
+void do_l2_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double* A, double* B, double* C) {
+  for (int k = 0; k < kdepth; k += L1_BLOCK_SIZE) {
+    int kdepth1 = min(L1_BLOCK_SIZE, kdepth - k);
+    for (int j = 0; j < jdepth; j += L1_BLOCK_SIZE) {
+      int jdepth1 = min(L1_BLOCK_SIZE, jdepth - j);
+      for (int i = 0; i < idepth; i += L1_BLOCK_SIZE) {
+	int idepth1 = min(L1_BLOCK_SIZE, idepth - i);
+
+	do_l1_block(M, N, K, idepth1, jdepth1, kdepth1, A + i + k * M, B + k + j * N, C + i + j * M);
+      }
+    }
+  }
+}
     
 /* This routine performs a dgemm operation
  *  C := C + A * B
