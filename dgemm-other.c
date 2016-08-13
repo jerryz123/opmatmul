@@ -6,8 +6,8 @@
 
 const char* dgemm_desc = "Simple blocked dgemm.";
 
-#define BLOCK_L1 512
-#define BLOCK_L2 1024
+#define BLOCK_L1 128
+#define BLOCK_L2 512
 
 #define turn_even(x) (((x) & 1) ? (x+1) : (x))
 #define min(a,b) (((a)<(b))?(a):(b))
