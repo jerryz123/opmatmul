@@ -13,8 +13,8 @@ LDLIBS= -lrt -g  -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_ilp64.a $
 # targets = benchmark-naive benchmark-blocked benchmark-blas benchmark-l1l2tpose benchmark-avx benchmark-other
 # objects = benchmark.o dgemm-naive.o dgemm-blocked.o dgemm-blas.o dgemm-l1l2tpose.o dgemm-avx.o dgemm-other.o
 
-targets = benchmark-naive benchmark-avx benchmark-l1l2-avx benchmark-blas
-objects = benchmark.o benchmark-naive.o benchmark-l1l2.o dgemm-avx.o dgemm-blas.o
+targets = benchmark-naive benchmark-avx benchmark-l1l2-avx benchmark-blas 
+objects = benchmark.o benchmark-naive.o benchmark-l1l2.o dgemm-avx.o dgemm-blas.o 
 
 .PHONY : default
 default : all
@@ -34,6 +34,7 @@ benchmark-l1l2-avx : benchmark-l1l2.o dgemm-avx.o
 	$(CC) -o $@ $^ $(LDLIBS)
 benchmark-avx : benchmark.o dgemm-avx.o
 	$(CC) -o $@ $^ $(LDLIBS)
+
 # benchmark-other : benchmark.o dgemm-other.o
 # 	$(CC) -o $@ $^ $(LDLIBS)
 

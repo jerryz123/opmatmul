@@ -52,7 +52,7 @@ void fill (double* p, int n)
 {
   for (int i = 0; i < n; ++i) {
     p[i] = 2 * drand48() - 1; // Uniformly distributed over [-1, 1]
-
+    p[i] = 1;
   }
 }
 
