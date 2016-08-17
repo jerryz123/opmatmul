@@ -14,6 +14,6 @@ with open("avx.txt", "r") as f:
     t = [x.split("\t") for x in t[3:-1]]
     y2s = [float(x[5]) for x in t]
 
-plt.plot(xs, y1s, 'r--',  y2s, 'b--')
-plt.plot([4,1], [800,1], 'k-')
+plt.plot(xs, y1s, 'r-',  y2s, 'b-')
+plt.plot([1,800], [1,1], 'k-')
 plt.savefig("comparison.png")
