@@ -1,0 +1,3 @@
+
+with open("naive.txt", "r") as f:
+    print(f.read())

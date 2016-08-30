@@ -1,0 +1,2805 @@
+
+matmul.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <wall_time>:
+/* } */
+
+
+typedef double vector __attribute__((vector_size(4 * sizeof(double))));
+
+double wall_time () {
+       0:	48 83 ec 28          	sub    rsp,0x28
+  struct timeval t;
+  gettimeofday (&t, NULL);
+  return 1.*t.tv_sec + 1.e-6*t.tv_usec;
+#else
+  struct timespec t;
+  clock_gettime (CLOCK_MONOTONIC, &t);
+       4:	bf 01 00 00 00       	mov    edi,0x1
+/* } */
+
+
+typedef double vector __attribute__((vector_size(4 * sizeof(double))));
+
+double wall_time () {
+       9:	64 48 8b 04 25 28 00 	mov    rax,QWORD PTR fs:0x28
+      10:	00 00 
+      12:	48 89 44 24 18       	mov    QWORD PTR [rsp+0x18],rax
+      17:	31 c0                	xor    eax,eax
+  struct timeval t;
+  gettimeofday (&t, NULL);
+  return 1.*t.tv_sec + 1.e-6*t.tv_usec;
+#else
+  struct timespec t;
+  clock_gettime (CLOCK_MONOTONIC, &t);
+      19:	48 89 e6             	mov    rsi,rsp
+      1c:	e8 00 00 00 00       	call   21 <wall_time+0x21>
+  return 1.*t.tv_sec + 1.e-9*t.tv_nsec;
+      21:	c5 f9 57 c0          	vxorpd xmm0,xmm0,xmm0
+      25:	c5 f1 57 c9          	vxorpd xmm1,xmm1,xmm1
+#endif
+}
+      29:	48 8b 44 24 18       	mov    rax,QWORD PTR [rsp+0x18]
+      2e:	64 48 33 04 25 28 00 	xor    rax,QWORD PTR fs:0x28
+      35:	00 00 
+  gettimeofday (&t, NULL);
+  return 1.*t.tv_sec + 1.e-6*t.tv_usec;
+#else
+  struct timespec t;
+  clock_gettime (CLOCK_MONOTONIC, &t);
+  return 1.*t.tv_sec + 1.e-9*t.tv_nsec;
+      37:	c4 e1 fb 2a 44 24 08 	vcvtsi2sd xmm0,xmm0,QWORD PTR [rsp+0x8]
+      3e:	c5 fb 59 05 00 00 00 	vmulsd xmm0,xmm0,QWORD PTR [rip+0x0]        # 46 <wall_time+0x46>
+      45:	00 
+      46:	c4 e1 f3 2a 0c 24    	vcvtsi2sd xmm1,xmm1,QWORD PTR [rsp]
+      4c:	c5 fb 58 c1          	vaddsd xmm0,xmm0,xmm1
+#endif
+}
+      50:	75 05                	jne    57 <wall_time+0x57>
+      52:	48 83 c4 28          	add    rsp,0x28
+      56:	c3                   	ret    
+      57:	e8 00 00 00 00       	call   5c <wall_time+0x5c>
+      5c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+
+0000000000000060 <fill>:
+
+void fill (double* p, int n) {
+  for (int i = 0; i < n; i++) {
+      60:	85 f6                	test   esi,esi
+      62:	7e 39                	jle    9d <fill+0x3d>
+  clock_gettime (CLOCK_MONOTONIC, &t);
+  return 1.*t.tv_sec + 1.e-9*t.tv_nsec;
+#endif
+}
+
+void fill (double* p, int n) {
+      64:	55                   	push   rbp
+      65:	8d 46 ff             	lea    eax,[rsi-0x1]
+      68:	53                   	push   rbx
+      69:	48 8d 6c c7 08       	lea    rbp,[rdi+rax*8+0x8]
+      6e:	48 89 fb             	mov    rbx,rdi
+      71:	48 83 ec 08          	sub    rsp,0x8
+      75:	0f 1f 00             	nop    DWORD PTR [rax]
+  for (int i = 0; i < n; i++) {
+    p[i] = 2*drand48() - 1;
+      78:	e8 00 00 00 00       	call   7d <fill+0x1d>
+      7d:	48 83 c3 08          	add    rbx,0x8
+      81:	c5 fb 58 c0          	vaddsd xmm0,xmm0,xmm0
+      85:	c5 fb 5c 05 00 00 00 	vsubsd xmm0,xmm0,QWORD PTR [rip+0x0]        # 8d <fill+0x2d>
+      8c:	00 
+      8d:	c5 fb 11 43 f8       	vmovsd QWORD PTR [rbx-0x8],xmm0
+  return 1.*t.tv_sec + 1.e-9*t.tv_nsec;
+#endif
+}
+
+void fill (double* p, int n) {
+  for (int i = 0; i < n; i++) {
+      92:	48 39 eb             	cmp    rbx,rbp
+      95:	75 e1                	jne    78 <fill+0x18>
+    p[i] = 2*drand48() - 1;
+  }
+}
+      97:	48 83 c4 08          	add    rsp,0x8
+      9b:	5b                   	pop    rbx
+      9c:	5d                   	pop    rbp
+      9d:	c3                   	ret    
+      9e:	66 90                	xchg   ax,ax
+
+00000000000000a0 <printmatrix>:
+
+void printmatrix (int m, int n, double* M) {
+  for (int i = 0; i < m; i++)
+      a0:	85 ff                	test   edi,edi
+      a2:	0f 8e 87 00 00 00    	jle    12f <printmatrix+0x8f>
+  for (int i = 0; i < n; i++) {
+    p[i] = 2*drand48() - 1;
+  }
+}
+
+void printmatrix (int m, int n, double* M) {
+      a8:	41 57                	push   r15
+      aa:	8d 47 ff             	lea    eax,[rdi-0x1]
+      ad:	48 63 ff             	movsxd rdi,edi
+      b0:	41 56                	push   r14
+      b2:	4c 8d 7c c2 08       	lea    r15,[rdx+rax*8+0x8]
+      b7:	49 89 d6             	mov    r14,rdx
+      ba:	41 55                	push   r13
+      bc:	4c 8d 2c fd 00 00 00 	lea    r13,[rdi*8+0x0]
+      c3:	00 
+      c4:	41 54                	push   r12
+      c6:	41 89 f4             	mov    r12d,esi
+      c9:	55                   	push   rbp
+      ca:	53                   	push   rbx
+      cb:	48 83 ec 08          	sub    rsp,0x8
+      cf:	90                   	nop
+  for (int i = 0; i < m; i++)
+    {
+      for(int j = 0; j < n; j++)
+      d0:	4c 89 f5             	mov    rbp,r14
+      d3:	31 db                	xor    ebx,ebx
+      d5:	45 85 e4             	test   r12d,r12d
+      d8:	7e 2a                	jle    104 <printmatrix+0x64>
+      da:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+}
+
+__fortify_function int
+printf (const char *__restrict __fmt, ...)
+{
+  return __printf_chk (__USE_FORTIFY_LEVEL - 1, __fmt, __va_arg_pack ());
+      e0:	c5 fb 10 45 00       	vmovsd xmm0,QWORD PTR [rbp+0x0]
+      e5:	be 00 00 00 00       	mov    esi,0x0
+      ea:	83 c3 01             	add    ebx,0x1
+      ed:	4c 01 ed             	add    rbp,r13
+      f0:	bf 01 00 00 00       	mov    edi,0x1
+      f5:	b8 01 00 00 00       	mov    eax,0x1
+      fa:	e8 00 00 00 00       	call   ff <printmatrix+0x5f>
+      ff:	44 39 e3             	cmp    ebx,r12d
+     102:	75 dc                	jne    e0 <printmatrix+0x40>
+     104:	bf 0a 00 00 00       	mov    edi,0xa
+     109:	49 83 c6 08          	add    r14,0x8
+     10d:	e8 00 00 00 00       	call   112 <printmatrix+0x72>
+    p[i] = 2*drand48() - 1;
+  }
+}
+
+void printmatrix (int m, int n, double* M) {
+  for (int i = 0; i < m; i++)
+     112:	4d 39 fe             	cmp    r14,r15
+     115:	75 b9                	jne    d0 <printmatrix+0x30>
+      for(int j = 0; j < n; j++)
+	printf("%.3f\t ", M[i+j*m]);
+      printf("\n");
+    }
+  printf("\n");
+}
+     117:	48 83 c4 08          	add    rsp,0x8
+     11b:	bf 0a 00 00 00       	mov    edi,0xa
+     120:	5b                   	pop    rbx
+     121:	5d                   	pop    rbp
+     122:	41 5c                	pop    r12
+     124:	41 5d                	pop    r13
+     126:	41 5e                	pop    r14
+     128:	41 5f                	pop    r15
+     12a:	e9 00 00 00 00       	jmp    12f <printmatrix+0x8f>
+     12f:	bf 0a 00 00 00       	mov    edi,0xa
+     134:	e9 00 00 00 00       	jmp    139 <printmatrix+0x99>
+     139:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+
+0000000000000140 <naive_dgemm>:
+
+void naive_dgemm(int n, double* __restrict__ A, double* __restrict__ B, double* __restrict__ C) {
+     140:	4c 8d 54 24 08       	lea    r10,[rsp+0x8]
+     145:	48 83 e4 e0          	and    rsp,0xffffffffffffffe0
+     149:	48 89 f0             	mov    rax,rsi
+     14c:	41 ff 72 f8          	push   QWORD PTR [r10-0x8]
+     150:	55                   	push   rbp
+     151:	48 89 e5             	mov    rbp,rsp
+     154:	41 57                	push   r15
+     156:	41 56                	push   r14
+     158:	41 55                	push   r13
+     15a:	41 54                	push   r12
+     15c:	41 52                	push   r10
+     15e:	53                   	push   rbx
+     15f:	48 89 75 90          	mov    QWORD PTR [rbp-0x70],rsi
+ 
+  for (int i = 0; i < n; i++) {
+     163:	85 ff                	test   edi,edi
+     165:	0f 8e 54 01 00 00    	jle    2bf <naive_dgemm+0x17f>
+     16b:	4c 63 e7             	movsxd r12,edi
+     16e:	49 89 d5             	mov    r13,rdx
+     171:	48 c7 45 a0 00 00 00 	mov    QWORD PTR [rbp-0x60],0x0
+     178:	00 
+     179:	48 89 ca             	mov    rdx,rcx
+     17c:	4e 8d 04 e5 00 00 00 	lea    r8,[r12*8+0x0]
+     183:	00 
+     184:	8d 5f ff             	lea    ebx,[rdi-0x1]
+     187:	4c 01 c0             	add    rax,r8
+     18a:	4d 89 c6             	mov    r14,r8
+     18d:	48 89 45 b8          	mov    QWORD PTR [rbp-0x48],rax
+     191:	8d 47 fc             	lea    eax,[rdi-0x4]
+     194:	c1 e8 02             	shr    eax,0x2
+     197:	83 c0 01             	add    eax,0x1
+     19a:	89 45 ac             	mov    DWORD PTR [rbp-0x54],eax
+     19d:	c1 e0 02             	shl    eax,0x2
+     1a0:	89 c6                	mov    esi,eax
+     1a2:	89 45 c0             	mov    DWORD PTR [rbp-0x40],eax
+     1a5:	4c 89 e0             	mov    rax,r12
+     1a8:	48 c1 e0 05          	shl    rax,0x5
+     1ac:	83 fb 03             	cmp    ebx,0x3
+     1af:	48 89 45 b0          	mov    QWORD PTR [rbp-0x50],rax
+     1b3:	b8 00 00 00 00       	mov    eax,0x0
+     1b8:	0f 47 c6             	cmova  eax,esi
+     1bb:	49 f7 de             	neg    r14
+     1be:	89 c6                	mov    esi,eax
+     1c0:	89 45 c4             	mov    DWORD PTR [rbp-0x3c],eax
+     1c3:	0f af c7             	imul   eax,edi
+     1c6:	4c 63 fe             	movsxd r15,esi
+     1c9:	48 98                	cdqe   
+     1cb:	48 89 45 98          	mov    QWORD PTR [rbp-0x68],rax
+     1cf:	90                   	nop
+     1d0:	48 8b 45 a0          	mov    rax,QWORD PTR [rbp-0x60]
+     1d4:	4d 89 eb             	mov    r11,r13
+      printf("\n");
+    }
+  printf("\n");
+}
+
+void naive_dgemm(int n, double* __restrict__ A, double* __restrict__ B, double* __restrict__ C) {
+     1d7:	45 31 c9             	xor    r9d,r9d
+     1da:	45 31 d2             	xor    r10d,r10d
+     1dd:	48 03 45 98          	add    rax,QWORD PTR [rbp-0x68]
+     1e1:	48 8b 75 90          	mov    rsi,QWORD PTR [rbp-0x70]
+     1e5:	48 8d 04 c6          	lea    rax,[rsi+rax*8]
+     1e9:	48 89 45 c8          	mov    QWORD PTR [rbp-0x38],rax
+     1ed:	0f 1f 00             	nop    DWORD PTR [rax]
+ 
+  for (int i = 0; i < n; i++) {
+    
+    for (int j = 0; j < n; j++) {
+      double t = C[i + j * n];
+     1f0:	c4 a1 7b 10 14 ca    	vmovsd xmm2,QWORD PTR [rdx+r9*8]
+     1f6:	83 fb 03             	cmp    ebx,0x3
+     1f9:	76 64                	jbe    25f <naive_dgemm+0x11f>
+     1fb:	48 8b 45 b8          	mov    rax,QWORD PTR [rbp-0x48]
+     1ff:	4c 89 d9             	mov    rcx,r11
+     202:	31 f6                	xor    esi,esi
+     204:	c5 f9 57 c0          	vxorpd xmm0,xmm0,xmm0
+      
+      for (int k = 0; k < n; k++) {
+	
+  	double a = A[i + k * n];
+     208:	c4 a1 7b 10 2c 00    	vmovsd xmm5,QWORD PTR [rax+r8*1]
+     20e:	83 c6 01             	add    esi,0x1
+     211:	48 83 c1 20          	add    rcx,0x20
+     215:	c4 a1 7b 10 34 30    	vmovsd xmm6,QWORD PTR [rax+r14*1]
+  	double b = B[k + j * n];
+     21b:	c5 f9 10 49 e0       	vmovupd xmm1,XMMWORD PTR [rcx-0x20]
+     220:	c4 e3 75 18 59 f0 01 	vinsertf128 ymm3,ymm1,XMMWORD PTR [rcx-0x10],0x1
+    for (int j = 0; j < n; j++) {
+      double t = C[i + j * n];
+      
+      for (int k = 0; k < n; k++) {
+	
+  	double a = A[i + k * n];
+     227:	c4 a1 51 16 0c 40    	vmovhpd xmm1,xmm5,QWORD PTR [rax+r8*2]
+     22d:	c5 c9 16 20          	vmovhpd xmm4,xmm6,QWORD PTR [rax]
+     231:	48 03 45 b0          	add    rax,QWORD PTR [rbp-0x50]
+     235:	c4 e3 5d 18 c9 01    	vinsertf128 ymm1,ymm4,xmm1,0x1
+  	double b = B[k + j * n];
+  	t += a * b;
+     23b:	c5 e5 59 c9          	vmulpd ymm1,ymm3,ymm1
+     23f:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+     243:	3b 75 ac             	cmp    esi,DWORD PTR [rbp-0x54]
+     246:	72 c0                	jb     208 <naive_dgemm+0xc8>
+     248:	c5 fd 7c c0          	vhaddpd ymm0,ymm0,ymm0
+     24c:	c4 e3 7d 06 c8 01    	vperm2f128 ymm1,ymm0,ymm0,0x1
+     252:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+     256:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+     25a:	3b 7d c0             	cmp    edi,DWORD PTR [rbp-0x40]
+     25d:	74 2a                	je     289 <naive_dgemm+0x149>
+void naive_dgemm(int n, double* __restrict__ A, double* __restrict__ B, double* __restrict__ C) {
+ 
+  for (int i = 0; i < n; i++) {
+    
+    for (int j = 0; j < n; j++) {
+      double t = C[i + j * n];
+     25f:	48 8b 4d c8          	mov    rcx,QWORD PTR [rbp-0x38]
+     263:	4b 8d 04 0f          	lea    rax,[r15+r9*1]
+     267:	49 8d 74 c5 00       	lea    rsi,[r13+rax*8+0x0]
+     26c:	8b 45 c4             	mov    eax,DWORD PTR [rbp-0x3c]
+      
+      for (int k = 0; k < n; k++) {
+	
+  	double a = A[i + k * n];
+  	double b = B[k + j * n];
+  	t += a * b;
+     26f:	c5 fb 10 06          	vmovsd xmm0,QWORD PTR [rsi]
+  for (int i = 0; i < n; i++) {
+    
+    for (int j = 0; j < n; j++) {
+      double t = C[i + j * n];
+      
+      for (int k = 0; k < n; k++) {
+     273:	83 c0 01             	add    eax,0x1
+     276:	48 83 c6 08          	add    rsi,0x8
+	
+  	double a = A[i + k * n];
+  	double b = B[k + j * n];
+  	t += a * b;
+     27a:	c5 fb 59 01          	vmulsd xmm0,xmm0,QWORD PTR [rcx]
+     27e:	4c 01 c1             	add    rcx,r8
+     281:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+  for (int i = 0; i < n; i++) {
+    
+    for (int j = 0; j < n; j++) {
+      double t = C[i + j * n];
+      
+      for (int k = 0; k < n; k++) {
+     285:	39 c7                	cmp    edi,eax
+     287:	7f e6                	jg     26f <naive_dgemm+0x12f>
+
+void naive_dgemm(int n, double* __restrict__ A, double* __restrict__ B, double* __restrict__ C) {
+ 
+  for (int i = 0; i < n; i++) {
+    
+    for (int j = 0; j < n; j++) {
+     289:	41 83 c2 01          	add    r10d,0x1
+	
+  	double a = A[i + k * n];
+  	double b = B[k + j * n];
+  	t += a * b;
+      }
+      C[i + j * n] = t;
+     28d:	c4 a1 7b 11 14 ca    	vmovsd QWORD PTR [rdx+r9*8],xmm2
+     293:	4d 01 c3             	add    r11,r8
+     296:	4d 01 e1             	add    r9,r12
+
+void naive_dgemm(int n, double* __restrict__ A, double* __restrict__ B, double* __restrict__ C) {
+ 
+  for (int i = 0; i < n; i++) {
+    
+    for (int j = 0; j < n; j++) {
+     299:	41 39 fa             	cmp    r10d,edi
+     29c:	0f 85 4e ff ff ff    	jne    1f0 <naive_dgemm+0xb0>
+     2a2:	48 83 45 a0 01       	add    QWORD PTR [rbp-0x60],0x1
+     2a7:	48 83 c2 08          	add    rdx,0x8
+     2ab:	48 8b 45 a0          	mov    rax,QWORD PTR [rbp-0x60]
+     2af:	48 83 45 b8 08       	add    QWORD PTR [rbp-0x48],0x8
+  printf("\n");
+}
+
+void naive_dgemm(int n, double* __restrict__ A, double* __restrict__ B, double* __restrict__ C) {
+ 
+  for (int i = 0; i < n; i++) {
+     2b4:	39 c7                	cmp    edi,eax
+     2b6:	0f 8f 14 ff ff ff    	jg     1d0 <naive_dgemm+0x90>
+     2bc:	c5 f8 77             	vzeroupper 
+  	t += a * b;
+      }
+      C[i + j * n] = t;
+    }
+  }
+}
+     2bf:	5b                   	pop    rbx
+     2c0:	41 5a                	pop    r10
+     2c2:	41 5c                	pop    r12
+     2c4:	41 5d                	pop    r13
+     2c6:	41 5e                	pop    r14
+     2c8:	41 5f                	pop    r15
+     2ca:	5d                   	pop    rbp
+     2cb:	49 8d 62 f8          	lea    rsp,[r10-0x8]
+     2cf:	c3                   	ret    
+
+00000000000002d0 <do_4x4_block>:
+
+void do_4x4_block(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+     2d0:	4c 8d 54 24 08       	lea    r10,[rsp+0x8]
+     2d5:	48 83 e4 e0          	and    rsp,0xffffffffffffffe0
+     2d9:	48 63 ff             	movsxd rdi,edi
+     2dc:	41 ff 72 f8          	push   QWORD PTR [r10-0x8]
+     2e0:	55                   	push   rbp
+     2e1:	4c 8d 0c fd 00 00 00 	lea    r9,[rdi*8+0x0]
+     2e8:	00 
+     2e9:	48 89 e5             	mov    rbp,rsp
+     2ec:	41 52                	push   r10
+     2ee:	41 ba 04 00 00 00    	mov    r10d,0x4
+     2f4:	48 83 ec 48          	sub    rsp,0x48
+     2f8:	64 48 8b 04 25 28 00 	mov    rax,QWORD PTR fs:0x28
+     2ff:	00 00 
+     301:	48 89 45 e8          	mov    QWORD PTR [rbp-0x18],rax
+     305:	31 c0                	xor    eax,eax
+
+__fortify_function void *
+__NTH (memcpy (void *__restrict __dest, const void *__restrict __src,
+	       size_t __len))
+{
+  return __builtin___memcpy_chk (__dest, __src, __len, __bos0 (__dest));
+     307:	49 8b 00             	mov    rax,QWORD PTR [r8]
+     30a:	48 89 45 b0          	mov    QWORD PTR [rbp-0x50],rax
+     30e:	49 8b 40 08          	mov    rax,QWORD PTR [r8+0x8]
+     312:	48 89 45 b8          	mov    QWORD PTR [rbp-0x48],rax
+     316:	49 8b 40 10          	mov    rax,QWORD PTR [r8+0x10]
+     31a:	48 89 45 c0          	mov    QWORD PTR [rbp-0x40],rax
+     31e:	49 8b 40 18          	mov    rax,QWORD PTR [r8+0x18]
+     322:	48 89 45 c8          	mov    QWORD PTR [rbp-0x38],rax
+   for (int j = 0 ; j < 4; j++) {
+     vector c;
+     memcpy(&c, C, 32);
+     for (int k = 0 ; k < kdepth ; k++) {
+     326:	85 f6                	test   esi,esi
+     328:	7e 37                	jle    361 <do_4x4_block+0x91>
+     32a:	c5 fd 28 4d b0       	vmovapd ymm1,YMMWORD PTR [rbp-0x50]
+     32f:	48 89 d7             	mov    rdi,rdx
+     332:	31 c0                	xor    eax,eax
+     334:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+       vector a;
+       memcpy(&a, A + k * n, 32);
+       double bv = B[k + j * n];
+       vector b = {bv, bv, bv, bv};
+     338:	c4 e2 7d 19 14 c1    	vbroadcastsd ymm2,QWORD PTR [rcx+rax*8]
+     33e:	48 83 c0 01          	add    rax,0x1
+     342:	c5 f9 10 07          	vmovupd xmm0,XMMWORD PTR [rdi]
+     346:	c4 e3 7d 18 47 10 01 	vinsertf128 ymm0,ymm0,XMMWORD PTR [rdi+0x10],0x1
+     34d:	4c 01 cf             	add    rdi,r9
+       c += a * b;
+     350:	c5 fd 59 c2          	vmulpd ymm0,ymm0,ymm2
+     354:	c5 f5 58 c8          	vaddpd ymm1,ymm1,ymm0
+
+void do_4x4_block(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+   for (int j = 0 ; j < 4; j++) {
+     vector c;
+     memcpy(&c, C, 32);
+     for (int k = 0 ; k < kdepth ; k++) {
+     358:	39 c6                	cmp    esi,eax
+     35a:	7f dc                	jg     338 <do_4x4_block+0x68>
+     35c:	c5 fd 29 4d b0       	vmovapd YMMWORD PTR [rbp-0x50],ymm1
+     361:	48 8b 45 b0          	mov    rax,QWORD PTR [rbp-0x50]
+     365:	4c 01 c9             	add    rcx,r9
+     368:	49 89 00             	mov    QWORD PTR [r8],rax
+     36b:	48 8b 45 b8          	mov    rax,QWORD PTR [rbp-0x48]
+     36f:	49 89 40 08          	mov    QWORD PTR [r8+0x8],rax
+     373:	48 8b 45 c0          	mov    rax,QWORD PTR [rbp-0x40]
+     377:	49 89 40 10          	mov    QWORD PTR [r8+0x10],rax
+     37b:	48 8b 45 c8          	mov    rax,QWORD PTR [rbp-0x38]
+     37f:	49 89 40 18          	mov    QWORD PTR [r8+0x18],rax
+       /* for (int i = 0; i < 4; i++) { */
+       /* 	 C[i + j * n] += A[i + k * n] * B[k + j * n]; */
+       /* } */
+     }
+     memcpy(C, &c, 32);
+     C += n;
+     383:	4d 01 c8             	add    r8,r9
+    }
+  }
+}
+
+void do_4x4_block(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+   for (int j = 0 ; j < 4; j++) {
+     386:	41 83 ea 01          	sub    r10d,0x1
+     38a:	0f 85 77 ff ff ff    	jne    307 <do_4x4_block+0x37>
+   /* 	c += a * b; */
+   /*     } */
+   /*     C[i + j * n] = c; */
+   /*   } */
+   /* } */
+}
+     390:	48 8b 45 e8          	mov    rax,QWORD PTR [rbp-0x18]
+     394:	64 48 33 04 25 28 00 	xor    rax,QWORD PTR fs:0x28
+     39b:	00 00 
+     39d:	75 0f                	jne    3ae <do_4x4_block+0xde>
+     39f:	c5 f8 77             	vzeroupper 
+     3a2:	48 83 c4 48          	add    rsp,0x48
+     3a6:	41 5a                	pop    r10
+     3a8:	5d                   	pop    rbp
+     3a9:	49 8d 62 f8          	lea    rsp,[r10-0x8]
+     3ad:	c3                   	ret    
+     3ae:	c5 f8 77             	vzeroupper 
+     3b1:	e8 00 00 00 00       	call   3b6 <do_4x4_block+0xe6>
+     3b6:	66 2e 0f 1f 84 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+     3bd:	00 00 00 
+
+00000000000003c0 <avx_dgemm_slow>:
+    }
+  }
+}
+
+void avx_dgemm_slow(int n, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < n; k += 32){
+     3c0:	85 ff                	test   edi,edi
+     3c2:	0f 8e 1a 09 00 00    	jle    ce2 <avx_dgemm_slow+0x922>
+      }
+    }
+  }
+}
+
+void avx_dgemm_slow(int n, double* restrict A, double* restrict B, double* restrict C) {
+     3c8:	4c 8d 54 24 08       	lea    r10,[rsp+0x8]
+     3cd:	48 83 e4 e0          	and    rsp,0xffffffffffffffe0
+     3d1:	89 f8                	mov    eax,edi
+     3d3:	41 ff 72 f8          	push   QWORD PTR [r10-0x8]
+     3d7:	55                   	push   rbp
+     3d8:	c1 e0 05             	shl    eax,0x5
+     3db:	48 89 e5             	mov    rbp,rsp
+     3de:	41 57                	push   r15
+     3e0:	41 56                	push   r14
+     3e2:	41 55                	push   r13
+     3e4:	41 54                	push   r12
+     3e6:	41 89 fc             	mov    r12d,edi
+     3e9:	41 52                	push   r10
+     3eb:	45 89 e5             	mov    r13d,r12d
+     3ee:	53                   	push   rbx
+     3ef:	48 89 d3             	mov    rbx,rdx
+     3f2:	48 81 ec 40 01 00 00 	sub    rsp,0x140
+     3f9:	89 85 e8 fe ff ff    	mov    DWORD PTR [rbp-0x118],eax
+     3ff:	48 98                	cdqe   
+     401:	48 89 c7             	mov    rdi,rax
+     404:	48 89 45 c8          	mov    QWORD PTR [rbp-0x38],rax
+     408:	41 8d 44 24 ff       	lea    eax,[r12-0x1]
+     40d:	48 89 8d 50 ff ff ff 	mov    QWORD PTR [rbp-0xb0],rcx
+     414:	48 c1 e7 03          	shl    rdi,0x3
+     418:	c1 e8 05             	shr    eax,0x5
+     41b:	48 89 5d a8          	mov    QWORD PTR [rbp-0x58],rbx
+     41f:	48 89 f3             	mov    rbx,rsi
+     422:	89 c2                	mov    edx,eax
+     424:	83 c0 01             	add    eax,0x1
+     427:	48 89 bd d0 fe ff ff 	mov    QWORD PTR [rbp-0x130],rdi
+     42e:	48 8d 4a 01          	lea    rcx,[rdx+0x1]
+     432:	c1 e0 05             	shl    eax,0x5
+  for (int k = 0; k < n; k += 32){
+     435:	48 c7 85 58 ff ff ff 	mov    QWORD PTR [rbp-0xa8],0x0
+     43c:	00 00 00 00 
+     440:	89 85 c0 fe ff ff    	mov    DWORD PTR [rbp-0x140],eax
+     446:	48 c1 e2 05          	shl    rdx,0x5
+     44a:	48 c1 e1 05          	shl    rcx,0x5
+     44e:	42 8d 04 a5 00 00 00 	lea    eax,[r12*4+0x0]
+     455:	00 
+     456:	48 89 8d a8 fe ff ff 	mov    QWORD PTR [rbp-0x158],rcx
+     45d:	48 c7 85 f0 fe ff ff 	mov    QWORD PTR [rbp-0x110],0x0
+     464:	00 00 00 00 
+     468:	48 98                	cdqe   
+     46a:	c7 85 e4 fe ff ff 00 	mov    DWORD PTR [rbp-0x11c],0x0
+     471:	00 00 00 
+     474:	48 c1 e0 03          	shl    rax,0x3
+     478:	48 89 85 38 ff ff ff 	mov    QWORD PTR [rbp-0xc8],rax
+     47f:	49 63 c4             	movsxd rax,r12d
+     482:	4c 8d 34 c5 00 00 00 	lea    r14,[rax*8+0x0]
+     489:	00 
+     48a:	48 89 85 08 ff ff ff 	mov    QWORD PTR [rbp-0xf8],rax
+     491:	48 8d 42 20          	lea    rax,[rdx+0x20]
+     495:	48 89 85 98 fe ff ff 	mov    QWORD PTR [rbp-0x168],rax
+     49c:	4c 89 f0             	mov    rax,r14
+     49f:	48 f7 d8             	neg    rax
+     4a2:	48 89 45 b0          	mov    QWORD PTR [rbp-0x50],rax
+     4a6:	48 8b bd 58 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xa8]
+    int kend = min(k + 32, n);
+     4ad:	c7 85 ec fe ff ff 00 	mov    DWORD PTR [rbp-0x114],0x0
+     4b4:	00 00 00 
+     4b7:	c7 85 1c ff ff ff 00 	mov    DWORD PTR [rbp-0xe4],0x0
+     4be:	00 00 00 
+     4c1:	89 f8                	mov    eax,edi
+     4c3:	41 89 ff             	mov    r15d,edi
+     4c6:	83 c0 20             	add    eax,0x20
+     4c9:	41 39 c5             	cmp    r13d,eax
+     4cc:	41 0f 4e c5          	cmovle eax,r13d
+     4d0:	41 89 c4             	mov    r12d,eax
+     4d3:	48 63 85 e4 fe ff ff 	movsxd rax,DWORD PTR [rbp-0x11c]
+     4da:	48 89 c2             	mov    rdx,rax
+     4dd:	48 f7 da             	neg    rdx
+     4e0:	48 8d 34 d5 00 00 00 	lea    rsi,[rdx*8+0x0]
+     4e7:	00 
+     4e8:	48 89 b5 f8 fe ff ff 	mov    QWORD PTR [rbp-0x108],rsi
+     4ef:	48 8d 34 c5 00 00 00 	lea    rsi,[rax*8+0x0]
+     4f6:	00 
+     4f7:	48 89 b5 c8 fe ff ff 	mov    QWORD PTR [rbp-0x138],rsi
+     4fe:	48 8d 34 fd 00 00 00 	lea    rsi,[rdi*8+0x0]
+     505:	00 
+     506:	48 89 b5 a0 fe ff ff 	mov    QWORD PTR [rbp-0x160],rsi
+     50d:	48 8b b5 98 fe ff ff 	mov    rsi,QWORD PTR [rbp-0x168]
+     514:	48 8d 14 30          	lea    rdx,[rax+rsi*1]
+     518:	48 8d 34 d5 00 00 00 	lea    rsi,[rdx*8+0x0]
+     51f:	00 
+     520:	48 89 b5 b8 fe ff ff 	mov    QWORD PTR [rbp-0x148],rsi
+     527:	44 89 e6             	mov    esi,r12d
+     52a:	29 fe                	sub    esi,edi
+     52c:	8d 56 fc             	lea    edx,[rsi-0x4]
+     52f:	89 75 c0             	mov    DWORD PTR [rbp-0x40],esi
+     532:	c1 ea 02             	shr    edx,0x2
+     535:	8d 72 01             	lea    esi,[rdx+0x1]
+     538:	89 75 bc             	mov    DWORD PTR [rbp-0x44],esi
+     53b:	c1 e6 02             	shl    esi,0x2
+     53e:	89 75 c4             	mov    DWORD PTR [rbp-0x3c],esi
+     541:	01 fe                	add    esi,edi
+     543:	48 8b bd 08 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xf8]
+     54a:	48 03 bd f0 fe ff ff 	add    rdi,QWORD PTR [rbp-0x110]
+     551:	89 75 b8             	mov    DWORD PTR [rbp-0x48],esi
+     554:	48 89 bd d8 fe ff ff 	mov    QWORD PTR [rbp-0x128],rdi
+     55b:	48 29 c7             	sub    rdi,rax
+     55e:	48 89 f8             	mov    rax,rdi
+     561:	48 c1 e0 03          	shl    rax,0x3
+     565:	48 89 85 b0 fe ff ff 	mov    QWORD PTR [rbp-0x150],rax
+     56c:	44 89 e0             	mov    eax,r12d
+     56f:	44 29 f8             	sub    eax,r15d
+     572:	89 45 8c             	mov    DWORD PTR [rbp-0x74],eax
+     575:	44 89 f8             	mov    eax,r15d
+     578:	f7 d0                	not    eax
+     57a:	89 85 94 fe ff ff    	mov    DWORD PTR [rbp-0x16c],eax
+     580:	44 01 e0             	add    eax,r12d
+     583:	89 45 88             	mov    DWORD PTR [rbp-0x78],eax
+     586:	44 89 e8             	mov    eax,r13d
+     589:	45 89 fd             	mov    r13d,r15d
+     58c:	4d 89 f7             	mov    r15,r14
+     58f:	45 89 e6             	mov    r14d,r12d
+     592:	41 89 c4             	mov    r12d,eax
+    for (int j = 0; j < n; j += 32){
+      int jend = min(j + 32, n);
+     595:	8b b5 1c ff ff ff    	mov    esi,DWORD PTR [rbp-0xe4]
+     59b:	45 89 e9             	mov    r9d,r13d
+     59e:	45 89 e2             	mov    r10d,r12d
+     5a1:	49 89 db             	mov    r11,rbx
+     5a4:	48 c7 85 10 ff ff ff 	mov    QWORD PTR [rbp-0xf0],0x0
+     5ab:	00 00 00 00 
+     5af:	89 f0                	mov    eax,esi
+     5b1:	83 c0 20             	add    eax,0x20
+     5b4:	44 39 e0             	cmp    eax,r12d
+     5b7:	89 85 e0 fe ff ff    	mov    DWORD PTR [rbp-0x120],eax
+     5bd:	41 0f 4f c4          	cmovg  eax,r12d
+     5c1:	89 c7                	mov    edi,eax
+     5c3:	89 85 18 ff ff ff    	mov    DWORD PTR [rbp-0xe8],eax
+     5c9:	29 f0                	sub    eax,esi
+     5cb:	99                   	cdq    
+     5cc:	c1 ea 1e             	shr    edx,0x1e
+     5cf:	01 d0                	add    eax,edx
+     5d1:	83 e0 03             	and    eax,0x3
+     5d4:	29 d0                	sub    eax,edx
+     5d6:	29 c7                	sub    edi,eax
+     5d8:	89 f8                	mov    eax,edi
+     5da:	89 bd 7c ff ff ff    	mov    DWORD PTR [rbp-0x84],edi
+     5e0:	48 8b bd 50 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xb0]
+     5e7:	41 0f af c4          	imul   eax,r12d
+     5eb:	48 98                	cdqe   
+     5ed:	48 89 bd 00 ff ff ff 	mov    QWORD PTR [rbp-0x100],rdi
+     5f4:	48 8b 7d a8          	mov    rdi,QWORD PTR [rbp-0x58]
+     5f8:	48 89 85 60 ff ff ff 	mov    QWORD PTR [rbp-0xa0],rax
+     5ff:	48 03 85 58 ff ff ff 	add    rax,QWORD PTR [rbp-0xa8]
+     606:	48 8d 04 c7          	lea    rax,[rdi+rax*8]
+     60a:	48 89 85 68 ff ff ff 	mov    QWORD PTR [rbp-0x98],rax
+     611:	48 8b 85 a0 fe ff ff 	mov    rax,QWORD PTR [rbp-0x160]
+     618:	48 89 85 40 ff ff ff 	mov    QWORD PTR [rbp-0xc0],rax
+     61f:	48 8b 85 c8 fe ff ff 	mov    rax,QWORD PTR [rbp-0x138]
+     626:	48 89 85 20 ff ff ff 	mov    QWORD PTR [rbp-0xe0],rax
+     62d:	48 8b bd 10 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xf0]
+
+	int bboundary = iend - bfringe;
+	int rboundary = jend - rfringe;
+
+	int i1, j1, k1;
+	for (j1 = j; j1 < rboundary; j1 += 4){
+     634:	8b 8d 1c ff ff ff    	mov    ecx,DWORD PTR [rbp-0xe4]
+     63a:	8b b5 7c ff ff ff    	mov    esi,DWORD PTR [rbp-0x84]
+     640:	89 f8                	mov    eax,edi
+     642:	89 bd 48 ff ff ff    	mov    DWORD PTR [rbp-0xb8],edi
+     648:	83 c0 20             	add    eax,0x20
+     64b:	89 bd c4 fe ff ff    	mov    DWORD PTR [rbp-0x13c],edi
+  for (int k = 0; k < n; k += 32){
+    int kend = min(k + 32, n);
+    for (int j = 0; j < n; j += 32){
+      int jend = min(j + 32, n);
+      for (int i = 0; i < n; i += 32){
+	int iend = min(i + 32, n);
+     651:	41 39 c2             	cmp    r10d,eax
+     654:	41 0f 4e c2          	cmovle eax,r10d
+     658:	89 c3                	mov    ebx,eax
+     65a:	89 85 4c ff ff ff    	mov    DWORD PTR [rbp-0xb4],eax
+	
+	int bfringe = (iend - i) % 4;
+     660:	29 f8                	sub    eax,edi
+     662:	99                   	cdq    
+     663:	c1 ea 1e             	shr    edx,0x1e
+     666:	01 d0                	add    eax,edx
+     668:	83 e0 03             	and    eax,0x3
+     66b:	29 d0                	sub    eax,edx
+	int rfringe = (jend - j) % 4;
+
+	int bboundary = iend - bfringe;
+     66d:	29 c3                	sub    ebx,eax
+     66f:	89 d8                	mov    eax,ebx
+     671:	89 9d 70 ff ff ff    	mov    DWORD PTR [rbp-0x90],ebx
+	int rboundary = jend - rfringe;
+
+	int i1, j1, k1;
+	for (j1 = j; j1 < rboundary; j1 += 4){
+     677:	39 f1                	cmp    ecx,esi
+     679:	0f 8d 73 02 00 00    	jge    8f2 <avx_dgemm_slow+0x532>
+     67f:	48 8b b5 20 ff ff ff 	mov    rsi,QWORD PTR [rbp-0xe0]
+     686:	41 89 fd             	mov    r13d,edi
+     689:	89 4d 80             	mov    DWORD PTR [rbp-0x80],ecx
+     68c:	41 f7 d5             	not    r13d
+     68f:	4c 89 bd 30 ff ff ff 	mov    QWORD PTR [rbp-0xd0],r15
+     696:	4c 8b bd 50 ff ff ff 	mov    r15,QWORD PTR [rbp-0xb0]
+     69d:	41 01 c5             	add    r13d,eax
+     6a0:	44 89 b5 78 ff ff ff 	mov    DWORD PTR [rbp-0x88],r14d
+     6a7:	41 c1 ed 02          	shr    r13d,0x2
+     6ab:	44 89 8d 28 ff ff ff 	mov    DWORD PTR [rbp-0xd8],r9d
+     6b2:	48 89 f3             	mov    rbx,rsi
+     6b5:	48 03 9d f8 fe ff ff 	add    rbx,QWORD PTR [rbp-0x108]
+     6bc:	49 83 c5 01          	add    r13,0x1
+     6c0:	44 89 55 a0          	mov    DWORD PTR [rbp-0x60],r10d
+     6c4:	49 c1 e5 05          	shl    r13,0x5
+     6c8:	4c 89 5d 98          	mov    QWORD PTR [rbp-0x68],r11
+     6cc:	4c 89 6d 90          	mov    QWORD PTR [rbp-0x70],r13
+     6d0:	49 89 f5             	mov    r13,rsi
+     6d3:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+	  for (i1 = i; i1 < bboundary; i1 += 4){
+     6d8:	8b bd 48 ff ff ff    	mov    edi,DWORD PTR [rbp-0xb8]
+     6de:	39 bd 70 ff ff ff    	cmp    DWORD PTR [rbp-0x90],edi
+     6e4:	7e 42                	jle    728 <avx_dgemm_slow+0x368>
+     6e6:	48 8b 85 40 ff ff ff 	mov    rax,QWORD PTR [rbp-0xc0]
+     6ed:	45 31 f6             	xor    r14d,r14d
+     6f0:	4c 8d 24 03          	lea    r12,[rbx+rax*1]
+     6f4:	4c 03 65 a8          	add    r12,QWORD PTR [rbp-0x58]
+     6f8:	c5 f8 77             	vzeroupper 
+     6fb:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+     700:	4b 8d 14 2e          	lea    rdx,[r14+r13*1]
+	    /* printf("%d\t%d\t%d\n", j1, i1, k); */
+	    do_4x4_block(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+     704:	8b 75 8c             	mov    esi,DWORD PTR [rbp-0x74]
+     707:	48 03 55 98          	add    rdx,QWORD PTR [rbp-0x68]
+     70b:	4a 8d 0c 33          	lea    rcx,[rbx+r14*1]
+     70f:	49 83 c6 20          	add    r14,0x20
+     713:	8b 7d a0             	mov    edi,DWORD PTR [rbp-0x60]
+     716:	4d 8d 04 0f          	lea    r8,[r15+rcx*1]
+     71a:	4c 89 e1             	mov    rcx,r12
+     71d:	e8 00 00 00 00       	call   722 <avx_dgemm_slow+0x362>
+	int bboundary = iend - bfringe;
+	int rboundary = jend - rfringe;
+
+	int i1, j1, k1;
+	for (j1 = j; j1 < rboundary; j1 += 4){
+	  for (i1 = i; i1 < bboundary; i1 += 4){
+     722:	4c 3b 75 90          	cmp    r14,QWORD PTR [rbp-0x70]
+     726:	75 d8                	jne    700 <avx_dgemm_slow+0x340>
+
+	int bboundary = iend - bfringe;
+	int rboundary = jend - rfringe;
+
+	int i1, j1, k1;
+	for (j1 = j; j1 < rboundary; j1 += 4){
+     728:	83 45 80 04          	add    DWORD PTR [rbp-0x80],0x4
+     72c:	48 03 9d 38 ff ff ff 	add    rbx,QWORD PTR [rbp-0xc8]
+     733:	8b 45 80             	mov    eax,DWORD PTR [rbp-0x80]
+     736:	3b 85 7c ff ff ff    	cmp    eax,DWORD PTR [rbp-0x84]
+     73c:	7c 9a                	jl     6d8 <avx_dgemm_slow+0x318>
+     73e:	8b bd 70 ff ff ff    	mov    edi,DWORD PTR [rbp-0x90]
+     744:	44 8b 8d 28 ff ff ff 	mov    r9d,DWORD PTR [rbp-0xd8]
+     74b:	4c 8b 5d 98          	mov    r11,QWORD PTR [rbp-0x68]
+     74f:	4c 8b bd 30 ff ff ff 	mov    r15,QWORD PTR [rbp-0xd0]
+     756:	48 63 c7             	movsxd rax,edi
+     759:	44 8b b5 78 ff ff ff 	mov    r14d,DWORD PTR [rbp-0x88]
+     760:	48 89 c3             	mov    rbx,rax
+     763:	48 89 85 28 ff ff ff 	mov    QWORD PTR [rbp-0xd8],rax
+     76a:	48 03 85 d8 fe ff ff 	add    rax,QWORD PTR [rbp-0x128]
+     771:	44 8b 55 88          	mov    r10d,DWORD PTR [rbp-0x78]
+     775:	4c 8b 65 a8          	mov    r12,QWORD PTR [rbp-0x58]
+     779:	49 8d 04 c3          	lea    rax,[r11+rax*8]
+     77d:	48 89 85 30 ff ff ff 	mov    QWORD PTR [rbp-0xd0],rax
+     784:	8b 85 ec fe ff ff    	mov    eax,DWORD PTR [rbp-0x114]
+     78a:	89 85 78 ff ff ff    	mov    DWORD PTR [rbp-0x88],eax
+     790:	8b 85 1c ff ff ff    	mov    eax,DWORD PTR [rbp-0xe4]
+     796:	89 45 80             	mov    DWORD PTR [rbp-0x80],eax
+     799:	8b 85 4c ff ff ff    	mov    eax,DWORD PTR [rbp-0xb4]
+     79f:	83 e8 01             	sub    eax,0x1
+     7a2:	29 f8                	sub    eax,edi
+     7a4:	4c 8d 6c 03 01       	lea    r13,[rbx+rax*1+0x1]
+     7a9:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+	    do_4x4_block(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+     7b0:	8b 9d 70 ff ff ff    	mov    ebx,DWORD PTR [rbp-0x90]
+     7b6:	39 9d 4c ff ff ff    	cmp    DWORD PTR [rbp-0xb4],ebx
+     7bc:	0f 8e 10 01 00 00    	jle    8d2 <avx_dgemm_slow+0x512>
+     7c2:	48 63 9d 78 ff ff ff 	movsxd rbx,DWORD PTR [rbp-0x88]
+     7c9:	48 8b 85 50 ff ff ff 	mov    rax,QWORD PTR [rbp-0xb0]
+     7d0:	48 8b b5 28 ff ff ff 	mov    rsi,QWORD PTR [rbp-0xd8]
+     7d7:	48 8b bd 30 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xd0]
+     7de:	4c 8d 04 d8          	lea    r8,[rax+rbx*8]
+     7e2:	48 8b 85 58 ff ff ff 	mov    rax,QWORD PTR [rbp-0xa8]
+     7e9:	48 01 d8             	add    rax,rbx
+     7ec:	49 8d 04 c4          	lea    rax,[r12+rax*8]
+     7f0:	48 89 45 90          	mov    QWORD PTR [rbp-0x70],rax
+     7f4:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+	    for (k1 = k; k1 < kend; k1 ++) {
+     7f8:	45 39 ce             	cmp    r14d,r9d
+     7fb:	0f 8e c0 00 00 00    	jle    8c1 <avx_dgemm_slow+0x501>
+     801:	c4 c1 7b 10 14 f0    	vmovsd xmm2,QWORD PTR [r8+rsi*8]
+     807:	41 83 fa 03          	cmp    r10d,0x3
+     80b:	0f 86 df 04 00 00    	jbe    cf0 <avx_dgemm_slow+0x930>
+     811:	48 8b 55 90          	mov    rdx,QWORD PTR [rbp-0x70]
+     815:	48 89 f8             	mov    rax,rdi
+     818:	31 c9                	xor    ecx,ecx
+     81a:	48 89 75 98          	mov    QWORD PTR [rbp-0x68],rsi
+     81e:	c5 f9 57 c0          	vxorpd xmm0,xmm0,xmm0
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     822:	48 8b 75 b0          	mov    rsi,QWORD PTR [rbp-0x50]
+     826:	83 c1 01             	add    ecx,0x1
+     829:	48 83 c2 20          	add    rdx,0x20
+     82d:	c4 a1 7b 10 2c 38    	vmovsd xmm5,QWORD PTR [rax+r15*1]
+     833:	c5 f9 10 4a e0       	vmovupd xmm1,XMMWORD PTR [rdx-0x20]
+     838:	c4 e3 75 18 5a f0 01 	vinsertf128 ymm3,ymm1,XMMWORD PTR [rdx-0x10],0x1
+     83f:	c4 a1 51 16 0c 78    	vmovhpd xmm1,xmm5,QWORD PTR [rax+r15*2]
+     845:	c5 fb 10 34 30       	vmovsd xmm6,QWORD PTR [rax+rsi*1]
+     84a:	c5 c9 16 20          	vmovhpd xmm4,xmm6,QWORD PTR [rax]
+     84e:	48 03 45 c8          	add    rax,QWORD PTR [rbp-0x38]
+     852:	c4 e3 5d 18 c9 01    	vinsertf128 ymm1,ymm4,xmm1,0x1
+     858:	c5 e5 59 c9          	vmulpd ymm1,ymm3,ymm1
+     85c:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+     860:	39 4d bc             	cmp    DWORD PTR [rbp-0x44],ecx
+     863:	77 bd                	ja     822 <avx_dgemm_slow+0x462>
+     865:	c5 fd 7c c0          	vhaddpd ymm0,ymm0,ymm0
+     869:	48 8b 75 98          	mov    rsi,QWORD PTR [rbp-0x68]
+     86d:	8b 4d c4             	mov    ecx,DWORD PTR [rbp-0x3c]
+     870:	c4 e3 7d 06 c8 01    	vperm2f128 ymm1,ymm0,ymm0,0x1
+     876:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+     87a:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+     87e:	39 4d c0             	cmp    DWORD PTR [rbp-0x40],ecx
+     881:	74 38                	je     8bb <avx_dgemm_slow+0x4fb>
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+	    for (k1 = k; k1 < kend; k1 ++) {
+     883:	8b 45 b8             	mov    eax,DWORD PTR [rbp-0x48]
+     886:	8b 55 a0             	mov    edx,DWORD PTR [rbp-0x60]
+     889:	0f af d0             	imul   edx,eax
+     88c:	48 63 d2             	movsxd rdx,edx
+     88f:	48 01 f2             	add    rdx,rsi
+     892:	49 8d 0c d3          	lea    rcx,[r11+rdx*8]
+     896:	48 63 d0             	movsxd rdx,eax
+     899:	48 01 da             	add    rdx,rbx
+     89c:	49 8d 14 d4          	lea    rdx,[r12+rdx*8]
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     8a0:	c5 fb 10 02          	vmovsd xmm0,QWORD PTR [rdx]
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+	    for (k1 = k; k1 < kend; k1 ++) {
+     8a4:	83 c0 01             	add    eax,0x1
+     8a7:	48 83 c2 08          	add    rdx,0x8
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     8ab:	c5 fb 59 01          	vmulsd xmm0,xmm0,QWORD PTR [rcx]
+     8af:	4c 01 f9             	add    rcx,r15
+     8b2:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+	    for (k1 = k; k1 < kend; k1 ++) {
+     8b6:	41 39 c6             	cmp    r14d,eax
+     8b9:	7f e5                	jg     8a0 <avx_dgemm_slow+0x4e0>
+     8bb:	c4 c1 7b 11 14 f0    	vmovsd QWORD PTR [r8+rsi*8],xmm2
+     8c1:	48 83 c6 01          	add    rsi,0x1
+     8c5:	48 83 c7 08          	add    rdi,0x8
+	    do_4x4_block(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+     8c9:	4c 39 ee             	cmp    rsi,r13
+     8cc:	0f 85 26 ff ff ff    	jne    7f8 <avx_dgemm_slow+0x438>
+	    /* printf("%d\t%d\t%d\n", j1, i1, k); */
+	    do_4x4_block(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+     8d2:	83 45 80 01          	add    DWORD PTR [rbp-0x80],0x1
+     8d6:	8b 5d a0             	mov    ebx,DWORD PTR [rbp-0x60]
+     8d9:	8b 45 80             	mov    eax,DWORD PTR [rbp-0x80]
+     8dc:	01 9d 78 ff ff ff    	add    DWORD PTR [rbp-0x88],ebx
+     8e2:	3b 85 7c ff ff ff    	cmp    eax,DWORD PTR [rbp-0x84]
+     8e8:	0f 85 c2 fe ff ff    	jne    7b0 <avx_dgemm_slow+0x3f0>
+     8ee:	44 8b 55 a0          	mov    r10d,DWORD PTR [rbp-0x60]
+	    for (k1 = k; k1 < kend; k1 ++) {
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+     8f2:	8b 9d 70 ff ff ff    	mov    ebx,DWORD PTR [rbp-0x90]
+     8f8:	8b bd 48 ff ff ff    	mov    edi,DWORD PTR [rbp-0xb8]
+     8fe:	39 fb                	cmp    ebx,edi
+     900:	0f 8e 7a 01 00 00    	jle    a80 <avx_dgemm_slow+0x6c0>
+     906:	8b 85 c4 fe ff ff    	mov    eax,DWORD PTR [rbp-0x13c]
+     90c:	44 89 55 98          	mov    DWORD PTR [rbp-0x68],r10d
+     910:	4c 8b ad 20 ff ff ff 	mov    r13,QWORD PTR [rbp-0xe0]
+     917:	4c 03 ad b0 fe ff ff 	add    r13,QWORD PTR [rbp-0x150]
+     91e:	48 8b bd 50 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xb0]
+     925:	f7 d0                	not    eax
+     927:	44 8b 95 18 ff ff ff 	mov    r10d,DWORD PTR [rbp-0xe8]
+     92e:	01 d8                	add    eax,ebx
+     930:	48 8b 9d 10 ff ff ff 	mov    rbx,QWORD PTR [rbp-0xf0]
+     937:	4d 01 dd             	add    r13,r11
+     93a:	4c 89 6d 90          	mov    QWORD PTR [rbp-0x70],r13
+     93e:	4c 8b ad 08 ff ff ff 	mov    r13,QWORD PTR [rbp-0xf8]
+     945:	48 8d 44 03 01       	lea    rax,[rbx+rax*1+0x1]
+     94a:	49 89 dc             	mov    r12,rbx
+     94d:	48 8b 9d 00 ff ff ff 	mov    rbx,QWORD PTR [rbp-0x100]
+     954:	48 8d 04 c7          	lea    rax,[rdi+rax*8]
+     958:	48 89 45 80          	mov    QWORD PTR [rbp-0x80],rax
+     95c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+	  for (j1 = rboundary; j1 < jend; j1++) {
+     960:	8b 85 7c ff ff ff    	mov    eax,DWORD PTR [rbp-0x84]
+     966:	41 39 c2             	cmp    r10d,eax
+     969:	0f 8e f6 00 00 00    	jle    a65 <avx_dgemm_slow+0x6a5>
+     96f:	48 8b b5 60 ff ff ff 	mov    rsi,QWORD PTR [rbp-0xa0]
+     976:	89 c7                	mov    edi,eax
+     978:	4c 8b 85 68 ff ff ff 	mov    r8,QWORD PTR [rbp-0x98]
+     97f:	90                   	nop
+	    for (k1 = k; k1 < kend; k1++) {
+     980:	45 39 ce             	cmp    r14d,r9d
+     983:	0f 8e ca 00 00 00    	jle    a53 <avx_dgemm_slow+0x693>
+     989:	83 7d 88 03          	cmp    DWORD PTR [rbp-0x78],0x3
+     98d:	c5 fb 10 14 f3       	vmovsd xmm2,QWORD PTR [rbx+rsi*8]
+     992:	0f 86 68 03 00 00    	jbe    d00 <avx_dgemm_slow+0x940>
+     998:	48 8b 45 90          	mov    rax,QWORD PTR [rbp-0x70]
+     99c:	4c 89 c2             	mov    rdx,r8
+     99f:	31 c9                	xor    ecx,ecx
+     9a1:	48 89 75 a0          	mov    QWORD PTR [rbp-0x60],rsi
+     9a5:	c5 f9 57 c0          	vxorpd xmm0,xmm0,xmm0
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     9a9:	48 8b 75 b0          	mov    rsi,QWORD PTR [rbp-0x50]
+     9ad:	83 c1 01             	add    ecx,0x1
+     9b0:	48 83 c2 20          	add    rdx,0x20
+     9b4:	c4 a1 7b 10 3c 38    	vmovsd xmm7,QWORD PTR [rax+r15*1]
+     9ba:	c5 f9 10 4a e0       	vmovupd xmm1,XMMWORD PTR [rdx-0x20]
+     9bf:	c4 e3 75 18 5a f0 01 	vinsertf128 ymm3,ymm1,XMMWORD PTR [rdx-0x10],0x1
+     9c6:	c4 a1 41 16 0c 78    	vmovhpd xmm1,xmm7,QWORD PTR [rax+r15*2]
+     9cc:	c5 fb 10 2c 30       	vmovsd xmm5,QWORD PTR [rax+rsi*1]
+     9d1:	c5 d1 16 20          	vmovhpd xmm4,xmm5,QWORD PTR [rax]
+     9d5:	48 03 45 c8          	add    rax,QWORD PTR [rbp-0x38]
+     9d9:	c4 e3 5d 18 c9 01    	vinsertf128 ymm1,ymm4,xmm1,0x1
+     9df:	c5 e5 59 c9          	vmulpd ymm1,ymm3,ymm1
+     9e3:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+     9e7:	3b 4d bc             	cmp    ecx,DWORD PTR [rbp-0x44]
+     9ea:	72 bd                	jb     9a9 <avx_dgemm_slow+0x5e9>
+     9ec:	c5 fd 7c c0          	vhaddpd ymm0,ymm0,ymm0
+     9f0:	48 8b 75 a0          	mov    rsi,QWORD PTR [rbp-0x60]
+     9f4:	8b 4d c4             	mov    ecx,DWORD PTR [rbp-0x3c]
+     9f7:	c4 e3 7d 06 c8 01    	vperm2f128 ymm1,ymm0,ymm0,0x1
+     9fd:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+     a01:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+     a05:	39 4d c0             	cmp    DWORD PTR [rbp-0x40],ecx
+     a08:	74 44                	je     a4e <avx_dgemm_slow+0x68e>
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+     a0a:	8b 45 b8             	mov    eax,DWORD PTR [rbp-0x48]
+     a0d:	8b 55 98             	mov    edx,DWORD PTR [rbp-0x68]
+     a10:	0f af d0             	imul   edx,eax
+     a13:	48 63 d2             	movsxd rdx,edx
+     a16:	4c 01 e2             	add    rdx,r12
+     a19:	49 8d 0c d3          	lea    rcx,[r11+rdx*8]
+     a1d:	48 63 d0             	movsxd rdx,eax
+     a20:	48 89 4d a0          	mov    QWORD PTR [rbp-0x60],rcx
+     a24:	48 8b 4d a8          	mov    rcx,QWORD PTR [rbp-0x58]
+     a28:	48 01 f2             	add    rdx,rsi
+     a2b:	48 8d 14 d1          	lea    rdx,[rcx+rdx*8]
+     a2f:	48 8b 4d a0          	mov    rcx,QWORD PTR [rbp-0x60]
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     a33:	c5 fb 10 02          	vmovsd xmm0,QWORD PTR [rdx]
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+     a37:	83 c0 01             	add    eax,0x1
+     a3a:	48 83 c2 08          	add    rdx,0x8
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     a3e:	c5 fb 59 01          	vmulsd xmm0,xmm0,QWORD PTR [rcx]
+     a42:	4c 01 f9             	add    rcx,r15
+     a45:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+     a49:	41 39 c6             	cmp    r14d,eax
+     a4c:	7f e5                	jg     a33 <avx_dgemm_slow+0x673>
+     a4e:	c5 fb 11 14 f3       	vmovsd QWORD PTR [rbx+rsi*8],xmm2
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+     a53:	83 c7 01             	add    edi,0x1
+     a56:	4d 01 f8             	add    r8,r15
+     a59:	4c 01 ee             	add    rsi,r13
+     a5c:	44 39 d7             	cmp    edi,r10d
+     a5f:	0f 85 1b ff ff ff    	jne    980 <avx_dgemm_slow+0x5c0>
+     a65:	48 83 45 90 08       	add    QWORD PTR [rbp-0x70],0x8
+     a6a:	48 83 c3 08          	add    rbx,0x8
+     a6e:	49 83 c4 01          	add    r12,0x1
+	    for (k1 = k; k1 < kend; k1 ++) {
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+     a72:	48 3b 5d 80          	cmp    rbx,QWORD PTR [rbp-0x80]
+     a76:	0f 85 e4 fe ff ff    	jne    960 <avx_dgemm_slow+0x5a0>
+     a7c:	44 8b 55 98          	mov    r10d,DWORD PTR [rbp-0x68]
+	    for (k1 = k; k1 < kend; k1++) {
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+     a80:	8b bd 4c ff ff ff    	mov    edi,DWORD PTR [rbp-0xb4]
+     a86:	8b b5 70 ff ff ff    	mov    esi,DWORD PTR [rbp-0x90]
+     a8c:	39 f7                	cmp    edi,esi
+     a8e:	0f 8e 81 01 00 00    	jle    c15 <avx_dgemm_slow+0x855>
+     a94:	48 8b 85 d8 fe ff ff 	mov    rax,QWORD PTR [rbp-0x128]
+     a9b:	4c 63 ee             	movsxd r13,esi
+     a9e:	44 89 55 90          	mov    DWORD PTR [rbp-0x70],r10d
+     aa2:	48 8b 8d 50 ff ff ff 	mov    rcx,QWORD PTR [rbp-0xb0]
+     aa9:	4c 89 6d 98          	mov    QWORD PTR [rbp-0x68],r13
+     aad:	44 8b 95 18 ff ff ff 	mov    r10d,DWORD PTR [rbp-0xe8]
+     ab4:	4c 01 e8             	add    rax,r13
+     ab7:	49 8d 04 c3          	lea    rax,[r11+rax*8]
+     abb:	48 89 45 80          	mov    QWORD PTR [rbp-0x80],rax
+     abf:	4a 8d 1c e9          	lea    rbx,[rcx+r13*8]
+     ac3:	89 f8                	mov    eax,edi
+     ac5:	83 e8 01             	sub    eax,0x1
+     ac8:	29 f0                	sub    eax,esi
+     aca:	49 8d 44 05 01       	lea    rax,[r13+rax*1+0x1]
+     acf:	4c 8b ad 08 ff ff ff 	mov    r13,QWORD PTR [rbp-0xf8]
+     ad6:	48 8d 04 c1          	lea    rax,[rcx+rax*8]
+     ada:	48 89 85 70 ff ff ff 	mov    QWORD PTR [rbp-0x90],rax
+     ae1:	8b 85 94 fe ff ff    	mov    eax,DWORD PTR [rbp-0x16c]
+     ae7:	46 8d 24 30          	lea    r12d,[rax+r14*1]
+     aeb:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+	  for (j1 = rboundary; j1 < jend; j1++) {
+     af0:	8b 85 7c ff ff ff    	mov    eax,DWORD PTR [rbp-0x84]
+     af6:	41 39 c2             	cmp    r10d,eax
+     af9:	0f 8e f7 00 00 00    	jle    bf6 <avx_dgemm_slow+0x836>
+     aff:	48 8b b5 60 ff ff ff 	mov    rsi,QWORD PTR [rbp-0xa0]
+     b06:	89 c7                	mov    edi,eax
+     b08:	4c 8b 85 68 ff ff ff 	mov    r8,QWORD PTR [rbp-0x98]
+     b0f:	90                   	nop
+	    for (k1 = k; k1 < kend; k1++) {
+     b10:	45 39 ce             	cmp    r14d,r9d
+     b13:	0f 8e cb 00 00 00    	jle    be4 <avx_dgemm_slow+0x824>
+     b19:	c5 fb 10 14 f3       	vmovsd xmm2,QWORD PTR [rbx+rsi*8]
+     b1e:	41 83 fc 03          	cmp    r12d,0x3
+     b22:	0f 86 c0 01 00 00    	jbe    ce8 <avx_dgemm_slow+0x928>
+     b28:	48 8b 45 80          	mov    rax,QWORD PTR [rbp-0x80]
+     b2c:	4c 89 c2             	mov    rdx,r8
+     b2f:	31 c9                	xor    ecx,ecx
+     b31:	48 89 75 a0          	mov    QWORD PTR [rbp-0x60],rsi
+     b35:	c5 f9 57 c0          	vxorpd xmm0,xmm0,xmm0
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     b39:	48 8b 75 b0          	mov    rsi,QWORD PTR [rbp-0x50]
+     b3d:	83 c1 01             	add    ecx,0x1
+     b40:	48 83 c2 20          	add    rdx,0x20
+     b44:	c4 a1 7b 10 34 38    	vmovsd xmm6,QWORD PTR [rax+r15*1]
+     b4a:	c5 f9 10 4a e0       	vmovupd xmm1,XMMWORD PTR [rdx-0x20]
+     b4f:	c4 e3 75 18 5a f0 01 	vinsertf128 ymm3,ymm1,XMMWORD PTR [rdx-0x10],0x1
+     b56:	c4 a1 49 16 0c 78    	vmovhpd xmm1,xmm6,QWORD PTR [rax+r15*2]
+     b5c:	c5 fb 10 3c 30       	vmovsd xmm7,QWORD PTR [rax+rsi*1]
+     b61:	c5 c1 16 20          	vmovhpd xmm4,xmm7,QWORD PTR [rax]
+     b65:	48 03 45 c8          	add    rax,QWORD PTR [rbp-0x38]
+     b69:	c4 e3 5d 18 c9 01    	vinsertf128 ymm1,ymm4,xmm1,0x1
+     b6f:	c5 e5 59 c9          	vmulpd ymm1,ymm3,ymm1
+     b73:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+     b77:	3b 4d bc             	cmp    ecx,DWORD PTR [rbp-0x44]
+     b7a:	72 bd                	jb     b39 <avx_dgemm_slow+0x779>
+     b7c:	c5 fd 7c c0          	vhaddpd ymm0,ymm0,ymm0
+     b80:	48 8b 75 a0          	mov    rsi,QWORD PTR [rbp-0x60]
+     b84:	8b 4d c4             	mov    ecx,DWORD PTR [rbp-0x3c]
+     b87:	c4 e3 7d 06 c8 01    	vperm2f128 ymm1,ymm0,ymm0,0x1
+     b8d:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+     b91:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+     b95:	39 4d c0             	cmp    DWORD PTR [rbp-0x40],ecx
+     b98:	74 45                	je     bdf <avx_dgemm_slow+0x81f>
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+     b9a:	8b 45 b8             	mov    eax,DWORD PTR [rbp-0x48]
+     b9d:	8b 55 90             	mov    edx,DWORD PTR [rbp-0x70]
+     ba0:	0f af d0             	imul   edx,eax
+     ba3:	48 63 d2             	movsxd rdx,edx
+     ba6:	48 03 55 98          	add    rdx,QWORD PTR [rbp-0x68]
+     baa:	49 8d 0c d3          	lea    rcx,[r11+rdx*8]
+     bae:	48 63 d0             	movsxd rdx,eax
+     bb1:	48 89 4d a0          	mov    QWORD PTR [rbp-0x60],rcx
+     bb5:	48 8b 4d a8          	mov    rcx,QWORD PTR [rbp-0x58]
+     bb9:	48 01 f2             	add    rdx,rsi
+     bbc:	48 8d 14 d1          	lea    rdx,[rcx+rdx*8]
+     bc0:	48 8b 4d a0          	mov    rcx,QWORD PTR [rbp-0x60]
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     bc4:	c5 fb 10 02          	vmovsd xmm0,QWORD PTR [rdx]
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+     bc8:	83 c0 01             	add    eax,0x1
+     bcb:	48 83 c2 08          	add    rdx,0x8
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+     bcf:	c5 fb 59 01          	vmulsd xmm0,xmm0,QWORD PTR [rcx]
+     bd3:	4c 01 f9             	add    rcx,r15
+     bd6:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+     bda:	41 39 c6             	cmp    r14d,eax
+     bdd:	7f e5                	jg     bc4 <avx_dgemm_slow+0x804>
+     bdf:	c5 fb 11 14 f3       	vmovsd QWORD PTR [rbx+rsi*8],xmm2
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+     be4:	83 c7 01             	add    edi,0x1
+     be7:	4d 01 f8             	add    r8,r15
+     bea:	4c 01 ee             	add    rsi,r13
+     bed:	44 39 d7             	cmp    edi,r10d
+     bf0:	0f 85 1a ff ff ff    	jne    b10 <avx_dgemm_slow+0x750>
+     bf6:	48 83 45 80 08       	add    QWORD PTR [rbp-0x80],0x8
+     bfb:	48 83 c3 08          	add    rbx,0x8
+     bff:	48 83 45 98 01       	add    QWORD PTR [rbp-0x68],0x1
+	    for (k1 = k; k1 < kend; k1++) {
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+     c04:	48 3b 9d 70 ff ff ff 	cmp    rbx,QWORD PTR [rbp-0x90]
+     c0b:	0f 85 df fe ff ff    	jne    af0 <avx_dgemm_slow+0x730>
+     c11:	44 8b 55 90          	mov    r10d,DWORD PTR [rbp-0x70]
+     c15:	48 81 85 20 ff ff ff 	add    QWORD PTR [rbp-0xe0],0x100
+     c1c:	00 01 00 00 
+     c20:	48 81 85 00 ff ff ff 	add    QWORD PTR [rbp-0x100],0x100
+     c27:	00 01 00 00 
+     c2b:	48 83 85 10 ff ff ff 	add    QWORD PTR [rbp-0xf0],0x20
+     c32:	20 
+     c33:	48 8b 85 20 ff ff ff 	mov    rax,QWORD PTR [rbp-0xe0]
+     c3a:	48 81 ad 40 ff ff ff 	sub    QWORD PTR [rbp-0xc0],0x100
+     c41:	00 01 00 00 
+void avx_dgemm_slow(int n, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < n; k += 32){
+    int kend = min(k + 32, n);
+    for (int j = 0; j < n; j += 32){
+      int jend = min(j + 32, n);
+      for (int i = 0; i < n; i += 32){
+     c45:	48 3b 85 b8 fe ff ff 	cmp    rax,QWORD PTR [rbp-0x148]
+     c4c:	0f 85 db f9 ff ff    	jne    62d <avx_dgemm_slow+0x26d>
+     c52:	8b bd e8 fe ff ff    	mov    edi,DWORD PTR [rbp-0x118]
+     c58:	45 89 cd             	mov    r13d,r9d
+     c5b:	45 89 d4             	mov    r12d,r10d
+     c5e:	4c 89 db             	mov    rbx,r11
+     c61:	01 bd ec fe ff ff    	add    DWORD PTR [rbp-0x114],edi
+     c67:	8b 85 e0 fe ff ff    	mov    eax,DWORD PTR [rbp-0x120]
+     c6d:	48 8b bd d0 fe ff ff 	mov    rdi,QWORD PTR [rbp-0x130]
+     c74:	48 01 bd f8 fe ff ff 	add    QWORD PTR [rbp-0x108],rdi
+}
+
+void avx_dgemm_slow(int n, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < n; k += 32){
+    int kend = min(k + 32, n);
+    for (int j = 0; j < n; j += 32){
+     c7b:	8b bd c0 fe ff ff    	mov    edi,DWORD PTR [rbp-0x140]
+     c81:	89 85 1c ff ff ff    	mov    DWORD PTR [rbp-0xe4],eax
+     c87:	39 f8                	cmp    eax,edi
+     c89:	0f 85 06 f9 ff ff    	jne    595 <avx_dgemm_slow+0x1d5>
+     c8f:	8b bd e8 fe ff ff    	mov    edi,DWORD PTR [rbp-0x118]
+     c95:	4d 89 fe             	mov    r14,r15
+     c98:	45 89 d5             	mov    r13d,r10d
+     c9b:	01 bd e4 fe ff ff    	add    DWORD PTR [rbp-0x11c],edi
+     ca1:	48 83 85 58 ff ff ff 	add    QWORD PTR [rbp-0xa8],0x20
+     ca8:	20 
+     ca9:	48 8b 7d c8          	mov    rdi,QWORD PTR [rbp-0x38]
+     cad:	48 8b 85 58 ff ff ff 	mov    rax,QWORD PTR [rbp-0xa8]
+     cb4:	48 01 bd f0 fe ff ff 	add    QWORD PTR [rbp-0x110],rdi
+    }
+  }
+}
+
+void avx_dgemm_slow(int n, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < n; k += 32){
+     cbb:	48 3b 85 a8 fe ff ff 	cmp    rax,QWORD PTR [rbp-0x158]
+     cc2:	0f 85 de f7 ff ff    	jne    4a6 <avx_dgemm_slow+0xe6>
+     cc8:	c5 f8 77             	vzeroupper 
+	  }
+	}
+      }
+    }
+  }
+}
+     ccb:	48 81 c4 40 01 00 00 	add    rsp,0x140
+     cd2:	5b                   	pop    rbx
+     cd3:	41 5a                	pop    r10
+     cd5:	41 5c                	pop    r12
+     cd7:	41 5d                	pop    r13
+     cd9:	41 5e                	pop    r14
+     cdb:	41 5f                	pop    r15
+     cdd:	5d                   	pop    rbp
+     cde:	49 8d 62 f8          	lea    rsp,[r10-0x8]
+     ce2:	c3                   	ret    
+     ce3:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+     ce8:	44 89 c8             	mov    eax,r9d
+     ceb:	e9 ad fe ff ff       	jmp    b9d <avx_dgemm_slow+0x7dd>
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+	    for (k1 = k; k1 < kend; k1 ++) {
+     cf0:	44 89 c8             	mov    eax,r9d
+     cf3:	e9 8e fb ff ff       	jmp    886 <avx_dgemm_slow+0x4c6>
+     cf8:	0f 1f 84 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     cff:	00 
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+     d00:	44 89 c8             	mov    eax,r9d
+     d03:	e9 05 fd ff ff       	jmp    a0d <avx_dgemm_slow+0x64d>
+     d08:	0f 1f 84 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+     d0f:	00 
+
+0000000000000d10 <do_4x4_block_fast>:
+   /*     C[i + j * n] = c; */
+   /*   } */
+   /* } */
+}
+
+void do_4x4_block_fast(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+     d10:	4c 8d 54 24 08       	lea    r10,[rsp+0x8]
+  __m256d acol;
+
+  double* C0p =
+    C;
+  /* C += 4; */
+  C += n;
+     d15:	48 63 ff             	movsxd rdi,edi
+   /*     C[i + j * n] = c; */
+   /*   } */
+   /* } */
+}
+
+void do_4x4_block_fast(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+     d18:	48 83 e4 e0          	and    rsp,0xffffffffffffffe0
+}
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_loadu_pd (double const *__P)
+{
+  return (__m256d) __builtin_ia32_loadupd256 (__P);
+     d1c:	c4 c1 7d 10 28       	vmovupd ymm5,YMMWORD PTR [r8]
+     d21:	41 ff 72 f8          	push   QWORD PTR [r10-0x8]
+  __m256d acol;
+
+  double* C0p =
+    C;
+  /* C += 4; */
+  C += n;
+     d25:	48 c1 e7 03          	shl    rdi,0x3
+   /*     C[i + j * n] = c; */
+   /*   } */
+   /* } */
+}
+
+void do_4x4_block_fast(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+     d29:	55                   	push   rbp
+  __m256d c1 = _mm256_loadu_pd(C1p);
+  __m256d c2 = _mm256_loadu_pd(C2p);
+  __m256d c3 = _mm256_loadu_pd(C3p);
+
+  double* B0 = B;
+  B += n;
+     d2a:	4c 8d 0c 39          	lea    r9,[rcx+rdi*1]
+   /*     C[i + j * n] = c; */
+   /*   } */
+   /* } */
+}
+
+void do_4x4_block_fast(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+     d2e:	48 89 e5             	mov    rbp,rsp
+     d31:	41 55                	push   r13
+     d33:	41 54                	push   r12
+  __m256d acol;
+
+  double* C0p =
+    C;
+  /* C += 4; */
+  C += n;
+     d35:	4d 8d 24 38          	lea    r12,[r8+rdi*1]
+   /*     C[i + j * n] = c; */
+   /*   } */
+   /* } */
+}
+
+void do_4x4_block_fast(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+     d39:	41 52                	push   r10
+  __m256d c3 = _mm256_loadu_pd(C3p);
+
+  double* B0 = B;
+  B += n;
+  double* B1 = B;
+  B += n;
+     d3b:	4d 8d 14 39          	lea    r10,[r9+rdi*1]
+   /*     C[i + j * n] = c; */
+   /*   } */
+   /* } */
+}
+
+void do_4x4_block_fast(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+     d3f:	53                   	push   rbx
+    C;
+  /* C += 4; */
+  C += n;
+  double* C1p = C;
+  /* C += 4; */
+  C += n;
+     d40:	49 8d 1c 3c          	lea    rbx,[r12+rdi*1]
+     d44:	c4 c1 7d 10 24 24    	vmovupd ymm4,YMMWORD PTR [r12]
+  double* C2p = C;
+  /* C += 4; */
+  C += n;
+     d4a:	4c 8d 2c 3b          	lea    r13,[rbx+rdi*1]
+     d4e:	c5 fd 10 1b          	vmovupd ymm3,YMMWORD PTR [rbx]
+     d52:	c4 c1 7d 10 55 00    	vmovupd ymm2,YMMWORD PTR [r13+0x0]
+  B += n;
+  double* B2 = B;
+  B += n;
+  double* B3 = B;
+
+  for (int i = 0; i < kdepth; i++) {
+     d58:	85 f6                	test   esi,esi
+     d5a:	7e 53                	jle    daf <do_4x4_block_fast+0x9f>
+     d5c:	4d 8d 1c 3a          	lea    r11,[r10+rdi*1]
+     d60:	31 c0                	xor    eax,eax
+     d62:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+     d68:	c5 fd 10 02          	vmovupd ymm0,YMMWORD PTR [rdx]
+    acol = _mm256_loadu_pd(A);
+    A += n;
+     d6c:	48 01 fa             	add    rdx,rdi
+
+/* Create a vector with all elements equal to A.  */
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_set1_pd (double __A)
+{
+  return __extension__ (__m256d){ __A, __A, __A, __A };
+     d6f:	c4 e2 7d 19 0c c1    	vbroadcastsd ymm1,QWORD PTR [rcx+rax*8]
+}
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_mul_pd (__m256d __A, __m256d __B)
+{
+  return (__m256d) __builtin_ia32_mulpd256 ((__v4df)__A, (__v4df)__B);
+     d75:	c5 fd 59 c9          	vmulpd ymm1,ymm0,ymm1
+#define _CMP_TRUE_US	0x1f
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_add_pd (__m256d __A, __m256d __B)
+{
+  return (__m256d) __builtin_ia32_addpd256 ((__v4df)__A, (__v4df)__B);
+     d79:	c5 d5 58 e9          	vaddpd ymm5,ymm5,ymm1
+
+/* Create a vector with all elements equal to A.  */
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_set1_pd (double __A)
+{
+  return __extension__ (__m256d){ __A, __A, __A, __A };
+     d7d:	c4 c2 7d 19 0c c1    	vbroadcastsd ymm1,QWORD PTR [r9+rax*8]
+}
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_mul_pd (__m256d __A, __m256d __B)
+{
+  return (__m256d) __builtin_ia32_mulpd256 ((__v4df)__A, (__v4df)__B);
+     d83:	c5 fd 59 c9          	vmulpd ymm1,ymm0,ymm1
+#define _CMP_TRUE_US	0x1f
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_add_pd (__m256d __A, __m256d __B)
+{
+  return (__m256d) __builtin_ia32_addpd256 ((__v4df)__A, (__v4df)__B);
+     d87:	c5 dd 58 e1          	vaddpd ymm4,ymm4,ymm1
+
+/* Create a vector with all elements equal to A.  */
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_set1_pd (double __A)
+{
+  return __extension__ (__m256d){ __A, __A, __A, __A };
+     d8b:	c4 c2 7d 19 0c c2    	vbroadcastsd ymm1,QWORD PTR [r10+rax*8]
+}
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_mul_pd (__m256d __A, __m256d __B)
+{
+  return (__m256d) __builtin_ia32_mulpd256 ((__v4df)__A, (__v4df)__B);
+     d91:	c5 fd 59 c9          	vmulpd ymm1,ymm0,ymm1
+#define _CMP_TRUE_US	0x1f
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_add_pd (__m256d __A, __m256d __B)
+{
+  return (__m256d) __builtin_ia32_addpd256 ((__v4df)__A, (__v4df)__B);
+     d95:	c5 e5 58 d9          	vaddpd ymm3,ymm3,ymm1
+
+/* Create a vector with all elements equal to A.  */
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_set1_pd (double __A)
+{
+  return __extension__ (__m256d){ __A, __A, __A, __A };
+     d99:	c4 c2 7d 19 0c c3    	vbroadcastsd ymm1,QWORD PTR [r11+rax*8]
+     d9f:	48 83 c0 01          	add    rax,0x1
+}
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_mul_pd (__m256d __A, __m256d __B)
+{
+  return (__m256d) __builtin_ia32_mulpd256 ((__v4df)__A, (__v4df)__B);
+     da3:	c5 fd 59 c1          	vmulpd ymm0,ymm0,ymm1
+#define _CMP_TRUE_US	0x1f
+
+extern __inline __m256d __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_add_pd (__m256d __A, __m256d __B)
+{
+  return (__m256d) __builtin_ia32_addpd256 ((__v4df)__A, (__v4df)__B);
+     da7:	c5 ed 58 d0          	vaddpd ymm2,ymm2,ymm0
+  B += n;
+  double* B2 = B;
+  B += n;
+  double* B3 = B;
+
+  for (int i = 0; i < kdepth; i++) {
+     dab:	39 c6                	cmp    esi,eax
+     dad:	7f b9                	jg     d68 <do_4x4_block_fast+0x58>
+}
+
+extern __inline void __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_mm256_storeu_pd (double *__P, __m256d __A)
+{
+  __builtin_ia32_storeupd256 (__P, (__v4df)__A);
+     daf:	c4 c1 7d 11 28       	vmovupd YMMWORD PTR [r8],ymm5
+     db4:	c4 c1 7d 11 24 24    	vmovupd YMMWORD PTR [r12],ymm4
+     dba:	c5 fd 11 1b          	vmovupd YMMWORD PTR [rbx],ymm3
+     dbe:	c4 c1 7d 11 55 00    	vmovupd YMMWORD PTR [r13+0x0],ymm2
+     dc4:	c5 f8 77             	vzeroupper 
+
+  _mm256_storeu_pd(C0p, c0);
+  _mm256_storeu_pd(C1p, c1);
+  _mm256_storeu_pd(C2p, c2);
+  _mm256_storeu_pd(C3p, c3);
+}
+     dc7:	5b                   	pop    rbx
+     dc8:	41 5a                	pop    r10
+     dca:	41 5c                	pop    r12
+     dcc:	41 5d                	pop    r13
+     dce:	5d                   	pop    rbp
+     dcf:	49 8d 62 f8          	lea    rsp,[r10-0x8]
+     dd3:	c3                   	ret    
+     dd4:	66 90                	xchg   ax,ax
+     dd6:	66 2e 0f 1f 84 00 00 	nop    WORD PTR cs:[rax+rax*1+0x0]
+     ddd:	00 00 00 
+
+0000000000000de0 <avx_dgemm_fast>:
+void avx_dgemm_fast(int n, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < n; k += 32){
+     de0:	85 ff                	test   edi,edi
+     de2:	0f 8e 1a 09 00 00    	jle    1702 <avx_dgemm_fast+0x922>
+  _mm256_storeu_pd(C0p, c0);
+  _mm256_storeu_pd(C1p, c1);
+  _mm256_storeu_pd(C2p, c2);
+  _mm256_storeu_pd(C3p, c3);
+}
+void avx_dgemm_fast(int n, double* restrict A, double* restrict B, double* restrict C) {
+     de8:	4c 8d 54 24 08       	lea    r10,[rsp+0x8]
+     ded:	48 83 e4 e0          	and    rsp,0xffffffffffffffe0
+     df1:	89 f8                	mov    eax,edi
+     df3:	41 ff 72 f8          	push   QWORD PTR [r10-0x8]
+     df7:	55                   	push   rbp
+     df8:	c1 e0 05             	shl    eax,0x5
+     dfb:	48 89 e5             	mov    rbp,rsp
+     dfe:	41 57                	push   r15
+     e00:	41 56                	push   r14
+     e02:	41 55                	push   r13
+     e04:	41 54                	push   r12
+     e06:	41 89 fc             	mov    r12d,edi
+     e09:	41 52                	push   r10
+     e0b:	45 89 e5             	mov    r13d,r12d
+     e0e:	53                   	push   rbx
+     e0f:	48 89 d3             	mov    rbx,rdx
+     e12:	48 81 ec 40 01 00 00 	sub    rsp,0x140
+     e19:	89 85 e8 fe ff ff    	mov    DWORD PTR [rbp-0x118],eax
+     e1f:	48 98                	cdqe   
+     e21:	48 89 c7             	mov    rdi,rax
+     e24:	48 89 45 c8          	mov    QWORD PTR [rbp-0x38],rax
+     e28:	41 8d 44 24 ff       	lea    eax,[r12-0x1]
+     e2d:	48 89 8d 50 ff ff ff 	mov    QWORD PTR [rbp-0xb0],rcx
+     e34:	48 c1 e7 03          	shl    rdi,0x3
+     e38:	c1 e8 05             	shr    eax,0x5
+     e3b:	48 89 5d a8          	mov    QWORD PTR [rbp-0x58],rbx
+     e3f:	48 89 f3             	mov    rbx,rsi
+     e42:	89 c2                	mov    edx,eax
+     e44:	83 c0 01             	add    eax,0x1
+     e47:	48 89 bd d0 fe ff ff 	mov    QWORD PTR [rbp-0x130],rdi
+     e4e:	48 8d 4a 01          	lea    rcx,[rdx+0x1]
+     e52:	c1 e0 05             	shl    eax,0x5
+  for (int k = 0; k < n; k += 32){
+     e55:	48 c7 85 58 ff ff ff 	mov    QWORD PTR [rbp-0xa8],0x0
+     e5c:	00 00 00 00 
+     e60:	89 85 c0 fe ff ff    	mov    DWORD PTR [rbp-0x140],eax
+     e66:	48 c1 e2 05          	shl    rdx,0x5
+     e6a:	48 c1 e1 05          	shl    rcx,0x5
+     e6e:	42 8d 04 a5 00 00 00 	lea    eax,[r12*4+0x0]
+     e75:	00 
+     e76:	48 89 8d a8 fe ff ff 	mov    QWORD PTR [rbp-0x158],rcx
+     e7d:	48 c7 85 f0 fe ff ff 	mov    QWORD PTR [rbp-0x110],0x0
+     e84:	00 00 00 00 
+     e88:	48 98                	cdqe   
+     e8a:	c7 85 e4 fe ff ff 00 	mov    DWORD PTR [rbp-0x11c],0x0
+     e91:	00 00 00 
+     e94:	48 c1 e0 03          	shl    rax,0x3
+     e98:	48 89 85 38 ff ff ff 	mov    QWORD PTR [rbp-0xc8],rax
+     e9f:	49 63 c4             	movsxd rax,r12d
+     ea2:	4c 8d 34 c5 00 00 00 	lea    r14,[rax*8+0x0]
+     ea9:	00 
+     eaa:	48 89 85 08 ff ff ff 	mov    QWORD PTR [rbp-0xf8],rax
+     eb1:	48 8d 42 20          	lea    rax,[rdx+0x20]
+     eb5:	48 89 85 98 fe ff ff 	mov    QWORD PTR [rbp-0x168],rax
+     ebc:	4c 89 f0             	mov    rax,r14
+     ebf:	48 f7 d8             	neg    rax
+     ec2:	48 89 45 b0          	mov    QWORD PTR [rbp-0x50],rax
+     ec6:	48 8b bd 58 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xa8]
+    int kend = min(k + 32, n);
+     ecd:	c7 85 ec fe ff ff 00 	mov    DWORD PTR [rbp-0x114],0x0
+     ed4:	00 00 00 
+     ed7:	c7 85 1c ff ff ff 00 	mov    DWORD PTR [rbp-0xe4],0x0
+     ede:	00 00 00 
+     ee1:	89 f8                	mov    eax,edi
+     ee3:	41 89 ff             	mov    r15d,edi
+     ee6:	83 c0 20             	add    eax,0x20
+     ee9:	41 39 c5             	cmp    r13d,eax
+     eec:	41 0f 4e c5          	cmovle eax,r13d
+     ef0:	41 89 c4             	mov    r12d,eax
+     ef3:	48 63 85 e4 fe ff ff 	movsxd rax,DWORD PTR [rbp-0x11c]
+     efa:	48 89 c2             	mov    rdx,rax
+     efd:	48 f7 da             	neg    rdx
+     f00:	48 8d 34 d5 00 00 00 	lea    rsi,[rdx*8+0x0]
+     f07:	00 
+     f08:	48 89 b5 f8 fe ff ff 	mov    QWORD PTR [rbp-0x108],rsi
+     f0f:	48 8d 34 c5 00 00 00 	lea    rsi,[rax*8+0x0]
+     f16:	00 
+     f17:	48 89 b5 c8 fe ff ff 	mov    QWORD PTR [rbp-0x138],rsi
+     f1e:	48 8d 34 fd 00 00 00 	lea    rsi,[rdi*8+0x0]
+     f25:	00 
+     f26:	48 89 b5 a0 fe ff ff 	mov    QWORD PTR [rbp-0x160],rsi
+     f2d:	48 8b b5 98 fe ff ff 	mov    rsi,QWORD PTR [rbp-0x168]
+     f34:	48 8d 14 30          	lea    rdx,[rax+rsi*1]
+     f38:	48 8d 34 d5 00 00 00 	lea    rsi,[rdx*8+0x0]
+     f3f:	00 
+     f40:	48 89 b5 b8 fe ff ff 	mov    QWORD PTR [rbp-0x148],rsi
+     f47:	44 89 e6             	mov    esi,r12d
+     f4a:	29 fe                	sub    esi,edi
+     f4c:	8d 56 fc             	lea    edx,[rsi-0x4]
+     f4f:	89 75 c0             	mov    DWORD PTR [rbp-0x40],esi
+     f52:	c1 ea 02             	shr    edx,0x2
+     f55:	8d 72 01             	lea    esi,[rdx+0x1]
+     f58:	89 75 bc             	mov    DWORD PTR [rbp-0x44],esi
+     f5b:	c1 e6 02             	shl    esi,0x2
+     f5e:	89 75 c4             	mov    DWORD PTR [rbp-0x3c],esi
+     f61:	01 fe                	add    esi,edi
+     f63:	48 8b bd 08 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xf8]
+     f6a:	48 03 bd f0 fe ff ff 	add    rdi,QWORD PTR [rbp-0x110]
+     f71:	89 75 b8             	mov    DWORD PTR [rbp-0x48],esi
+     f74:	48 89 bd d8 fe ff ff 	mov    QWORD PTR [rbp-0x128],rdi
+     f7b:	48 29 c7             	sub    rdi,rax
+     f7e:	48 89 f8             	mov    rax,rdi
+     f81:	48 c1 e0 03          	shl    rax,0x3
+     f85:	48 89 85 b0 fe ff ff 	mov    QWORD PTR [rbp-0x150],rax
+     f8c:	44 89 e0             	mov    eax,r12d
+     f8f:	44 29 f8             	sub    eax,r15d
+     f92:	89 45 8c             	mov    DWORD PTR [rbp-0x74],eax
+     f95:	44 89 f8             	mov    eax,r15d
+     f98:	f7 d0                	not    eax
+     f9a:	89 85 94 fe ff ff    	mov    DWORD PTR [rbp-0x16c],eax
+     fa0:	44 01 e0             	add    eax,r12d
+     fa3:	89 45 88             	mov    DWORD PTR [rbp-0x78],eax
+     fa6:	44 89 e8             	mov    eax,r13d
+     fa9:	45 89 fd             	mov    r13d,r15d
+     fac:	4d 89 f7             	mov    r15,r14
+     faf:	45 89 e6             	mov    r14d,r12d
+     fb2:	41 89 c4             	mov    r12d,eax
+    for (int j = 0; j < n; j += 32){
+      int jend = min(j + 32, n);
+     fb5:	8b b5 1c ff ff ff    	mov    esi,DWORD PTR [rbp-0xe4]
+     fbb:	45 89 e9             	mov    r9d,r13d
+     fbe:	45 89 e2             	mov    r10d,r12d
+     fc1:	49 89 db             	mov    r11,rbx
+     fc4:	48 c7 85 10 ff ff ff 	mov    QWORD PTR [rbp-0xf0],0x0
+     fcb:	00 00 00 00 
+     fcf:	89 f0                	mov    eax,esi
+     fd1:	83 c0 20             	add    eax,0x20
+     fd4:	44 39 e0             	cmp    eax,r12d
+     fd7:	89 85 e0 fe ff ff    	mov    DWORD PTR [rbp-0x120],eax
+     fdd:	41 0f 4f c4          	cmovg  eax,r12d
+     fe1:	89 c7                	mov    edi,eax
+     fe3:	89 85 18 ff ff ff    	mov    DWORD PTR [rbp-0xe8],eax
+     fe9:	29 f0                	sub    eax,esi
+     feb:	99                   	cdq    
+     fec:	c1 ea 1e             	shr    edx,0x1e
+     fef:	01 d0                	add    eax,edx
+     ff1:	83 e0 03             	and    eax,0x3
+     ff4:	29 d0                	sub    eax,edx
+     ff6:	29 c7                	sub    edi,eax
+     ff8:	89 f8                	mov    eax,edi
+     ffa:	89 bd 7c ff ff ff    	mov    DWORD PTR [rbp-0x84],edi
+    1000:	48 8b bd 50 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xb0]
+    1007:	41 0f af c4          	imul   eax,r12d
+    100b:	48 98                	cdqe   
+    100d:	48 89 bd 00 ff ff ff 	mov    QWORD PTR [rbp-0x100],rdi
+    1014:	48 8b 7d a8          	mov    rdi,QWORD PTR [rbp-0x58]
+    1018:	48 89 85 60 ff ff ff 	mov    QWORD PTR [rbp-0xa0],rax
+    101f:	48 03 85 58 ff ff ff 	add    rax,QWORD PTR [rbp-0xa8]
+    1026:	48 8d 04 c7          	lea    rax,[rdi+rax*8]
+    102a:	48 89 85 68 ff ff ff 	mov    QWORD PTR [rbp-0x98],rax
+    1031:	48 8b 85 a0 fe ff ff 	mov    rax,QWORD PTR [rbp-0x160]
+    1038:	48 89 85 40 ff ff ff 	mov    QWORD PTR [rbp-0xc0],rax
+    103f:	48 8b 85 c8 fe ff ff 	mov    rax,QWORD PTR [rbp-0x138]
+    1046:	48 89 85 20 ff ff ff 	mov    QWORD PTR [rbp-0xe0],rax
+    104d:	48 8b bd 10 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xf0]
+
+	int bboundary = iend - bfringe;
+	int rboundary = jend - rfringe;
+
+	int i1, j1, k1;
+	for (j1 = j; j1 < rboundary; j1 += 4){
+    1054:	8b 8d 1c ff ff ff    	mov    ecx,DWORD PTR [rbp-0xe4]
+    105a:	8b b5 7c ff ff ff    	mov    esi,DWORD PTR [rbp-0x84]
+    1060:	89 f8                	mov    eax,edi
+    1062:	89 bd 48 ff ff ff    	mov    DWORD PTR [rbp-0xb8],edi
+    1068:	83 c0 20             	add    eax,0x20
+    106b:	89 bd c4 fe ff ff    	mov    DWORD PTR [rbp-0x13c],edi
+  for (int k = 0; k < n; k += 32){
+    int kend = min(k + 32, n);
+    for (int j = 0; j < n; j += 32){
+      int jend = min(j + 32, n);
+      for (int i = 0; i < n; i += 32){
+	int iend = min(i + 32, n);
+    1071:	41 39 c2             	cmp    r10d,eax
+    1074:	41 0f 4e c2          	cmovle eax,r10d
+    1078:	89 c3                	mov    ebx,eax
+    107a:	89 85 4c ff ff ff    	mov    DWORD PTR [rbp-0xb4],eax
+	
+	int bfringe = (iend - i) % 4;
+    1080:	29 f8                	sub    eax,edi
+    1082:	99                   	cdq    
+    1083:	c1 ea 1e             	shr    edx,0x1e
+    1086:	01 d0                	add    eax,edx
+    1088:	83 e0 03             	and    eax,0x3
+    108b:	29 d0                	sub    eax,edx
+	int rfringe = (jend - j) % 4;
+
+	int bboundary = iend - bfringe;
+    108d:	29 c3                	sub    ebx,eax
+    108f:	89 d8                	mov    eax,ebx
+    1091:	89 9d 70 ff ff ff    	mov    DWORD PTR [rbp-0x90],ebx
+	int rboundary = jend - rfringe;
+
+	int i1, j1, k1;
+	for (j1 = j; j1 < rboundary; j1 += 4){
+    1097:	39 f1                	cmp    ecx,esi
+    1099:	0f 8d 73 02 00 00    	jge    1312 <avx_dgemm_fast+0x532>
+    109f:	48 8b b5 20 ff ff ff 	mov    rsi,QWORD PTR [rbp-0xe0]
+    10a6:	41 89 fd             	mov    r13d,edi
+    10a9:	89 4d 80             	mov    DWORD PTR [rbp-0x80],ecx
+    10ac:	41 f7 d5             	not    r13d
+    10af:	4c 89 bd 30 ff ff ff 	mov    QWORD PTR [rbp-0xd0],r15
+    10b6:	4c 8b bd 50 ff ff ff 	mov    r15,QWORD PTR [rbp-0xb0]
+    10bd:	41 01 c5             	add    r13d,eax
+    10c0:	44 89 b5 78 ff ff ff 	mov    DWORD PTR [rbp-0x88],r14d
+    10c7:	41 c1 ed 02          	shr    r13d,0x2
+    10cb:	44 89 8d 28 ff ff ff 	mov    DWORD PTR [rbp-0xd8],r9d
+    10d2:	48 89 f3             	mov    rbx,rsi
+    10d5:	48 03 9d f8 fe ff ff 	add    rbx,QWORD PTR [rbp-0x108]
+    10dc:	49 83 c5 01          	add    r13,0x1
+    10e0:	44 89 55 a0          	mov    DWORD PTR [rbp-0x60],r10d
+    10e4:	49 c1 e5 05          	shl    r13,0x5
+    10e8:	4c 89 5d 98          	mov    QWORD PTR [rbp-0x68],r11
+    10ec:	4c 89 6d 90          	mov    QWORD PTR [rbp-0x70],r13
+    10f0:	49 89 f5             	mov    r13,rsi
+    10f3:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+	  for (i1 = i; i1 < bboundary; i1 += 4){
+    10f8:	8b bd 48 ff ff ff    	mov    edi,DWORD PTR [rbp-0xb8]
+    10fe:	39 bd 70 ff ff ff    	cmp    DWORD PTR [rbp-0x90],edi
+    1104:	7e 42                	jle    1148 <avx_dgemm_fast+0x368>
+    1106:	48 8b 85 40 ff ff ff 	mov    rax,QWORD PTR [rbp-0xc0]
+    110d:	45 31 f6             	xor    r14d,r14d
+    1110:	4c 8d 24 03          	lea    r12,[rbx+rax*1]
+    1114:	4c 03 65 a8          	add    r12,QWORD PTR [rbp-0x58]
+    1118:	c5 f8 77             	vzeroupper 
+    111b:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+    1120:	4b 8d 14 2e          	lea    rdx,[r14+r13*1]
+	    do_4x4_block_fast(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+    1124:	8b 75 8c             	mov    esi,DWORD PTR [rbp-0x74]
+    1127:	48 03 55 98          	add    rdx,QWORD PTR [rbp-0x68]
+    112b:	4a 8d 0c 33          	lea    rcx,[rbx+r14*1]
+    112f:	49 83 c6 20          	add    r14,0x20
+    1133:	8b 7d a0             	mov    edi,DWORD PTR [rbp-0x60]
+    1136:	4d 8d 04 0f          	lea    r8,[r15+rcx*1]
+    113a:	4c 89 e1             	mov    rcx,r12
+    113d:	e8 00 00 00 00       	call   1142 <avx_dgemm_fast+0x362>
+	int bboundary = iend - bfringe;
+	int rboundary = jend - rfringe;
+
+	int i1, j1, k1;
+	for (j1 = j; j1 < rboundary; j1 += 4){
+	  for (i1 = i; i1 < bboundary; i1 += 4){
+    1142:	4c 3b 75 90          	cmp    r14,QWORD PTR [rbp-0x70]
+    1146:	75 d8                	jne    1120 <avx_dgemm_fast+0x340>
+
+	int bboundary = iend - bfringe;
+	int rboundary = jend - rfringe;
+
+	int i1, j1, k1;
+	for (j1 = j; j1 < rboundary; j1 += 4){
+    1148:	83 45 80 04          	add    DWORD PTR [rbp-0x80],0x4
+    114c:	48 03 9d 38 ff ff ff 	add    rbx,QWORD PTR [rbp-0xc8]
+    1153:	8b 45 80             	mov    eax,DWORD PTR [rbp-0x80]
+    1156:	3b 85 7c ff ff ff    	cmp    eax,DWORD PTR [rbp-0x84]
+    115c:	7c 9a                	jl     10f8 <avx_dgemm_fast+0x318>
+    115e:	8b bd 70 ff ff ff    	mov    edi,DWORD PTR [rbp-0x90]
+    1164:	44 8b 8d 28 ff ff ff 	mov    r9d,DWORD PTR [rbp-0xd8]
+    116b:	4c 8b 5d 98          	mov    r11,QWORD PTR [rbp-0x68]
+    116f:	4c 8b bd 30 ff ff ff 	mov    r15,QWORD PTR [rbp-0xd0]
+    1176:	48 63 c7             	movsxd rax,edi
+    1179:	44 8b b5 78 ff ff ff 	mov    r14d,DWORD PTR [rbp-0x88]
+    1180:	48 89 c3             	mov    rbx,rax
+    1183:	48 89 85 28 ff ff ff 	mov    QWORD PTR [rbp-0xd8],rax
+    118a:	48 03 85 d8 fe ff ff 	add    rax,QWORD PTR [rbp-0x128]
+    1191:	44 8b 55 88          	mov    r10d,DWORD PTR [rbp-0x78]
+    1195:	4c 8b 65 a8          	mov    r12,QWORD PTR [rbp-0x58]
+    1199:	49 8d 04 c3          	lea    rax,[r11+rax*8]
+    119d:	48 89 85 30 ff ff ff 	mov    QWORD PTR [rbp-0xd0],rax
+    11a4:	8b 85 ec fe ff ff    	mov    eax,DWORD PTR [rbp-0x114]
+    11aa:	89 85 78 ff ff ff    	mov    DWORD PTR [rbp-0x88],eax
+    11b0:	8b 85 1c ff ff ff    	mov    eax,DWORD PTR [rbp-0xe4]
+    11b6:	89 45 80             	mov    DWORD PTR [rbp-0x80],eax
+    11b9:	8b 85 4c ff ff ff    	mov    eax,DWORD PTR [rbp-0xb4]
+    11bf:	83 e8 01             	sub    eax,0x1
+    11c2:	29 f8                	sub    eax,edi
+    11c4:	4c 8d 6c 03 01       	lea    r13,[rbx+rax*1+0x1]
+    11c9:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+	    do_4x4_block_fast(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+    11d0:	8b 9d 70 ff ff ff    	mov    ebx,DWORD PTR [rbp-0x90]
+    11d6:	39 9d 4c ff ff ff    	cmp    DWORD PTR [rbp-0xb4],ebx
+    11dc:	0f 8e 10 01 00 00    	jle    12f2 <avx_dgemm_fast+0x512>
+    11e2:	48 63 9d 78 ff ff ff 	movsxd rbx,DWORD PTR [rbp-0x88]
+    11e9:	48 8b 85 50 ff ff ff 	mov    rax,QWORD PTR [rbp-0xb0]
+    11f0:	48 8b b5 28 ff ff ff 	mov    rsi,QWORD PTR [rbp-0xd8]
+    11f7:	48 8b bd 30 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xd0]
+    11fe:	4c 8d 04 d8          	lea    r8,[rax+rbx*8]
+    1202:	48 8b 85 58 ff ff ff 	mov    rax,QWORD PTR [rbp-0xa8]
+    1209:	48 01 d8             	add    rax,rbx
+    120c:	49 8d 04 c4          	lea    rax,[r12+rax*8]
+    1210:	48 89 45 90          	mov    QWORD PTR [rbp-0x70],rax
+    1214:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+	    for (k1 = k; k1 < kend; k1 ++) {
+    1218:	45 39 ce             	cmp    r14d,r9d
+    121b:	0f 8e c0 00 00 00    	jle    12e1 <avx_dgemm_fast+0x501>
+    1221:	c4 c1 7b 10 14 f0    	vmovsd xmm2,QWORD PTR [r8+rsi*8]
+    1227:	41 83 fa 03          	cmp    r10d,0x3
+    122b:	0f 86 df 04 00 00    	jbe    1710 <avx_dgemm_fast+0x930>
+    1231:	48 8b 55 90          	mov    rdx,QWORD PTR [rbp-0x70]
+    1235:	48 89 f8             	mov    rax,rdi
+    1238:	31 c9                	xor    ecx,ecx
+    123a:	48 89 75 98          	mov    QWORD PTR [rbp-0x68],rsi
+    123e:	c5 f9 57 c0          	vxorpd xmm0,xmm0,xmm0
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    1242:	48 8b 75 b0          	mov    rsi,QWORD PTR [rbp-0x50]
+    1246:	83 c1 01             	add    ecx,0x1
+    1249:	48 83 c2 20          	add    rdx,0x20
+    124d:	c4 a1 7b 10 2c 38    	vmovsd xmm5,QWORD PTR [rax+r15*1]
+    1253:	c5 f9 10 4a e0       	vmovupd xmm1,XMMWORD PTR [rdx-0x20]
+    1258:	c4 e3 75 18 5a f0 01 	vinsertf128 ymm3,ymm1,XMMWORD PTR [rdx-0x10],0x1
+    125f:	c4 a1 51 16 0c 78    	vmovhpd xmm1,xmm5,QWORD PTR [rax+r15*2]
+    1265:	c5 fb 10 34 30       	vmovsd xmm6,QWORD PTR [rax+rsi*1]
+    126a:	c5 c9 16 20          	vmovhpd xmm4,xmm6,QWORD PTR [rax]
+    126e:	48 03 45 c8          	add    rax,QWORD PTR [rbp-0x38]
+    1272:	c4 e3 5d 18 c9 01    	vinsertf128 ymm1,ymm4,xmm1,0x1
+    1278:	c5 e5 59 c9          	vmulpd ymm1,ymm3,ymm1
+    127c:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+    1280:	39 4d bc             	cmp    DWORD PTR [rbp-0x44],ecx
+    1283:	77 bd                	ja     1242 <avx_dgemm_fast+0x462>
+    1285:	c5 fd 7c c0          	vhaddpd ymm0,ymm0,ymm0
+    1289:	48 8b 75 98          	mov    rsi,QWORD PTR [rbp-0x68]
+    128d:	8b 4d c4             	mov    ecx,DWORD PTR [rbp-0x3c]
+    1290:	c4 e3 7d 06 c8 01    	vperm2f128 ymm1,ymm0,ymm0,0x1
+    1296:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+    129a:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+    129e:	39 4d c0             	cmp    DWORD PTR [rbp-0x40],ecx
+    12a1:	74 38                	je     12db <avx_dgemm_fast+0x4fb>
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+	    for (k1 = k; k1 < kend; k1 ++) {
+    12a3:	8b 45 b8             	mov    eax,DWORD PTR [rbp-0x48]
+    12a6:	8b 55 a0             	mov    edx,DWORD PTR [rbp-0x60]
+    12a9:	0f af d0             	imul   edx,eax
+    12ac:	48 63 d2             	movsxd rdx,edx
+    12af:	48 01 f2             	add    rdx,rsi
+    12b2:	49 8d 0c d3          	lea    rcx,[r11+rdx*8]
+    12b6:	48 63 d0             	movsxd rdx,eax
+    12b9:	48 01 da             	add    rdx,rbx
+    12bc:	49 8d 14 d4          	lea    rdx,[r12+rdx*8]
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    12c0:	c5 fb 10 02          	vmovsd xmm0,QWORD PTR [rdx]
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+	    for (k1 = k; k1 < kend; k1 ++) {
+    12c4:	83 c0 01             	add    eax,0x1
+    12c7:	48 83 c2 08          	add    rdx,0x8
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    12cb:	c5 fb 59 01          	vmulsd xmm0,xmm0,QWORD PTR [rcx]
+    12cf:	4c 01 f9             	add    rcx,r15
+    12d2:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+	    for (k1 = k; k1 < kend; k1 ++) {
+    12d6:	41 39 c6             	cmp    r14d,eax
+    12d9:	7f e5                	jg     12c0 <avx_dgemm_fast+0x4e0>
+    12db:	c4 c1 7b 11 14 f0    	vmovsd QWORD PTR [r8+rsi*8],xmm2
+    12e1:	48 83 c6 01          	add    rsi,0x1
+    12e5:	48 83 c7 08          	add    rdi,0x8
+	    do_4x4_block_fast(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+    12e9:	4c 39 ee             	cmp    rsi,r13
+    12ec:	0f 85 26 ff ff ff    	jne    1218 <avx_dgemm_fast+0x438>
+	  for (i1 = i; i1 < bboundary; i1 += 4){
+	    do_4x4_block_fast(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+    12f2:	83 45 80 01          	add    DWORD PTR [rbp-0x80],0x1
+    12f6:	8b 5d a0             	mov    ebx,DWORD PTR [rbp-0x60]
+    12f9:	8b 45 80             	mov    eax,DWORD PTR [rbp-0x80]
+    12fc:	01 9d 78 ff ff ff    	add    DWORD PTR [rbp-0x88],ebx
+    1302:	3b 85 7c ff ff ff    	cmp    eax,DWORD PTR [rbp-0x84]
+    1308:	0f 85 c2 fe ff ff    	jne    11d0 <avx_dgemm_fast+0x3f0>
+    130e:	44 8b 55 a0          	mov    r10d,DWORD PTR [rbp-0x60]
+	    for (k1 = k; k1 < kend; k1 ++) {
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+    1312:	8b 9d 70 ff ff ff    	mov    ebx,DWORD PTR [rbp-0x90]
+    1318:	8b bd 48 ff ff ff    	mov    edi,DWORD PTR [rbp-0xb8]
+    131e:	39 fb                	cmp    ebx,edi
+    1320:	0f 8e 7a 01 00 00    	jle    14a0 <avx_dgemm_fast+0x6c0>
+    1326:	8b 85 c4 fe ff ff    	mov    eax,DWORD PTR [rbp-0x13c]
+    132c:	44 89 55 98          	mov    DWORD PTR [rbp-0x68],r10d
+    1330:	4c 8b ad 20 ff ff ff 	mov    r13,QWORD PTR [rbp-0xe0]
+    1337:	4c 03 ad b0 fe ff ff 	add    r13,QWORD PTR [rbp-0x150]
+    133e:	48 8b bd 50 ff ff ff 	mov    rdi,QWORD PTR [rbp-0xb0]
+    1345:	f7 d0                	not    eax
+    1347:	44 8b 95 18 ff ff ff 	mov    r10d,DWORD PTR [rbp-0xe8]
+    134e:	01 d8                	add    eax,ebx
+    1350:	48 8b 9d 10 ff ff ff 	mov    rbx,QWORD PTR [rbp-0xf0]
+    1357:	4d 01 dd             	add    r13,r11
+    135a:	4c 89 6d 90          	mov    QWORD PTR [rbp-0x70],r13
+    135e:	4c 8b ad 08 ff ff ff 	mov    r13,QWORD PTR [rbp-0xf8]
+    1365:	48 8d 44 03 01       	lea    rax,[rbx+rax*1+0x1]
+    136a:	49 89 dc             	mov    r12,rbx
+    136d:	48 8b 9d 00 ff ff ff 	mov    rbx,QWORD PTR [rbp-0x100]
+    1374:	48 8d 04 c7          	lea    rax,[rdi+rax*8]
+    1378:	48 89 45 80          	mov    QWORD PTR [rbp-0x80],rax
+    137c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+	  for (j1 = rboundary; j1 < jend; j1++) {
+    1380:	8b 85 7c ff ff ff    	mov    eax,DWORD PTR [rbp-0x84]
+    1386:	41 39 c2             	cmp    r10d,eax
+    1389:	0f 8e f6 00 00 00    	jle    1485 <avx_dgemm_fast+0x6a5>
+    138f:	48 8b b5 60 ff ff ff 	mov    rsi,QWORD PTR [rbp-0xa0]
+    1396:	89 c7                	mov    edi,eax
+    1398:	4c 8b 85 68 ff ff ff 	mov    r8,QWORD PTR [rbp-0x98]
+    139f:	90                   	nop
+	    for (k1 = k; k1 < kend; k1++) {
+    13a0:	45 39 ce             	cmp    r14d,r9d
+    13a3:	0f 8e ca 00 00 00    	jle    1473 <avx_dgemm_fast+0x693>
+    13a9:	83 7d 88 03          	cmp    DWORD PTR [rbp-0x78],0x3
+    13ad:	c5 fb 10 14 f3       	vmovsd xmm2,QWORD PTR [rbx+rsi*8]
+    13b2:	0f 86 68 03 00 00    	jbe    1720 <avx_dgemm_fast+0x940>
+    13b8:	48 8b 45 90          	mov    rax,QWORD PTR [rbp-0x70]
+    13bc:	4c 89 c2             	mov    rdx,r8
+    13bf:	31 c9                	xor    ecx,ecx
+    13c1:	48 89 75 a0          	mov    QWORD PTR [rbp-0x60],rsi
+    13c5:	c5 f9 57 c0          	vxorpd xmm0,xmm0,xmm0
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    13c9:	48 8b 75 b0          	mov    rsi,QWORD PTR [rbp-0x50]
+    13cd:	83 c1 01             	add    ecx,0x1
+    13d0:	48 83 c2 20          	add    rdx,0x20
+    13d4:	c4 a1 7b 10 3c 38    	vmovsd xmm7,QWORD PTR [rax+r15*1]
+    13da:	c5 f9 10 4a e0       	vmovupd xmm1,XMMWORD PTR [rdx-0x20]
+    13df:	c4 e3 75 18 5a f0 01 	vinsertf128 ymm3,ymm1,XMMWORD PTR [rdx-0x10],0x1
+    13e6:	c4 a1 41 16 0c 78    	vmovhpd xmm1,xmm7,QWORD PTR [rax+r15*2]
+    13ec:	c5 fb 10 2c 30       	vmovsd xmm5,QWORD PTR [rax+rsi*1]
+    13f1:	c5 d1 16 20          	vmovhpd xmm4,xmm5,QWORD PTR [rax]
+    13f5:	48 03 45 c8          	add    rax,QWORD PTR [rbp-0x38]
+    13f9:	c4 e3 5d 18 c9 01    	vinsertf128 ymm1,ymm4,xmm1,0x1
+    13ff:	c5 e5 59 c9          	vmulpd ymm1,ymm3,ymm1
+    1403:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+    1407:	3b 4d bc             	cmp    ecx,DWORD PTR [rbp-0x44]
+    140a:	72 bd                	jb     13c9 <avx_dgemm_fast+0x5e9>
+    140c:	c5 fd 7c c0          	vhaddpd ymm0,ymm0,ymm0
+    1410:	48 8b 75 a0          	mov    rsi,QWORD PTR [rbp-0x60]
+    1414:	8b 4d c4             	mov    ecx,DWORD PTR [rbp-0x3c]
+    1417:	c4 e3 7d 06 c8 01    	vperm2f128 ymm1,ymm0,ymm0,0x1
+    141d:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+    1421:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+    1425:	39 4d c0             	cmp    DWORD PTR [rbp-0x40],ecx
+    1428:	74 44                	je     146e <avx_dgemm_fast+0x68e>
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+    142a:	8b 45 b8             	mov    eax,DWORD PTR [rbp-0x48]
+    142d:	8b 55 98             	mov    edx,DWORD PTR [rbp-0x68]
+    1430:	0f af d0             	imul   edx,eax
+    1433:	48 63 d2             	movsxd rdx,edx
+    1436:	4c 01 e2             	add    rdx,r12
+    1439:	49 8d 0c d3          	lea    rcx,[r11+rdx*8]
+    143d:	48 63 d0             	movsxd rdx,eax
+    1440:	48 89 4d a0          	mov    QWORD PTR [rbp-0x60],rcx
+    1444:	48 8b 4d a8          	mov    rcx,QWORD PTR [rbp-0x58]
+    1448:	48 01 f2             	add    rdx,rsi
+    144b:	48 8d 14 d1          	lea    rdx,[rcx+rdx*8]
+    144f:	48 8b 4d a0          	mov    rcx,QWORD PTR [rbp-0x60]
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    1453:	c5 fb 10 02          	vmovsd xmm0,QWORD PTR [rdx]
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+    1457:	83 c0 01             	add    eax,0x1
+    145a:	48 83 c2 08          	add    rdx,0x8
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    145e:	c5 fb 59 01          	vmulsd xmm0,xmm0,QWORD PTR [rcx]
+    1462:	4c 01 f9             	add    rcx,r15
+    1465:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+    1469:	41 39 c6             	cmp    r14d,eax
+    146c:	7f e5                	jg     1453 <avx_dgemm_fast+0x673>
+    146e:	c5 fb 11 14 f3       	vmovsd QWORD PTR [rbx+rsi*8],xmm2
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+    1473:	83 c7 01             	add    edi,0x1
+    1476:	4d 01 f8             	add    r8,r15
+    1479:	4c 01 ee             	add    rsi,r13
+    147c:	44 39 d7             	cmp    edi,r10d
+    147f:	0f 85 1b ff ff ff    	jne    13a0 <avx_dgemm_fast+0x5c0>
+    1485:	48 83 45 90 08       	add    QWORD PTR [rbp-0x70],0x8
+    148a:	48 83 c3 08          	add    rbx,0x8
+    148e:	49 83 c4 01          	add    r12,0x1
+	    for (k1 = k; k1 < kend; k1 ++) {
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+    1492:	48 3b 5d 80          	cmp    rbx,QWORD PTR [rbp-0x80]
+    1496:	0f 85 e4 fe ff ff    	jne    1380 <avx_dgemm_fast+0x5a0>
+    149c:	44 8b 55 98          	mov    r10d,DWORD PTR [rbp-0x68]
+	    for (k1 = k; k1 < kend; k1++) {
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+    14a0:	8b bd 4c ff ff ff    	mov    edi,DWORD PTR [rbp-0xb4]
+    14a6:	8b b5 70 ff ff ff    	mov    esi,DWORD PTR [rbp-0x90]
+    14ac:	39 f7                	cmp    edi,esi
+    14ae:	0f 8e 81 01 00 00    	jle    1635 <avx_dgemm_fast+0x855>
+    14b4:	48 8b 85 d8 fe ff ff 	mov    rax,QWORD PTR [rbp-0x128]
+    14bb:	4c 63 ee             	movsxd r13,esi
+    14be:	44 89 55 90          	mov    DWORD PTR [rbp-0x70],r10d
+    14c2:	48 8b 8d 50 ff ff ff 	mov    rcx,QWORD PTR [rbp-0xb0]
+    14c9:	4c 89 6d 98          	mov    QWORD PTR [rbp-0x68],r13
+    14cd:	44 8b 95 18 ff ff ff 	mov    r10d,DWORD PTR [rbp-0xe8]
+    14d4:	4c 01 e8             	add    rax,r13
+    14d7:	49 8d 04 c3          	lea    rax,[r11+rax*8]
+    14db:	48 89 45 80          	mov    QWORD PTR [rbp-0x80],rax
+    14df:	4a 8d 1c e9          	lea    rbx,[rcx+r13*8]
+    14e3:	89 f8                	mov    eax,edi
+    14e5:	83 e8 01             	sub    eax,0x1
+    14e8:	29 f0                	sub    eax,esi
+    14ea:	49 8d 44 05 01       	lea    rax,[r13+rax*1+0x1]
+    14ef:	4c 8b ad 08 ff ff ff 	mov    r13,QWORD PTR [rbp-0xf8]
+    14f6:	48 8d 04 c1          	lea    rax,[rcx+rax*8]
+    14fa:	48 89 85 70 ff ff ff 	mov    QWORD PTR [rbp-0x90],rax
+    1501:	8b 85 94 fe ff ff    	mov    eax,DWORD PTR [rbp-0x16c]
+    1507:	46 8d 24 30          	lea    r12d,[rax+r14*1]
+    150b:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+	  for (j1 = rboundary; j1 < jend; j1++) {
+    1510:	8b 85 7c ff ff ff    	mov    eax,DWORD PTR [rbp-0x84]
+    1516:	41 39 c2             	cmp    r10d,eax
+    1519:	0f 8e f7 00 00 00    	jle    1616 <avx_dgemm_fast+0x836>
+    151f:	48 8b b5 60 ff ff ff 	mov    rsi,QWORD PTR [rbp-0xa0]
+    1526:	89 c7                	mov    edi,eax
+    1528:	4c 8b 85 68 ff ff ff 	mov    r8,QWORD PTR [rbp-0x98]
+    152f:	90                   	nop
+	    for (k1 = k; k1 < kend; k1++) {
+    1530:	45 39 ce             	cmp    r14d,r9d
+    1533:	0f 8e cb 00 00 00    	jle    1604 <avx_dgemm_fast+0x824>
+    1539:	c5 fb 10 14 f3       	vmovsd xmm2,QWORD PTR [rbx+rsi*8]
+    153e:	41 83 fc 03          	cmp    r12d,0x3
+    1542:	0f 86 c0 01 00 00    	jbe    1708 <avx_dgemm_fast+0x928>
+    1548:	48 8b 45 80          	mov    rax,QWORD PTR [rbp-0x80]
+    154c:	4c 89 c2             	mov    rdx,r8
+    154f:	31 c9                	xor    ecx,ecx
+    1551:	48 89 75 a0          	mov    QWORD PTR [rbp-0x60],rsi
+    1555:	c5 f9 57 c0          	vxorpd xmm0,xmm0,xmm0
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    1559:	48 8b 75 b0          	mov    rsi,QWORD PTR [rbp-0x50]
+    155d:	83 c1 01             	add    ecx,0x1
+    1560:	48 83 c2 20          	add    rdx,0x20
+    1564:	c4 a1 7b 10 34 38    	vmovsd xmm6,QWORD PTR [rax+r15*1]
+    156a:	c5 f9 10 4a e0       	vmovupd xmm1,XMMWORD PTR [rdx-0x20]
+    156f:	c4 e3 75 18 5a f0 01 	vinsertf128 ymm3,ymm1,XMMWORD PTR [rdx-0x10],0x1
+    1576:	c4 a1 49 16 0c 78    	vmovhpd xmm1,xmm6,QWORD PTR [rax+r15*2]
+    157c:	c5 fb 10 3c 30       	vmovsd xmm7,QWORD PTR [rax+rsi*1]
+    1581:	c5 c1 16 20          	vmovhpd xmm4,xmm7,QWORD PTR [rax]
+    1585:	48 03 45 c8          	add    rax,QWORD PTR [rbp-0x38]
+    1589:	c4 e3 5d 18 c9 01    	vinsertf128 ymm1,ymm4,xmm1,0x1
+    158f:	c5 e5 59 c9          	vmulpd ymm1,ymm3,ymm1
+    1593:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+    1597:	3b 4d bc             	cmp    ecx,DWORD PTR [rbp-0x44]
+    159a:	72 bd                	jb     1559 <avx_dgemm_fast+0x779>
+    159c:	c5 fd 7c c0          	vhaddpd ymm0,ymm0,ymm0
+    15a0:	48 8b 75 a0          	mov    rsi,QWORD PTR [rbp-0x60]
+    15a4:	8b 4d c4             	mov    ecx,DWORD PTR [rbp-0x3c]
+    15a7:	c4 e3 7d 06 c8 01    	vperm2f128 ymm1,ymm0,ymm0,0x1
+    15ad:	c5 fd 58 c1          	vaddpd ymm0,ymm0,ymm1
+    15b1:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+    15b5:	39 4d c0             	cmp    DWORD PTR [rbp-0x40],ecx
+    15b8:	74 45                	je     15ff <avx_dgemm_fast+0x81f>
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+    15ba:	8b 45 b8             	mov    eax,DWORD PTR [rbp-0x48]
+    15bd:	8b 55 90             	mov    edx,DWORD PTR [rbp-0x70]
+    15c0:	0f af d0             	imul   edx,eax
+    15c3:	48 63 d2             	movsxd rdx,edx
+    15c6:	48 03 55 98          	add    rdx,QWORD PTR [rbp-0x68]
+    15ca:	49 8d 0c d3          	lea    rcx,[r11+rdx*8]
+    15ce:	48 63 d0             	movsxd rdx,eax
+    15d1:	48 89 4d a0          	mov    QWORD PTR [rbp-0x60],rcx
+    15d5:	48 8b 4d a8          	mov    rcx,QWORD PTR [rbp-0x58]
+    15d9:	48 01 f2             	add    rdx,rsi
+    15dc:	48 8d 14 d1          	lea    rdx,[rcx+rdx*8]
+    15e0:	48 8b 4d a0          	mov    rcx,QWORD PTR [rbp-0x60]
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    15e4:	c5 fb 10 02          	vmovsd xmm0,QWORD PTR [rdx]
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+    15e8:	83 c0 01             	add    eax,0x1
+    15eb:	48 83 c2 08          	add    rdx,0x8
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+    15ef:	c5 fb 59 01          	vmulsd xmm0,xmm0,QWORD PTR [rcx]
+    15f3:	4c 01 f9             	add    rcx,r15
+    15f6:	c5 eb 58 d0          	vaddsd xmm2,xmm2,xmm0
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+    15fa:	41 39 c6             	cmp    r14d,eax
+    15fd:	7f e5                	jg     15e4 <avx_dgemm_fast+0x804>
+    15ff:	c5 fb 11 14 f3       	vmovsd QWORD PTR [rbx+rsi*8],xmm2
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+    1604:	83 c7 01             	add    edi,0x1
+    1607:	4d 01 f8             	add    r8,r15
+    160a:	4c 01 ee             	add    rsi,r13
+    160d:	44 39 d7             	cmp    edi,r10d
+    1610:	0f 85 1a ff ff ff    	jne    1530 <avx_dgemm_fast+0x750>
+    1616:	48 83 45 80 08       	add    QWORD PTR [rbp-0x80],0x8
+    161b:	48 83 c3 08          	add    rbx,0x8
+    161f:	48 83 45 98 01       	add    QWORD PTR [rbp-0x68],0x1
+	    for (k1 = k; k1 < kend; k1++) {
+	      C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+    1624:	48 3b 9d 70 ff ff ff 	cmp    rbx,QWORD PTR [rbp-0x90]
+    162b:	0f 85 df fe ff ff    	jne    1510 <avx_dgemm_fast+0x730>
+    1631:	44 8b 55 90          	mov    r10d,DWORD PTR [rbp-0x70]
+    1635:	48 81 85 20 ff ff ff 	add    QWORD PTR [rbp-0xe0],0x100
+    163c:	00 01 00 00 
+    1640:	48 81 85 00 ff ff ff 	add    QWORD PTR [rbp-0x100],0x100
+    1647:	00 01 00 00 
+    164b:	48 83 85 10 ff ff ff 	add    QWORD PTR [rbp-0xf0],0x20
+    1652:	20 
+    1653:	48 8b 85 20 ff ff ff 	mov    rax,QWORD PTR [rbp-0xe0]
+    165a:	48 81 ad 40 ff ff ff 	sub    QWORD PTR [rbp-0xc0],0x100
+    1661:	00 01 00 00 
+void avx_dgemm_fast(int n, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < n; k += 32){
+    int kend = min(k + 32, n);
+    for (int j = 0; j < n; j += 32){
+      int jend = min(j + 32, n);
+      for (int i = 0; i < n; i += 32){
+    1665:	48 3b 85 b8 fe ff ff 	cmp    rax,QWORD PTR [rbp-0x148]
+    166c:	0f 85 db f9 ff ff    	jne    104d <avx_dgemm_fast+0x26d>
+    1672:	8b bd e8 fe ff ff    	mov    edi,DWORD PTR [rbp-0x118]
+    1678:	45 89 cd             	mov    r13d,r9d
+    167b:	45 89 d4             	mov    r12d,r10d
+    167e:	4c 89 db             	mov    rbx,r11
+    1681:	01 bd ec fe ff ff    	add    DWORD PTR [rbp-0x114],edi
+    1687:	8b 85 e0 fe ff ff    	mov    eax,DWORD PTR [rbp-0x120]
+    168d:	48 8b bd d0 fe ff ff 	mov    rdi,QWORD PTR [rbp-0x130]
+    1694:	48 01 bd f8 fe ff ff 	add    QWORD PTR [rbp-0x108],rdi
+  _mm256_storeu_pd(C3p, c3);
+}
+void avx_dgemm_fast(int n, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < n; k += 32){
+    int kend = min(k + 32, n);
+    for (int j = 0; j < n; j += 32){
+    169b:	8b bd c0 fe ff ff    	mov    edi,DWORD PTR [rbp-0x140]
+    16a1:	89 85 1c ff ff ff    	mov    DWORD PTR [rbp-0xe4],eax
+    16a7:	39 f8                	cmp    eax,edi
+    16a9:	0f 85 06 f9 ff ff    	jne    fb5 <avx_dgemm_fast+0x1d5>
+    16af:	8b bd e8 fe ff ff    	mov    edi,DWORD PTR [rbp-0x118]
+    16b5:	4d 89 fe             	mov    r14,r15
+    16b8:	45 89 d5             	mov    r13d,r10d
+    16bb:	01 bd e4 fe ff ff    	add    DWORD PTR [rbp-0x11c],edi
+    16c1:	48 83 85 58 ff ff ff 	add    QWORD PTR [rbp-0xa8],0x20
+    16c8:	20 
+    16c9:	48 8b 7d c8          	mov    rdi,QWORD PTR [rbp-0x38]
+    16cd:	48 8b 85 58 ff ff ff 	mov    rax,QWORD PTR [rbp-0xa8]
+    16d4:	48 01 bd f0 fe ff ff 	add    QWORD PTR [rbp-0x110],rdi
+  _mm256_storeu_pd(C1p, c1);
+  _mm256_storeu_pd(C2p, c2);
+  _mm256_storeu_pd(C3p, c3);
+}
+void avx_dgemm_fast(int n, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < n; k += 32){
+    16db:	48 3b 85 a8 fe ff ff 	cmp    rax,QWORD PTR [rbp-0x158]
+    16e2:	0f 85 de f7 ff ff    	jne    ec6 <avx_dgemm_fast+0xe6>
+    16e8:	c5 f8 77             	vzeroupper 
+	  }
+	}
+      }
+    }
+  }
+}
+    16eb:	48 81 c4 40 01 00 00 	add    rsp,0x140
+    16f2:	5b                   	pop    rbx
+    16f3:	41 5a                	pop    r10
+    16f5:	41 5c                	pop    r12
+    16f7:	41 5d                	pop    r13
+    16f9:	41 5e                	pop    r14
+    16fb:	41 5f                	pop    r15
+    16fd:	5d                   	pop    rbp
+    16fe:	49 8d 62 f8          	lea    rsp,[r10-0x8]
+    1702:	c3                   	ret    
+    1703:	0f 1f 44 00 00       	nop    DWORD PTR [rax+rax*1+0x0]
+	    }
+	  }
+	}
+	for (i1 = bboundary; i1 < iend; i1++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+    1708:	44 89 c8             	mov    eax,r9d
+    170b:	e9 ad fe ff ff       	jmp    15bd <avx_dgemm_fast+0x7dd>
+	  }
+	  
+	}
+	for (j1 = j; j1 < rboundary; j1++) {
+	  for (i1 = bboundary ; i1 < iend; i1++) {
+	    for (k1 = k; k1 < kend; k1 ++) {
+    1710:	44 89 c8             	mov    eax,r9d
+    1713:	e9 8e fb ff ff       	jmp    12a6 <avx_dgemm_fast+0x4c6>
+    1718:	0f 1f 84 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+    171f:	00 
+	    }
+	  }
+	}
+	for (i1 = i; i1 < bboundary; i1 ++) {
+	  for (j1 = rboundary; j1 < jend; j1++) {
+	    for (k1 = k; k1 < kend; k1++) {
+    1720:	44 89 c8             	mov    eax,r9d
+    1723:	e9 05 fd ff ff       	jmp    142d <avx_dgemm_fast+0x64d>
+    1728:	0f 1f 84 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+    172f:	00 
+
+0000000000001730 <test>:
+}
+	
+	
+void test(int n, double* A, double* B, double* C) {
+  
+  for (int i = 0; i < n; i++) {
+    1730:	85 ff                	test   edi,edi
+    1732:	0f 8e c9 00 00 00    	jle    1801 <test+0xd1>
+    1738:	4c 8d 41 20          	lea    r8,[rcx+0x20]
+    173c:	48 8d 46 20          	lea    rax,[rsi+0x20]
+    1740:	4c 39 c6             	cmp    rsi,r8
+    1743:	41 0f 93 c1          	setae  r9b
+    1747:	48 39 c1             	cmp    rcx,rax
+    174a:	0f 93 c0             	setae  al
+    174d:	44 09 c8             	or     eax,r9d
+    1750:	83 ff 06             	cmp    edi,0x6
+    1753:	41 0f 97 c1          	seta   r9b
+    1757:	44 84 c8             	test   al,r9b
+    175a:	0f 84 a8 00 00 00    	je     1808 <test+0xd8>
+    1760:	48 8d 42 20          	lea    rax,[rdx+0x20]
+    1764:	4c 39 c2             	cmp    rdx,r8
+    1767:	41 0f 93 c0          	setae  r8b
+    176b:	48 39 c1             	cmp    rcx,rax
+    176e:	0f 93 c0             	setae  al
+    1771:	41 08 c0             	or     r8b,al
+    1774:	0f 84 8e 00 00 00    	je     1808 <test+0xd8>
+    177a:	44 8d 47 fc          	lea    r8d,[rdi-0x4]
+    177e:	31 c0                	xor    eax,eax
+    1780:	45 31 d2             	xor    r10d,r10d
+    1783:	41 c1 e8 02          	shr    r8d,0x2
+    1787:	41 83 c0 01          	add    r8d,0x1
+    178b:	46 8d 0c 85 00 00 00 	lea    r9d,[r8*4+0x0]
+    1792:	00 
+    C[i] = A[i] + B[i];
+    1793:	c5 f9 10 04 02       	vmovupd xmm0,XMMWORD PTR [rdx+rax*1]
+    1798:	c4 e3 7d 18 4c 02 10 	vinsertf128 ymm1,ymm0,XMMWORD PTR [rdx+rax*1+0x10],0x1
+    179f:	01 
+    17a0:	41 83 c2 01          	add    r10d,0x1
+    17a4:	c5 f9 10 04 06       	vmovupd xmm0,XMMWORD PTR [rsi+rax*1]
+    17a9:	c4 e3 7d 18 44 06 10 	vinsertf128 ymm0,ymm0,XMMWORD PTR [rsi+rax*1+0x10],0x1
+    17b0:	01 
+    17b1:	c5 f5 58 c0          	vaddpd ymm0,ymm1,ymm0
+    17b5:	c5 f8 11 04 01       	vmovups XMMWORD PTR [rcx+rax*1],xmm0
+    17ba:	c4 e3 7d 19 44 01 10 	vextractf128 XMMWORD PTR [rcx+rax*1+0x10],ymm0,0x1
+    17c1:	01 
+    17c2:	48 83 c0 20          	add    rax,0x20
+    17c6:	45 39 d0             	cmp    r8d,r10d
+    17c9:	77 c8                	ja     1793 <test+0x63>
+    17cb:	44 39 cf             	cmp    edi,r9d
+    17ce:	74 2e                	je     17fe <test+0xce>
+    17d0:	49 63 c1             	movsxd rax,r9d
+    17d3:	48 c1 e0 03          	shl    rax,0x3
+    17d7:	48 01 c6             	add    rsi,rax
+    17da:	48 01 c2             	add    rdx,rax
+    17dd:	48 01 c1             	add    rcx,rax
+    17e0:	31 c0                	xor    eax,eax
+    17e2:	c5 fb 10 04 c2       	vmovsd xmm0,QWORD PTR [rdx+rax*8]
+    17e7:	c5 fb 58 04 c6       	vaddsd xmm0,xmm0,QWORD PTR [rsi+rax*8]
+    17ec:	c5 fb 11 04 c1       	vmovsd QWORD PTR [rcx+rax*8],xmm0
+    17f1:	48 83 c0 01          	add    rax,0x1
+    17f5:	45 8d 04 01          	lea    r8d,[r9+rax*1]
+}
+	
+	
+void test(int n, double* A, double* B, double* C) {
+  
+  for (int i = 0; i < n; i++) {
+    17f9:	44 39 c7             	cmp    edi,r8d
+    17fc:	7f e4                	jg     17e2 <test+0xb2>
+    17fe:	c5 f8 77             	vzeroupper 
+    1801:	c3                   	ret    
+    1802:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+    1808:	31 c0                	xor    eax,eax
+    180a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+    C[i] = A[i] + B[i];
+    1810:	c5 fb 10 04 c2       	vmovsd xmm0,QWORD PTR [rdx+rax*8]
+    1815:	c5 fb 58 04 c6       	vaddsd xmm0,xmm0,QWORD PTR [rsi+rax*8]
+    181a:	c5 fb 11 04 c1       	vmovsd QWORD PTR [rcx+rax*8],xmm0
+    181f:	48 83 c0 01          	add    rax,0x1
+}
+	
+	
+void test(int n, double* A, double* B, double* C) {
+  
+  for (int i = 0; i < n; i++) {
+    1823:	39 c7                	cmp    edi,eax
+    1825:	7f e9                	jg     1810 <test+0xe0>
+    1827:	c3                   	ret    
+    1828:	0f 1f 84 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+    182f:	00 
+
+0000000000001830 <benchmark>:
+    C[i] = A[i] + B[i];
+  }
+  
+}
+
+void benchmark (char* desc, void (*f)(int, double*, double*, double*), int* test_sizes, int nsizes, double* A, double* B, double* C) {
+    1830:	41 57                	push   r15
+    1832:	31 c0                	xor    eax,eax
+    1834:	49 89 f7             	mov    r15,rsi
+    1837:	be 00 00 00 00       	mov    esi,0x0
+    183c:	41 56                	push   r14
+    183e:	4d 89 ce             	mov    r14,r9
+    1841:	41 55                	push   r13
+    1843:	41 54                	push   r12
+    1845:	49 89 d4             	mov    r12,rdx
+    1848:	48 89 fa             	mov    rdx,rdi
+    184b:	bf 01 00 00 00       	mov    edi,0x1
+    1850:	55                   	push   rbp
+    1851:	89 cd                	mov    ebp,ecx
+    1853:	53                   	push   rbx
+    1854:	48 83 ec 38          	sub    rsp,0x38
+    1858:	4c 89 04 24          	mov    QWORD PTR [rsp],r8
+    185c:	48 8b 5c 24 70       	mov    rbx,QWORD PTR [rsp+0x70]
+    1861:	e8 00 00 00 00       	call   1866 <benchmark+0x36>
+
+  printf("%s\nSize:\tGflops\n", desc);
+  for (int isize = 0; isize < nsizes; isize++) {
+    1866:	85 ed                	test   ebp,ebp
+    1868:	0f 8e bf 01 00 00    	jle    1a2d <benchmark+0x1fd>
+    186e:	8d 45 ff             	lea    eax,[rbp-0x1]
+    1871:	4c 89 64 24 10       	mov    QWORD PTR [rsp+0x10],r12
+    1876:	49 8d 44 84 04       	lea    rax,[r12+rax*4+0x4]
+    187b:	48 89 44 24 28       	mov    QWORD PTR [rsp+0x28],rax
+    int n = test_sizes[isize];
+    1880:	48 8b 44 24 10       	mov    rax,QWORD PTR [rsp+0x10]
+
+    fill(A, n * n);
+    1885:	48 8b 3c 24          	mov    rdi,QWORD PTR [rsp]
+
+void benchmark (char* desc, void (*f)(int, double*, double*, double*), int* test_sizes, int nsizes, double* A, double* B, double* C) {
+
+  printf("%s\nSize:\tGflops\n", desc);
+  for (int isize = 0; isize < nsizes; isize++) {
+    int n = test_sizes[isize];
+    1889:	44 8b 20             	mov    r12d,DWORD PTR [rax]
+
+    fill(A, n * n);
+    188c:	44 89 e0             	mov    eax,r12d
+    188f:	41 0f af c4          	imul   eax,r12d
+    1893:	89 c5                	mov    ebp,eax
+    1895:	89 c6                	mov    esi,eax
+    1897:	89 44 24 1c          	mov    DWORD PTR [rsp+0x1c],eax
+    189b:	e8 00 00 00 00       	call   18a0 <benchmark+0x70>
+    fill(B, n * n);
+    18a0:	89 ee                	mov    esi,ebp
+    18a2:	4c 89 f7             	mov    rdi,r14
+    18a5:	e8 00 00 00 00       	call   18aa <benchmark+0x7a>
+    fill(C, n * n);
+    18aa:	89 ee                	mov    esi,ebp
+    18ac:	48 89 df             	mov    rdi,rbx
+    double Gflops_s, seconds = -1.0;
+    double timeout = 0.1;
+
+    
+    
+    for (int n_iterations = 1; seconds < timeout; n_iterations *= 2) {
+    18af:	bd 01 00 00 00       	mov    ebp,0x1
+  for (int isize = 0; isize < nsizes; isize++) {
+    int n = test_sizes[isize];
+
+    fill(A, n * n);
+    fill(B, n * n);
+    fill(C, n * n);
+    18b4:	e8 00 00 00 00       	call   18b9 <benchmark+0x89>
+    18b9:	c5 c9 57 f6          	vxorpd xmm6,xmm6,xmm6
+    18bd:	c4 c1 4b 2a f4       	vcvtsi2sd xmm6,xmm6,r12d
+    18c2:	c5 fb 11 74 24 20    	vmovsd QWORD PTR [rsp+0x20],xmm6
+    18c8:	0f 1f 84 00 00 00 00 	nop    DWORD PTR [rax+rax*1+0x0]
+    18cf:	00 
+    double timeout = 0.1;
+
+    
+    
+    for (int n_iterations = 1; seconds < timeout; n_iterations *= 2) {
+      (*f)(n, A, B, C);
+    18d0:	48 89 d9             	mov    rcx,rbx
+    18d3:	4c 89 f2             	mov    rdx,r14
+    18d6:	48 8b 34 24          	mov    rsi,QWORD PTR [rsp]
+    18da:	44 89 e7             	mov    edi,r12d
+    18dd:	41 ff d7             	call   r15
+      seconds = -wall_time();
+    18e0:	31 c0                	xor    eax,eax
+      for (int it = 0; it < n_iterations; it++) {
+    18e2:	45 31 ed             	xor    r13d,r13d
+
+    
+    
+    for (int n_iterations = 1; seconds < timeout; n_iterations *= 2) {
+      (*f)(n, A, B, C);
+      seconds = -wall_time();
+    18e5:	e8 00 00 00 00       	call   18ea <benchmark+0xba>
+    18ea:	c5 fb 11 44 24 08    	vmovsd QWORD PTR [rsp+0x8],xmm0
+      for (int it = 0; it < n_iterations; it++) {
+    18f0:	41 83 c5 01          	add    r13d,0x1
+	(*f)(n, A, B, C);
+    18f4:	48 89 d9             	mov    rcx,rbx
+    18f7:	4c 89 f2             	mov    rdx,r14
+    18fa:	48 8b 34 24          	mov    rsi,QWORD PTR [rsp]
+    18fe:	44 89 e7             	mov    edi,r12d
+    1901:	41 ff d7             	call   r15
+    
+    
+    for (int n_iterations = 1; seconds < timeout; n_iterations *= 2) {
+      (*f)(n, A, B, C);
+      seconds = -wall_time();
+      for (int it = 0; it < n_iterations; it++) {
+    1904:	41 39 ed             	cmp    r13d,ebp
+    1907:	75 e7                	jne    18f0 <benchmark+0xc0>
+    double Gflops_s, seconds = -1.0;
+    double timeout = 0.1;
+
+    
+    
+    for (int n_iterations = 1; seconds < timeout; n_iterations *= 2) {
+    1909:	43 8d 6c 2d 00       	lea    ebp,[r13+r13*1+0x0]
+      (*f)(n, A, B, C);
+      seconds = -wall_time();
+      for (int it = 0; it < n_iterations; it++) {
+	(*f)(n, A, B, C);
+      }
+      seconds += wall_time();
+    190e:	31 c0                	xor    eax,eax
+    1910:	e8 00 00 00 00       	call   1915 <benchmark+0xe5>
+    1915:	c5 fb 5c 44 24 08    	vsubsd xmm0,xmm0,QWORD PTR [rsp+0x8]
+    double Gflops_s, seconds = -1.0;
+    double timeout = 0.1;
+
+    
+    
+    for (int n_iterations = 1; seconds < timeout; n_iterations *= 2) {
+    191b:	c5 fb 10 25 00 00 00 	vmovsd xmm4,QWORD PTR [rip+0x0]        # 1923 <benchmark+0xf3>
+    1922:	00 
+    1923:	c5 f9 2f e0          	vcomisd xmm4,xmm0
+    1927:	77 a7                	ja     18d0 <benchmark+0xa0>
+    1929:	c5 fb 10 6c 24 20    	vmovsd xmm5,QWORD PTR [rsp+0x20]
+      for (int it = 0; it < n_iterations; it++) {
+	(*f)(n, A, B, C);
+      }
+      seconds += wall_time();
+
+      Gflops_s = 2.e-9 * n_iterations * n * n * n / seconds;
+    192f:	c5 f1 57 c9          	vxorpd xmm1,xmm1,xmm1
+    1933:	44 89 e2             	mov    edx,r12d
+    1936:	be 00 00 00 00       	mov    esi,0x0
+    193b:	c4 c1 73 2a cd       	vcvtsi2sd xmm1,xmm1,r13d
+    1940:	bf 01 00 00 00       	mov    edi,0x1
+    1945:	c5 d3 59 d5          	vmulsd xmm2,xmm5,xmm5
+    1949:	b8 01 00 00 00       	mov    eax,0x1
+    194e:	c5 eb 59 15 00 00 00 	vmulsd xmm2,xmm2,QWORD PTR [rip+0x0]        # 1956 <benchmark+0x126>
+    1955:	00 
+    1956:	c5 eb 59 d5          	vmulsd xmm2,xmm2,xmm5
+    195a:	c5 eb 59 c9          	vmulsd xmm1,xmm2,xmm1
+    195e:	c5 f3 5e c0          	vdivsd xmm0,xmm1,xmm0
+    1962:	e8 00 00 00 00       	call   1967 <benchmark+0x137>
+    }
+    
+    printf("%d\t%.3g\n", n, Gflops_s);
+
+    memset(C, 0, n * n * sizeof(double));
+    1967:	48 63 6c 24 1c       	movsxd rbp,DWORD PTR [rsp+0x1c]
+    {
+      __warn_memset_zero_len ();
+      return __dest;
+    }
+#endif
+  return __builtin___memset_chk (__dest, __ch, __len, __bos0 (__dest));
+    196c:	31 f6                	xor    esi,esi
+    196e:	48 89 df             	mov    rdi,rbx
+    1971:	4c 8d 2c ed 00 00 00 	lea    r13,[rbp*8+0x0]
+    1978:	00 
+    1979:	4c 89 ea             	mov    rdx,r13
+    197c:	e8 00 00 00 00       	call   1981 <benchmark+0x151>
+
+    double* Co = (double*)malloc(n * n * sizeof(double));
+    1981:	4c 89 ef             	mov    rdi,r13
+    1984:	e8 00 00 00 00       	call   1989 <benchmark+0x159>
+    1989:	4c 89 ea             	mov    rdx,r13
+    198c:	31 f6                	xor    esi,esi
+    198e:	48 89 c7             	mov    rdi,rax
+    1991:	48 89 c5             	mov    rbp,rax
+    1994:	e8 00 00 00 00       	call   1999 <benchmark+0x169>
+    memset(Co, 0, n * n * sizeof(double));
+
+    naive_dgemm(n, A, B, Co);
+    1999:	4c 8b 2c 24          	mov    r13,QWORD PTR [rsp]
+    199d:	48 89 e9             	mov    rcx,rbp
+    19a0:	4c 89 f2             	mov    rdx,r14
+    19a3:	44 89 e7             	mov    edi,r12d
+    19a6:	4c 89 ee             	mov    rsi,r13
+    19a9:	e8 00 00 00 00       	call   19ae <benchmark+0x17e>
+    (*f)(n, A, B, C);
+    19ae:	48 89 d9             	mov    rcx,rbx
+    19b1:	4c 89 f2             	mov    rdx,r14
+    19b4:	4c 89 ee             	mov    rsi,r13
+    19b7:	44 89 e7             	mov    edi,r12d
+    19ba:	41 ff d7             	call   r15
+
+    for (int i = 0; i < n * n; i++) {
+    19bd:	8b 44 24 1c          	mov    eax,DWORD PTR [rsp+0x1c]
+    19c1:	85 c0                	test   eax,eax
+    19c3:	74 52                	je     1a17 <benchmark+0x1e7>
+      if (fabs(C[i] - Co[i]) > 0.01) {
+    19c5:	c5 fb 10 03          	vmovsd xmm0,QWORD PTR [rbx]
+    19c9:	c5 fb 5c 45 00       	vsubsd xmm0,xmm0,QWORD PTR [rbp+0x0]
+    19ce:	c5 f9 54 05 00 00 00 	vandpd xmm0,xmm0,XMMWORD PTR [rip+0x0]        # 19d6 <benchmark+0x1a6>
+    19d5:	00 
+    19d6:	c5 f9 2f 05 00 00 00 	vcomisd xmm0,QWORD PTR [rip+0x0]        # 19de <benchmark+0x1ae>
+    19dd:	00 
+    19de:	77 5c                	ja     1a3c <benchmark+0x20c>
+    19e0:	8b 44 24 1c          	mov    eax,DWORD PTR [rsp+0x1c]
+    19e4:	31 f6                	xor    esi,esi
+    19e6:	83 e8 01             	sub    eax,0x1
+    19e9:	48 c1 e0 03          	shl    rax,0x3
+    19ed:	eb 23                	jmp    1a12 <benchmark+0x1e2>
+    19ef:	90                   	nop
+    19f0:	c5 fb 10 44 33 08    	vmovsd xmm0,QWORD PTR [rbx+rsi*1+0x8]
+    19f6:	c5 fb 5c 44 35 08    	vsubsd xmm0,xmm0,QWORD PTR [rbp+rsi*1+0x8]
+    19fc:	48 83 c6 08          	add    rsi,0x8
+    1a00:	c5 f9 54 05 00 00 00 	vandpd xmm0,xmm0,XMMWORD PTR [rip+0x0]        # 1a08 <benchmark+0x1d8>
+    1a07:	00 
+    1a08:	c5 f9 2f 05 00 00 00 	vcomisd xmm0,QWORD PTR [rip+0x0]        # 1a10 <benchmark+0x1e0>
+    1a0f:	00 
+    1a10:	77 2a                	ja     1a3c <benchmark+0x20c>
+    memset(Co, 0, n * n * sizeof(double));
+
+    naive_dgemm(n, A, B, Co);
+    (*f)(n, A, B, C);
+
+    for (int i = 0; i < n * n; i++) {
+    1a12:	48 39 c6             	cmp    rsi,rax
+    1a15:	75 d9                	jne    19f0 <benchmark+0x1c0>
+    1a17:	48 83 44 24 10 04    	add    QWORD PTR [rsp+0x10],0x4
+    1a1d:	48 8b 44 24 10       	mov    rax,QWORD PTR [rsp+0x10]
+}
+
+void benchmark (char* desc, void (*f)(int, double*, double*, double*), int* test_sizes, int nsizes, double* A, double* B, double* C) {
+
+  printf("%s\nSize:\tGflops\n", desc);
+  for (int isize = 0; isize < nsizes; isize++) {
+    1a22:	48 3b 44 24 28       	cmp    rax,QWORD PTR [rsp+0x28]
+    1a27:	0f 85 53 fe ff ff    	jne    1880 <benchmark+0x50>
+	printmatrix(n, n, Co);
+	exit(EXIT_FAILURE);
+      }
+    }
+  }
+}
+    1a2d:	48 83 c4 38          	add    rsp,0x38
+    1a31:	5b                   	pop    rbx
+    1a32:	5d                   	pop    rbp
+    1a33:	41 5c                	pop    r12
+    1a35:	41 5d                	pop    r13
+    1a37:	41 5e                	pop    r14
+    1a39:	41 5f                	pop    r15
+    1a3b:	c3                   	ret    
+    naive_dgemm(n, A, B, Co);
+    (*f)(n, A, B, C);
+
+    for (int i = 0; i < n * n; i++) {
+      if (fabs(C[i] - Co[i]) > 0.01) {
+	perror("error in matrix multiply");
+    1a3c:	bf 00 00 00 00       	mov    edi,0x0
+    1a41:	e8 00 00 00 00       	call   1a46 <benchmark+0x216>
+	printmatrix(n, n, C);
+    1a46:	48 89 da             	mov    rdx,rbx
+    1a49:	44 89 e6             	mov    esi,r12d
+    1a4c:	44 89 e7             	mov    edi,r12d
+    1a4f:	e8 00 00 00 00       	call   1a54 <benchmark+0x224>
+	printmatrix(n, n, Co);
+    1a54:	44 89 e7             	mov    edi,r12d
+    1a57:	48 89 ea             	mov    rdx,rbp
+    1a5a:	44 89 e6             	mov    esi,r12d
+    1a5d:	e8 00 00 00 00       	call   1a62 <benchmark+0x232>
+	exit(EXIT_FAILURE);
+    1a62:	bf 01 00 00 00       	mov    edi,0x1
+    1a67:	e8 00 00 00 00       	call   1a6c <benchmark+0x23c>
+
+Disassembly of section .text.startup:
+
+0000000000000000 <main>:
+/* } */
+
+
+typedef double vector __attribute__((vector_size(4 * sizeof(double))));
+
+double wall_time () {
+   0:	55                   	push   rbp
+   1:	b9 11 00 00 00       	mov    ecx,0x11
+  struct timeval t;
+  gettimeofday (&t, NULL);
+  return 1.*t.tv_sec + 1.e-6*t.tv_usec;
+#else
+  struct timespec t;
+  clock_gettime (CLOCK_MONOTONIC, &t);
+   6:	be 00 00 00 00       	mov    esi,0x0
+/* } */
+
+
+typedef double vector __attribute__((vector_size(4 * sizeof(double))));
+
+double wall_time () {
+   b:	bf 00 00 00 00       	mov    edi,0x0
+  10:	48 89 e5             	mov    rbp,rsp
+  13:	41 55                	push   r13
+  15:	41 54                	push   r12
+  17:	48 8d 55 90          	lea    rdx,[rbp-0x70]
+  struct timeval t;
+  gettimeofday (&t, NULL);
+  return 1.*t.tv_sec + 1.e-6*t.tv_usec;
+#else
+  struct timespec t;
+  clock_gettime (CLOCK_MONOTONIC, &t);
+  1b:	53                   	push   rbx
+  1c:	48 83 ec 58          	sub    rsp,0x58
+  20:	c7 45 90 04 00 00 00 	mov    DWORD PTR [rbp-0x70],0x4
+  return 1.*t.tv_sec + 1.e-9*t.tv_nsec;
+  27:	64 48 8b 04 25 28 00 	mov    rax,QWORD PTR fs:0x28
+  2e:	00 00 
+#endif
+}
+  30:	48 89 45 d8          	mov    QWORD PTR [rbp-0x28],rax
+  34:	31 c0                	xor    eax,eax
+  36:	48 81 ec 50 07 0e 00 	sub    rsp,0xe0750
+  gettimeofday (&t, NULL);
+  return 1.*t.tv_sec + 1.e-6*t.tv_usec;
+#else
+  struct timespec t;
+  clock_gettime (CLOCK_MONOTONIC, &t);
+  return 1.*t.tv_sec + 1.e-9*t.tv_nsec;
+  3d:	c7 45 94 06 00 00 00 	mov    DWORD PTR [rbp-0x6c],0x6
+  44:	48 89 e3             	mov    rbx,rsp
+  47:	48 81 ec 50 07 0e 00 	sub    rsp,0xe0750
+  4e:	c7 45 98 07 00 00 00 	mov    DWORD PTR [rbp-0x68],0x7
+#endif
+}
+  55:	49 89 e4             	mov    r12,rsp
+  58:	48 81 ec 50 07 0e 00 	sub    rsp,0xe0750
+  5f:	49 89 d8             	mov    r8,rbx
+
+void fill (double* p, int n) {
+  for (int i = 0; i < n; i++) {
+  62:	c7 45 9c 08 00 00 00 	mov    DWORD PTR [rbp-0x64],0x8
+  clock_gettime (CLOCK_MONOTONIC, &t);
+  return 1.*t.tv_sec + 1.e-9*t.tv_nsec;
+#endif
+}
+
+void fill (double* p, int n) {
+  69:	49 89 e5             	mov    r13,rsp
+  6c:	48 83 ec 08          	sub    rsp,0x8
+  70:	4d 89 e1             	mov    r9,r12
+  73:	c7 45 a0 10 00 00 00 	mov    DWORD PTR [rbp-0x60],0x10
+  for (int i = 0; i < n; i++) {
+    p[i] = 2*drand48() - 1;
+  7a:	41 55                	push   r13
+  7c:	c7 45 a4 20 00 00 00 	mov    DWORD PTR [rbp-0x5c],0x20
+  83:	c7 45 a8 40 00 00 00 	mov    DWORD PTR [rbp-0x58],0x40
+  8a:	c7 45 ac 41 00 00 00 	mov    DWORD PTR [rbp-0x54],0x41
+  91:	c7 45 b0 42 00 00 00 	mov    DWORD PTR [rbp-0x50],0x42
+  }
+}
+  98:	c7 45 b4 43 00 00 00 	mov    DWORD PTR [rbp-0x4c],0x43
+  9f:	c7 45 b8 80 00 00 00 	mov    DWORD PTR [rbp-0x48],0x80
+
+void printmatrix (int m, int n, double* M) {
+  for (int i = 0; i < m; i++)
+  a6:	c7 45 bc 99 00 00 00 	mov    DWORD PTR [rbp-0x44],0x99
+  for (int i = 0; i < n; i++) {
+    p[i] = 2*drand48() - 1;
+  }
+}
+
+void printmatrix (int m, int n, double* M) {
+  ad:	c7 45 c0 b9 00 00 00 	mov    DWORD PTR [rbp-0x40],0xb9
+  b4:	c7 45 c4 fb 00 00 00 	mov    DWORD PTR [rbp-0x3c],0xfb
+  bb:	c7 45 c8 1d 01 00 00 	mov    DWORD PTR [rbp-0x38],0x11d
+  c2:	c7 45 cc 2d 01 00 00 	mov    DWORD PTR [rbp-0x34],0x12d
+  c9:	c7 45 d0 53 01 00 00 	mov    DWORD PTR [rbp-0x30],0x153
+  for (int i = 0; i < m; i++)
+    {
+      for(int j = 0; j < n; j++)
+  d0:	e8 00 00 00 00       	call   d5 <main+0xd5>
+  d5:	b9 11 00 00 00       	mov    ecx,0x11
+  da:	4d 89 e1             	mov    r9,r12
+  dd:	49 89 d8             	mov    r8,rbx
+  e0:	48 8d 55 90          	lea    rdx,[rbp-0x70]
+  e4:	be 00 00 00 00       	mov    esi,0x0
+  e9:	bf 00 00 00 00       	mov    edi,0x0
+  ee:	4c 89 2c 24          	mov    QWORD PTR [rsp],r13
+  f2:	e8 00 00 00 00       	call   f7 <main+0xf7>
+  f7:	31 c0                	xor    eax,eax
+  f9:	48 8b 4d d8          	mov    rcx,QWORD PTR [rbp-0x28]
+  fd:	64 48 33 0c 25 28 00 	xor    rcx,QWORD PTR fs:0x28
+ 104:	00 00 
+ 106:	75 0b                	jne    113 <main+0x113>
+ 108:	48 8d 65 e8          	lea    rsp,[rbp-0x18]
+ 10c:	5b                   	pop    rbx
+ 10d:	41 5c                	pop    r12
+ 10f:	41 5d                	pop    r13
+ 111:	5d                   	pop    rbp
+    p[i] = 2*drand48() - 1;
+  }
+}
+
+void printmatrix (int m, int n, double* M) {
+  for (int i = 0; i < m; i++)
+ 112:	c3                   	ret    
+ 113:	e8 00 00 00 00       	call   118 <printmatrix+0x78>

@@ -1,0 +1,2272 @@
+	.file	"matmul.c"
+# GNU C (Gentoo 4.9.3 p1.5, pie-0.6.4) version 4.9.3 (x86_64-pc-linux-gnu)
+#	compiled by GNU C version 4.9.3, GMP version 6.0.0, MPFR version 3.1.3-p4, MPC version 1.0.2
+# GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+# options passed:  -fpreprocessed matmul.i -msse -msse2 -mavx -mavx2
+# -march=ivybridge -O2 -Wall -std=gnu99 -ftree-vectorize -fopt-info-vec
+# -ffast-math -fverbose-asm -fstack-protector-strong
+# options enabled:  -faggressive-loop-optimizations -fassociative-math
+# -fasynchronous-unwind-tables -fauto-inc-dec -fbranch-count-reg
+# -fcaller-saves -fcombine-stack-adjustments -fcommon -fcompare-elim
+# -fcprop-registers -fcrossjumping -fcse-follow-jumps -fcx-limited-range
+# -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+# -fdevirtualize-speculatively -fdwarf2-cfi-asm -fearly-inlining
+# -feliminate-unused-debug-types -fexpensive-optimizations
+# -ffinite-math-only -fforward-propagate -ffunction-cse -fgcse -fgcse-lm
+# -fgnu-runtime -fgnu-unique -fguess-branch-probability
+# -fhoist-adjacent-loads -fident -fif-conversion -fif-conversion2
+# -findirect-inlining -finline -finline-atomics
+# -finline-functions-called-once -finline-small-functions -fipa-cp
+# -fipa-profile -fipa-pure-const -fipa-reference -fipa-sra
+# -fira-hoist-pressure -fira-share-save-slots -fira-share-spill-slots
+# -fisolate-erroneous-paths-dereference -fivopts -fkeep-static-consts
+# -fleading-underscore -flifetime-dse -fmerge-constants
+# -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+# -foptimize-sibling-calls -foptimize-strlen -fpartial-inlining -fpeephole
+# -fpeephole2 -fprefetch-loop-arrays -freciprocal-math -free
+# -freg-struct-return -freorder-blocks -freorder-blocks-and-partition
+# -freorder-functions -frerun-cse-after-loop
+# -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+# -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+# -fsched-rank-heuristic -fsched-spec -fsched-spec-insn-heuristic
+# -fsched-stalled-insns-dep -fschedule-insns2 -fshow-column -fshrink-wrap
+# -fsplit-ivs-in-unroller -fsplit-wide-types -fstack-protector-strong
+# -fstrict-aliasing -fstrict-overflow -fstrict-volatile-bitfields
+# -fsync-libcalls -fthread-jumps -ftoplevel-reorder -ftree-bit-ccp
+# -ftree-builtin-call-dce -ftree-ccp -ftree-ch -ftree-coalesce-vars
+# -ftree-copy-prop -ftree-copyrename -ftree-cselim -ftree-dce
+# -ftree-dominator-opts -ftree-dse -ftree-forwprop -ftree-fre
+# -ftree-loop-if-convert -ftree-loop-im -ftree-loop-ivcanon
+# -ftree-loop-optimize -ftree-loop-vectorize -ftree-parallelize-loops=
+# -ftree-phiprop -ftree-pre -ftree-pta -ftree-reassoc -ftree-scev-cprop
+# -ftree-sink -ftree-slp-vectorize -ftree-slsr -ftree-sra
+# -ftree-switch-conversion -ftree-tail-merge -ftree-ter -ftree-vectorize
+# -ftree-vrp -funit-at-a-time -funsafe-math-optimizations -funwind-tables
+# -fverbose-asm -fzero-initialized-in-bss -m128bit-long-double -m64 -m80387
+# -maes -malign-stringops -mavx -mavx2 -mavx256-split-unaligned-load
+# -mavx256-split-unaligned-store -mcx16 -mf16c -mfancy-math-387
+# -mfp-ret-in-387 -mfsgsbase -mfxsr -mglibc -mlong-double-80 -mmmx -mpclmul
+# -mpopcnt -mpush-args -mrdrnd -mred-zone -msahf -msse -msse2 -msse3 -msse4
+# -msse4.1 -msse4.2 -mssse3 -mtls-direct-seg-refs -mvzeroupper -mxsave
+# -mxsaveopt
+
+	.section	.text.unlikely,"ax",@progbits
+.LCOLDB1:
+	.text
+.LHOTB1:
+	.p2align 4,,15
+	.globl	wall_time
+	.type	wall_time, @function
+wall_time:
+.LFB2283:
+	.cfi_startproc
+	subq	$40, %rsp	#,
+	.cfi_def_cfa_offset 48
+	movl	$1, %edi	#,
+	movq	%fs:40, %rax	#, tmp96
+	movq	%rax, 24(%rsp)	# tmp96, D.17014
+	xorl	%eax, %eax	# tmp96
+	movq	%rsp, %rsi	#,
+	call	clock_gettime	#
+	vxorpd	%xmm0, %xmm0, %xmm0	# D.17013
+	vxorpd	%xmm1, %xmm1, %xmm1	# D.17013
+	movq	24(%rsp), %rax	# D.17014, tmp97
+	xorq	%fs:40, %rax	#, tmp97
+	vcvtsi2sdq	8(%rsp), %xmm0, %xmm0	# t.tv_nsec, D.17013, D.17013
+	vmulsd	.LC0(%rip), %xmm0, %xmm0	#, D.17013, D.17013
+	vcvtsi2sdq	(%rsp), %xmm1, %xmm1	# t.tv_sec, D.17013, D.17013
+	vaddsd	%xmm1, %xmm0, %xmm0	# D.17013, D.17013, D.17013
+	jne	.L6	#,
+	addq	$40, %rsp	#,
+	.cfi_remember_state
+	.cfi_def_cfa_offset 8
+	ret
+.L6:
+	.cfi_restore_state
+	call	__stack_chk_fail	#
+	.cfi_endproc
+.LFE2283:
+	.size	wall_time, .-wall_time
+	.section	.text.unlikely
+.LCOLDE1:
+	.text
+.LHOTE1:
+	.section	.text.unlikely
+.LCOLDB3:
+	.text
+.LHOTB3:
+	.p2align 4,,15
+	.globl	fill
+	.type	fill, @function
+fill:
+.LFB2284:
+	.cfi_startproc
+	testl	%esi, %esi	# n
+	jle	.L15	#,
+	pushq	%rbp	#
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	leal	-1(%rsi), %eax	#, D.17028
+	pushq	%rbx	#
+	.cfi_def_cfa_offset 24
+	.cfi_offset 3, -24
+	leaq	8(%rdi,%rax,8), %rbp	#, D.17030
+	movq	%rdi, %rbx	# p, ivtmp.31
+	subq	$8, %rsp	#,
+	.cfi_def_cfa_offset 32
+	.p2align 4,,10
+	.p2align 3
+.L9:
+	call	drand48	#
+	addq	$8, %rbx	#, ivtmp.31
+	vaddsd	%xmm0, %xmm0, %xmm0	# D.17025, D.17025, D.17025
+	vsubsd	.LC2(%rip), %xmm0, %xmm0	#, D.17025, D.17025
+	vmovsd	%xmm0, -8(%rbx)	# D.17025, MEM[base: _16, offset: 0B]
+	cmpq	%rbp, %rbx	# D.17030, ivtmp.31
+	jne	.L9	#,
+	addq	$8, %rsp	#,
+	.cfi_def_cfa_offset 24
+	popq	%rbx	#
+	.cfi_restore 3
+	.cfi_def_cfa_offset 16
+	popq	%rbp	#
+	.cfi_restore 6
+	.cfi_def_cfa_offset 8
+.L15:
+	ret
+	.cfi_endproc
+.LFE2284:
+	.size	fill, .-fill
+	.section	.text.unlikely
+.LCOLDE3:
+	.text
+.LHOTE3:
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC4:
+	.string	"%.3f\t "
+	.section	.text.unlikely
+.LCOLDB5:
+	.text
+.LHOTB5:
+	.p2align 4,,15
+	.globl	printmatrix
+	.type	printmatrix, @function
+printmatrix:
+.LFB2285:
+	.cfi_startproc
+	testl	%edi, %edi	# m
+	jle	.L25	#,
+	pushq	%r15	#
+	.cfi_def_cfa_offset 16
+	.cfi_offset 15, -16
+	leal	-1(%rdi), %eax	#, D.17043
+	movslq	%edi, %rdi	# m, D.17047
+	pushq	%r14	#
+	.cfi_def_cfa_offset 24
+	.cfi_offset 14, -24
+	leaq	8(%rdx,%rax,8), %r15	#, D.17049
+	movq	%rdx, %r14	# M, M
+	pushq	%r13	#
+	.cfi_def_cfa_offset 32
+	.cfi_offset 13, -32
+	leaq	0(,%rdi,8), %r13	#, D.17047
+	pushq	%r12	#
+	.cfi_def_cfa_offset 40
+	.cfi_offset 12, -40
+	movl	%esi, %r12d	# n, n
+	pushq	%rbp	#
+	.cfi_def_cfa_offset 48
+	.cfi_offset 6, -48
+	pushq	%rbx	#
+	.cfi_def_cfa_offset 56
+	.cfi_offset 3, -56
+	subq	$8, %rsp	#,
+	.cfi_def_cfa_offset 64
+	.p2align 4,,10
+	.p2align 3
+.L18:
+	movq	%r14, %rbp	# ivtmp.44, ivtmp.39
+	xorl	%ebx, %ebx	# j
+	testl	%r12d, %r12d	# n
+	jle	.L20	#,
+	.p2align 4,,10
+	.p2align 3
+.L22:
+	vmovsd	0(%rbp), %xmm0	# MEM[base: _2, offset: 0B],
+	movl	$.LC4, %esi	#,
+	addl	$1, %ebx	#, j
+	addq	%r13, %rbp	# D.17047, ivtmp.39
+	movl	$1, %edi	#,
+	movl	$1, %eax	#,
+	call	__printf_chk	#
+	cmpl	%r12d, %ebx	# n, j
+	jne	.L22	#,
+.L20:
+	movl	$10, %edi	#,
+	addq	$8, %r14	#, ivtmp.44
+	call	putchar	#
+	cmpq	%r15, %r14	# D.17049, ivtmp.44
+	jne	.L18	#,
+	addq	$8, %rsp	#,
+	.cfi_def_cfa_offset 56
+	movl	$10, %edi	#,
+	popq	%rbx	#
+	.cfi_restore 3
+	.cfi_def_cfa_offset 48
+	popq	%rbp	#
+	.cfi_restore 6
+	.cfi_def_cfa_offset 40
+	popq	%r12	#
+	.cfi_restore 12
+	.cfi_def_cfa_offset 32
+	popq	%r13	#
+	.cfi_restore 13
+	.cfi_def_cfa_offset 24
+	popq	%r14	#
+	.cfi_restore 14
+	.cfi_def_cfa_offset 16
+	popq	%r15	#
+	.cfi_restore 15
+	.cfi_def_cfa_offset 8
+	jmp	putchar	#
+.L25:
+	movl	$10, %edi	#,
+	jmp	putchar	#
+	.cfi_endproc
+.LFE2285:
+	.size	printmatrix, .-printmatrix
+	.section	.text.unlikely
+.LCOLDE5:
+	.text
+.LHOTE5:
+	.section	.text.unlikely
+.LCOLDB6:
+	.text
+.LHOTB6:
+	.p2align 4,,15
+	.globl	naive_dgemm
+	.type	naive_dgemm, @function
+naive_dgemm:
+.LFB2286:
+	.cfi_startproc
+	leaq	8(%rsp), %r10	#,
+	.cfi_def_cfa 10, 0
+	andq	$-32, %rsp	#,
+	movq	%rsi, %rax	# A, A
+	pushq	-8(%r10)	#
+	pushq	%rbp	#
+	.cfi_escape 0x10,0x6,0x2,0x76,0
+	movq	%rsp, %rbp	#,
+	pushq	%r15	#
+	pushq	%r14	#
+	pushq	%r13	#
+	pushq	%r12	#
+	pushq	%r10	#
+	.cfi_escape 0xf,0x3,0x76,0x58,0x6
+	.cfi_escape 0x10,0xf,0x2,0x76,0x78
+	.cfi_escape 0x10,0xe,0x2,0x76,0x70
+	.cfi_escape 0x10,0xd,0x2,0x76,0x68
+	.cfi_escape 0x10,0xc,0x2,0x76,0x60
+	pushq	%rbx	#
+	.cfi_escape 0x10,0x3,0x2,0x76,0x50
+	movq	%rsi, -112(%rbp)	# A, %sfp
+	testl	%edi, %edi	# n
+	jle	.L40	#,
+	movslq	%edi, %r12	# n, D.17111
+	movq	%rdx, %r13	# B, B
+	movq	$0, -96(%rbp)	#, %sfp
+	movq	%rcx, %rdx	# C, ivtmp.91
+	leaq	0(,%r12,8), %r8	#, D.17111
+	leal	-1(%rdi), %ebx	#, D.17110
+	addq	%r8, %rax	# D.17111, ivtmp.93
+	movq	%r8, %r14	# D.17111, D.17107
+	movq	%rax, -72(%rbp)	# ivtmp.93, %sfp
+	leal	-4(%rdi), %eax	#, D.17110
+	shrl	$2, %eax	#, D.17110
+	addl	$1, %eax	#, bnd.49
+	movl	%eax, -84(%rbp)	# bnd.49, %sfp
+	sall	$2, %eax	#, ratio_mult_vf.50
+	movl	%eax, %esi	# ratio_mult_vf.50, ratio_mult_vf.50
+	movl	%eax, -64(%rbp)	# ratio_mult_vf.50, %sfp
+	movq	%r12, %rax	# D.17111, D.17107
+	salq	$5, %rax	#, D.17107
+	cmpl	$3, %ebx	#, D.17110
+	movq	%rax, -80(%rbp)	# D.17107, %sfp
+	movl	$0, %eax	#, tmp164
+	cmova	%esi, %eax	# ratio_mult_vf.50,, k
+	negq	%r14	# D.17107
+	movl	%eax, %esi	# k, k
+	movl	%eax, -60(%rbp)	# k, %sfp
+	imull	%edi, %eax	# n, D.17110
+	movslq	%esi, %r15	# k,
+	cltq
+	movq	%rax, -104(%rbp)	# D.17107, %sfp
+	.p2align 4,,10
+	.p2align 3
+.L28:
+	movq	-96(%rbp), %rax	# %sfp, D.17107
+	movq	%r13, %r11	# B, ivtmp.86
+	xorl	%r9d, %r9d	# ivtmp.87
+	xorl	%r10d, %r10d	# j
+	addq	-104(%rbp), %rax	# %sfp, D.17107
+	movq	-112(%rbp), %rsi	# %sfp, A
+	leaq	(%rsi,%rax,8), %rax	#, ivtmp.65
+	movq	%rax, -56(%rbp)	# ivtmp.65, %sfp
+	.p2align 4,,10
+	.p2align 3
+.L34:
+	vmovsd	(%rdx,%r9,8), %xmm2	# MEM[base: _108, index: ivtmp.87_57, step: 8, offset: 0B], t
+	cmpl	$3, %ebx	#, D.17110
+	jbe	.L29	#,
+	movq	-72(%rbp), %rax	# %sfp, ivtmp.78
+	movq	%r11, %rcx	# ivtmp.86, ivtmp.71
+	xorl	%esi, %esi	# ivtmp.69
+	vxorpd	%xmm0, %xmm0, %xmm0	# vect_t_30.57
+.L30:
+	vmovsd	(%rax,%r8), %xmm5	# MEM[base: _101, index: _113, offset: 0B], tmp254
+	addl	$1, %esi	#, ivtmp.69
+	addq	$32, %rcx	#, ivtmp.71
+	vmovsd	(%rax,%r14), %xmm6	# MEM[base: _101, index: _102, offset: 0B], tmp255
+	vmovupd	-32(%rcx), %xmm1	# MEM[base: _106, offset: 0B], MEM[base: _106, offset: 0B]
+	vinsertf128	$0x1, -16(%rcx), %ymm1, %ymm3	# MEM[base: _106, offset: 0B], MEM[base: _106, offset: 0B], vect_b_28.55
+	vmovhpd	(%rax,%r8,2), %xmm5, %xmm1	# MEM[base: _101, index: _113, step: 2, offset: 0B], tmp254, tmp170
+	vmovhpd	(%rax), %xmm6, %xmm4	# MEM[base: _101, offset: 0B], tmp255, tmp173
+	addq	-80(%rbp), %rax	# %sfp, ivtmp.78
+	vinsertf128	$0x1, %xmm1, %ymm4, %ymm1	# tmp170, tmp173, vect_cst_.52
+	vmulpd	%ymm1, %ymm3, %ymm1	# vect_cst_.52, vect_b_28.55, vect__29.56
+	vaddpd	%ymm1, %ymm0, %ymm0	# vect__29.56, vect_t_30.57, vect_t_30.57
+	cmpl	-84(%rbp), %esi	# %sfp, ivtmp.69
+	jb	.L30	#,
+	vhaddpd	%ymm0, %ymm0, %ymm0	# vect_t_30.57, vect_t_30.57, tmp180
+	vperm2f128	$1, %ymm0, %ymm0, %ymm1	#, tmp180, tmp180, tmp181
+	vaddpd	%ymm1, %ymm0, %ymm0	# tmp181, tmp180, vect_t_30.59
+	vaddsd	%xmm0, %xmm2, %xmm2	# stmp_t_30.58, t, t
+	cmpl	-64(%rbp), %edi	# %sfp, n
+	je	.L33	#,
+.L29:
+	movq	-56(%rbp), %rcx	# %sfp, ivtmp.65
+	leaq	(%r15,%r9), %rax	#, D.17107
+	leaq	0(%r13,%rax,8), %rsi	#, ivtmp.67
+	movl	-60(%rbp), %eax	# %sfp, k
+.L32:
+	vmovsd	(%rsi), %xmm0	# MEM[base: _88, offset: 0B], MEM[base: _88, offset: 0B]
+	addl	$1, %eax	#, k
+	addq	$8, %rsi	#, ivtmp.67
+	vmulsd	(%rcx), %xmm0, %xmm0	# MEM[base: _31, offset: 0B], MEM[base: _88, offset: 0B], D.17109
+	addq	%r8, %rcx	# D.17111, ivtmp.65
+	vaddsd	%xmm0, %xmm2, %xmm2	# D.17109, t, t
+	cmpl	%eax, %edi	# k, n
+	jg	.L32	#,
+.L33:
+	addl	$1, %r10d	#, j
+	vmovsd	%xmm2, (%rdx,%r9,8)	# t, MEM[base: _108, index: ivtmp.87_57, step: 8, offset: 0B]
+	addq	%r8, %r11	# D.17111, ivtmp.86
+	addq	%r12, %r9	# D.17111, ivtmp.87
+	cmpl	%edi, %r10d	# n, j
+	jne	.L34	#,
+	addq	$1, -96(%rbp)	#, %sfp
+	addq	$8, %rdx	#, ivtmp.91
+	movq	-96(%rbp), %rax	# %sfp, ivtmp.89
+	addq	$8, -72(%rbp)	#, %sfp
+	cmpl	%eax, %edi	# ivtmp.89, n
+	jg	.L28	#,
+	vzeroupper
+.L40:
+	popq	%rbx	#
+	popq	%r10	#
+	.cfi_def_cfa 10, 0
+	popq	%r12	#
+	popq	%r13	#
+	popq	%r14	#
+	popq	%r15	#
+	popq	%rbp	#
+	leaq	-8(%r10), %rsp	#,
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2286:
+	.size	naive_dgemm, .-naive_dgemm
+	.section	.text.unlikely
+.LCOLDE6:
+	.text
+.LHOTE6:
+	.section	.text.unlikely
+.LCOLDB7:
+	.text
+.LHOTB7:
+	.p2align 4,,15
+	.globl	do_4x4_block
+	.type	do_4x4_block, @function
+do_4x4_block:
+.LFB2287:
+	.cfi_startproc
+	leaq	8(%rsp), %r10	#,
+	.cfi_def_cfa 10, 0
+	andq	$-32, %rsp	#,
+	movslq	%edi, %rdi	# n, D.17163
+	pushq	-8(%r10)	#
+	pushq	%rbp	#
+	salq	$3, %rdi	#, D.17163
+	movq	%r8, %r11	# ivtmp.102, ivtmp.131
+	.cfi_escape 0x10,0x6,0x2,0x76,0
+	movq	%rsp, %rbp	#,
+	pushq	%r10	#
+	.cfi_escape 0xf,0x3,0x76,0x78,0x6
+	leaq	-176(%rbp), %r10	#, ivtmp.104
+	pushq	%rbx	#
+	leaq	128(%r10), %r9	#, D.17160
+	subq	$160, %rsp	#,
+	.cfi_escape 0x10,0x3,0x2,0x76,0x70
+	movq	%fs:40, %rax	#, tmp159
+	movq	%rax, -24(%rbp)	# tmp159, D.17168
+	xorl	%eax, %eax	# tmp159
+	movq	%r10, %rax	# ivtmp.104, ivtmp.129
+.L44:
+#APP
+# 74 "matmul.c" 1
+	# initial memcopy
+# 0 "" 2
+#NO_APP
+	movq	(%r11), %rbx	# MEM[(void *)_15], tmp161
+	addq	$32, %rax	#, ivtmp.129
+	movq	%rbx, -32(%rax)	# tmp161, MEM[(void *)_18]
+	movq	8(%r11), %rbx	# MEM[(void *)_15], tmp162
+	movq	%rbx, -24(%rax)	# tmp162, MEM[(void *)_18]
+	movq	16(%r11), %rbx	# MEM[(void *)_15], tmp163
+	movq	%rbx, -16(%rax)	# tmp163, MEM[(void *)_18]
+	movq	24(%r11), %rbx	# MEM[(void *)_15], tmp164
+	addq	%rdi, %r11	# D.17163, ivtmp.131
+	movq	%rbx, -8(%rax)	# tmp164, MEM[(void *)_18]
+	cmpq	%r9, %rax	# D.17160, ivtmp.129
+	jne	.L44	#,
+	testl	%esi, %esi	# kdepth
+	jle	.L48	#,
+	leal	-1(%rsi), %eax	#, D.17166
+	leaq	8(%rcx,%rax,8), %r11	#, D.17160
+	.p2align 4,,10
+	.p2align 3
+.L47:
+	movq	%r10, %rax	# ivtmp.104, ivtmp.114
+	movq	%rcx, %rsi	# ivtmp.121, ivtmp.112
+	vmovupd	(%rdx), %xmm1	# MEM[base: _33, offset: 0B], MEM[base: _33, offset: 0B]
+	vinsertf128	$0x1, 16(%rdx), %ymm1, %ymm1	# MEM[base: _33, offset: 0B], MEM[base: _33, offset: 0B], D.17162
+.L46:
+	vbroadcastsd	(%rsi), %ymm0	# MEM[base: _86, offset: 0B], b
+	addq	$32, %rax	#, ivtmp.114
+	addq	%rdi, %rsi	# D.17163, ivtmp.112
+	vmulpd	%ymm0, %ymm1, %ymm0	# b, D.17162, D.17162
+	vaddpd	-32(%rax), %ymm0, %ymm0	# MEM[base: _85, offset: 0B], D.17162, D.17162
+	vmovapd	%ymm0, -32(%rax)	# D.17162, MEM[base: _85, offset: 0B]
+	cmpq	%rax, %r9	# ivtmp.114, D.17160
+	jne	.L46	#,
+	addq	$8, %rcx	#, ivtmp.121
+	addq	%rdi, %rdx	# D.17163, ivtmp.119
+	cmpq	%r11, %rcx	# D.17160, ivtmp.121
+	jne	.L47	#,
+	vzeroupper
+.L48:
+#APP
+# 89 "matmul.c" 1
+	# final memcopy
+# 0 "" 2
+#NO_APP
+	movq	(%r10), %rax	# MEM[(void *)_46], MEM[(void *)_46]
+	addq	$32, %r10	#, ivtmp.104
+	movq	%rax, (%r8)	# MEM[(void *)_46], MEM[(void *)_50]
+	movq	-24(%r10), %rax	# MEM[(void *)_46], MEM[(void *)_46]
+	movq	%rax, 8(%r8)	# MEM[(void *)_46], MEM[(void *)_50]
+	movq	-16(%r10), %rax	# MEM[(void *)_46], MEM[(void *)_46]
+	movq	%rax, 16(%r8)	# MEM[(void *)_46], MEM[(void *)_50]
+	movq	-8(%r10), %rax	# MEM[(void *)_46], MEM[(void *)_46]
+	movq	%rax, 24(%
+	r8)	# MEM[(void *)_46], MEM[(void *)_50]
+	addq	%rdi, %r8	# D.17163, ivtmp.102
+	cmpq	%r10, %r9	# ivtmp.104, D.17160
+	jne	.L48	#,
+	movq	-24(%rbp), %rax	# D.17168, tmp160
+	xorq	%fs:40, %rax	#, tmp160
+	jne	.L56	#,
+	addq	$160, %rsp	#,
+	popq	%rbx	#
+	popq	%r10	#
+	.cfi_remember_state
+	.cfi_def_cfa 10, 0
+	popq	%rbp	#
+	leaq	-8(%r10), %rsp	#,
+	.cfi_def_cfa 7, 8
+	ret
+.L56:
+	.cfi_restore_state
+	call	__stack_chk_fail	#
+	.cfi_endproc
+.LFE2287:
+	.size	do_4x4_block, .-do_4x4_block
+	.section	.text.unlikely
+.LCOLDE7:
+	.text
+.LHOTE7:
+	.section	.text.unlikely
+.LCOLDB8:
+	.text
+.LHOTB8:
+	.p2align 4,,15
+	.globl	avx_dgemm_slow
+	.type	avx_dgemm_slow, @function
+avx_dgemm_slow:
+.LFB2290:
+	.cfi_startproc
+	testl	%edi, %edi	# n
+	jle	.L125	#,
+	leaq	8(%rsp), %r10	#,
+	.cfi_def_cfa 10, 0
+	andq	$-32, %rsp	#,
+	movl	%edi, %eax	# n, D.17376
+	pushq	-8(%r10)	#
+	pushq	%rbp	#
+	sall	$5, %eax	#, D.17376
+	.cfi_escape 0x10,0x6,0x2,0x76,0
+	movq	%rsp, %rbp	#,
+	pushq	%r15	#
+	pushq	%r14	#
+	pushq	%r13	#
+	pushq	%r12	#
+	.cfi_escape 0x10,0xf,0x2,0x76,0x78
+	.cfi_escape 0x10,0xe,0x2,0x76,0x70
+	.cfi_escape 0x10,0xd,0x2,0x76,0x68
+	.cfi_escape 0x10,0xc,0x2,0x76,0x60
+	movl	%edi, %r12d	# n, n
+	pushq	%r10	#
+	.cfi_escape 0xf,0x3,0x76,0x58,0x6
+	movl	%r12d, %r13d	# n, n
+	pushq	%rbx	#
+	.cfi_escape 0x10,0x3,0x2,0x76,0x50
+	movq	%rdx, %rbx	# B, B
+	subq	$320, %rsp	#,
+	movl	%eax, -280(%rbp)	# D.17376, %sfp
+	cltq
+	movq	%rax, %rdi	# D.17373, D.17373
+	movq	%rax, -56(%rbp)	# D.17373, %sfp
+	leal	-1(%r12), %eax	#, D.17376
+	movq	%rcx, -176(%rbp)	# C, %sfp
+	salq	$3, %rdi	#, D.17375
+	shrl	$5, %eax	#, D.17376
+	movq	%rbx, -88(%rbp)	# B, %sfp
+	movq	%rsi, %rbx	# A, A
+	movl	%eax, %edx	# D.17376, D.17373
+	addl	$1, %eax	#, D.17376
+	movq	%rdi, -304(%rbp)	# D.17375, %sfp
+	leaq	1(%rdx), %rcx	#, D.17373
+	sall	$5, %eax	#, D.17374
+	movq	$0, -168(%rbp)	#, %sfp
+	movl	%eax, -320(%rbp)	# D.17374, %sfp
+	salq	$5, %rdx	#, D.17375
+	salq	$5, %rcx	#, D.17373
+	leal	0(,%r12,4), %eax	#, D.17376
+	movq	%rcx, -344(%rbp)	# D.17373, %sfp
+	movq	$0, -272(%rbp)	#, %sfp
+	cltq
+	movl	$0, -284(%rbp)	#, %sfp
+	salq	$3, %rax	#, D.17375
+	movq	%rax, -200(%rbp)	# D.17375, %sfp
+	movslq	%r12d, %rax	# n, D.17373
+	leaq	0(,%rax,8), %r14	#, D.17373
+	movq	%rax, -248(%rbp)	# D.17373, %sfp
+	leaq	32(%rdx), %rax	#, D.17375
+	movq	%rax, -360(%rbp)	# D.17375, %sfp
+	movq	%r14, %rax	# D.17373, D.17373
+	negq	%rax	# D.17373
+	movq	%rax, -80(%rbp)	# D.17373, %sfp
+.L94:
+	movq	-168(%rbp), %rdi	# %sfp, ivtmp.326
+	movl	$0, -276(%rbp)	#, %sfp
+	movl	$0, -228(%rbp)	#, %sfp
+	movl	%edi, %eax	# ivtmp.326, tmp788
+	movl	%edi, %r15d	# ivtmp.326, k1
+	addl	$32, %eax	#, D.17376
+	cmpl	%eax, %r13d	# D.17376, n
+	cmovle	%r13d, %eax	# n,, kend
+	movl	%eax, %r12d	# kend, kend
+	movslq	-284(%rbp), %rax	# %sfp, D.17375
+	movq	%rax, %rdx	# D.17375, tmp410
+	negq	%rdx	# tmp410
+	leaq	0(,%rdx,8), %rsi	#, ivtmp.318
+	movq	%rsi, -264(%rbp)	# ivtmp.318, %sfp
+	leaq	0(,%rax,8), %rsi	#, ivtmp.309
+	movq	%rsi, -312(%rbp)	# ivtmp.309, %sfp
+	leaq	0(,%rdi,8), %rsi	#, D.17375
+	movq	%rsi, -352(%rbp)	# D.17375, %sfp
+	movq	-360(%rbp), %rsi	# %sfp, D.17375
+	leaq	(%rax,%rsi), %rdx	#, D.17375
+	leaq	0(,%rdx,8), %rsi	#, D.17375
+	movq	%rsi, -328(%rbp)	# D.17375, %sfp
+	movl	%r12d, %esi	# kend, niters.164
+	subl	%edi, %esi	# ivtmp.326, niters.164
+	leal	-4(%rsi), %edx	#, D.17376
+	movl	%esi, -64(%rbp)	# niters.164, %sfp
+	shrl	$2, %edx	#, D.17376
+	leal	1(%rdx), %esi	#, bnd.165
+	movl	%esi, -68(%rbp)	# bnd.165, %sfp
+	sall	$2, %esi	#, D.17376
+	movl	%esi, -60(%rbp)	# D.17376, %sfp
+	addl	%edi, %esi	# ivtmp.326, k1
+	movq	-248(%rbp), %rdi	# %sfp, D.17375
+	addq	-272(%rbp), %rdi	# %sfp, D.17375
+	movl	%esi, -72(%rbp)	# k1, %sfp
+	movq	%rdi, -296(%rbp)	# D.17375, %sfp
+	subq	%rax, %rdi	# D.17375, D.17375
+	movq	%rdi, %rax	# D.17375, D.17375
+	salq	$3, %rax	#, D.17375
+	movq	%rax, -336(%rbp)	# D.17375, %sfp
+	movl	%r12d, %eax	# kend, D.17374
+	subl	%r15d, %eax	# k1, D.17374
+	movl	%eax, -116(%rbp)	# D.17374, %sfp
+	movl	%r15d, %eax	# k1, D.17376
+	notl	%eax	# D.17376
+	movl	%eax, -364(%rbp)	# D.17376, %sfp
+	addl	%r12d, %eax	# kend, D.17376
+	movl	%eax, -120(%rbp)	# D.17376, %sfp
+	movl	%r13d, %eax	# n, n
+	movl	%r15d, %r13d	# k1, k1
+	movq	%r14, %r15	# D.17373, D.17373
+	movl	%r12d, %r14d	# kend, kend
+	movl	%eax, %r12d	# n, n
+.L93:
+	movl	-228(%rbp), %esi	# %sfp, j1
+	movl	%r13d, %r9d	# k1, k1
+	movl	%r12d, %r10d	# n, n
+	movq	%rbx, %r11	# A, A
+	movq	$0, -240(%rbp)	#, %sfp
+	movl	%esi, %eax	# j1, j1
+	addl	$32, %eax	#, j1
+	cmpl	%r12d, %eax	# n, j1
+	movl	%eax, -288(%rbp)	# j1, %sfp
+	cmovg	%r12d, %eax	# jend,, n, jend
+	movl	%eax, %edi	# jend, jend
+	movl	%eax, -232(%rbp)	# jend, %sfp
+	subl	%esi, %eax	# j1, D.17374
+	cltd
+	shrl	$30, %edx	#, tmp419
+	addl	%edx, %eax	# tmp419, tmp420
+	andl	$3, %eax	#, tmp421
+	subl	%edx, %eax	# tmp419, tmp422
+	subl	%eax, %edi	# tmp422, j1
+	movl	%edi, %eax	# j1, j1
+	movl	%edi, -132(%rbp)	# j1, %sfp
+	movq	-176(%rbp), %rdi	# %sfp, C
+	imull	%r12d, %eax	# n, D.17376
+	cltq
+	movq	%rdi, -256(%rbp)	# C, %sfp
+	movq	-88(%rbp), %rdi	# %sfp, B
+	movq	%rax, -160(%rbp)	# D.17373, %sfp
+	addq	-168(%rbp), %rax	# %sfp, D.17373
+	leaq	(%rdi,%rax,8), %rax	#, ivtmp.240
+	movq	%rax, -152(%rbp)	# ivtmp.240, %sfp
+	movq	-352(%rbp), %rax	# %sfp, D.17375
+	movq	%rax, -192(%rbp)	# D.17375, %sfp
+	movq	-312(%rbp), %rax	# %sfp, ivtmp.309
+	movq	%rax, -224(%rbp)	# ivtmp.309, %sfp
+.L92:
+	movq	-240(%rbp), %rdi	# %sfp, ivtmp.308
+	movl	-228(%rbp), %ecx	# %sfp, j1
+	movl	-132(%rbp), %esi	# %sfp, j1
+	movl	%edi, %eax	# ivtmp.308, tmp828
+	movl	%edi, -184(%rbp)	# tmp828, %sfp
+	addl	$32, %eax	#, D.17376
+	movl	%edi, -316(%rbp)	# tmp829, %sfp
+	cmpl	%eax, %r10d	# D.17376, n
+	cmovle	%r10d, %eax	# n,, iend
+	movl	%eax, %ebx	# iend, iend
+	movl	%eax, -180(%rbp)	# iend, %sfp
+	subl	%edi, %eax	# ivtmp.308, D.17374
+	cltd
+	shrl	$30, %edx	#, tmp429
+	addl	%edx, %eax	# tmp429, tmp430
+	andl	$3, %eax	#, tmp431
+	subl	%edx, %eax	# tmp429, tmp432
+	subl	%eax, %ebx	# tmp432, i1
+	movl	%ebx, %eax	# i1, i1
+	movl	%ebx, -144(%rbp)	# i1, %sfp
+	cmpl	%esi, %ecx	# j1, j1
+	jge	.L59	#,
+	movq	-224(%rbp), %rsi	# %sfp, ivtmp.309
+	movl	%edi, %r13d	# ivtmp.308, D.17376
+	movl	%ecx, -128(%rbp)	# j1, %sfp
+	notl	%r13d	# D.17376
+	movq	%r15, -208(%rbp)	# D.17373, %sfp
+	movq	-176(%rbp), %r15	# %sfp, C
+	addl	%eax, %r13d	# i1, D.17376
+	movl	%r14d, -136(%rbp)	# kend, %sfp
+	shrl	$2, %r13d	#,
+	movl	%r9d, -216(%rbp)	# k1, %sfp
+	movq	%rsi, %rbx	# ivtmp.309, ivtmp.298
+	addq	-264(%rbp), %rbx	# %sfp, ivtmp.298
+	addq	$1, %r13	#, D.17375
+	movl	%r10d, -96(%rbp)	# n, %sfp
+	salq	$5, %r13	#, D.17375
+	movq	%r11, -104(%rbp)	# A, %sfp
+	movq	%r13, -112(%rbp)	# D.17375, %sfp
+	movq	%rsi, %r13	# ivtmp.309, ivtmp.309
+	.p2align 4,,10
+	.p2align 3
+.L60:
+	movl	-184(%rbp), %edi	# %sfp, i1
+	cmpl	%edi, -144(%rbp)	# i1, %sfp
+	jle	.L63	#,
+	movq	-192(%rbp), %rax	# %sfp, ivtmp.311
+	xorl	%r14d, %r14d	# ivtmp.291
+	leaq	(%rbx,%rax), %r12	#, D.17375
+	addq	-88(%rbp), %r12	# %sfp, D.17372
+	vzeroupper
+	.p2align 4,,10
+	.p2align 3
+.L61:
+	leaq	(%r14,%r13), %rdx	#, D.17375
+	movl	-116(%rbp), %esi	# %sfp,
+	addq	-104(%rbp), %rdx	# %sfp, D.17372
+	leaq	(%rbx,%r14), %rcx	#, D.17375
+	addq	$32, %r14	#, ivtmp.291
+	movl	-96(%rbp), %edi	# %sfp,
+	leaq	(%r15,%rcx), %r8	#,
+	movq	%r12, %rcx	# D.17372,
+	call	do_4x4_block	#
+	cmpq	-112(%rbp), %r14	# %sfp, ivtmp.291
+	jne	.L61	#,
+.L63:
+	addl	$4, -128(%rbp)	#, %sfp
+	addq	-200(%rbp), %rbx	# %sfp, ivtmp.298
+	movl	-128(%rbp), %eax	# %sfp, j1
+	cmpl	-132(%rbp), %eax	# %sfp, j1
+	jl	.L60	#,
+	movl	-144(%rbp), %edi	# %sfp, i1
+	movl	-216(%rbp), %r9d	# %sfp, k1
+	movq	-104(%rbp), %r11	# %sfp, A
+	movq	-208(%rbp), %r15	# %sfp, D.17373
+	movslq	%edi, %rax	# i1,
+	movl	-136(%rbp), %r14d	# %sfp, kend
+	movq	%rax, %rbx	# D.17373, D.17373
+	movq	%rax, -216(%rbp)	# D.17373, %sfp
+	addq	-296(%rbp), %rax	# %sfp, D.17375
+	movl	-120(%rbp), %r10d	# %sfp, D.17376
+	movq	-88(%rbp), %r12	# %sfp, B
+	leaq	(%r11,%rax,8), %rax	#, ivtmp.277
+	movq	%rax, -208(%rbp)	# ivtmp.277, %sfp
+	movl	-276(%rbp), %eax	# %sfp, ivtmp.317
+	movl	%eax, -136(%rbp)	# ivtmp.317, %sfp
+	movl	-228(%rbp), %eax	# %sfp, j1
+	movl	%eax, -128(%rbp)	# j1, %sfp
+	movl	-180(%rbp), %eax	# %sfp, iend
+	subl	$1, %eax	#, D.17376
+	subl	%edi, %eax	# i1, D.17373
+	leaq	1(%rbx,%rax), %r13	#, D.17373
+	.p2align 4,,10
+	.p2align 3
+.L62:
+	movl	-144(%rbp), %ebx	# %sfp, i1
+	cmpl	%ebx, -180(%rbp)	# i1, %sfp
+	jle	.L68	#,
+	movslq	-136(%rbp), %rbx	# %sfp, D.17375
+	movq	-176(%rbp), %rax	# %sfp, C
+	movq	-216(%rbp), %rsi	# %sfp, ivtmp.278
+	movq	-208(%rbp), %rdi	# %sfp, ivtmp.277
+	leaq	(%rax,%rbx,8), %r8	#, D.17372
+	movq	-168(%rbp), %rax	# %sfp, ivtmp.326
+	addq	%rbx, %rax	# D.17375, D.17373
+	leaq	(%r12,%rax,8), %rax	#, ivtmp.264
+	movq	%rax, -112(%rbp)	# ivtmp.264, %sfp
+	.p2align 4,,10
+	.p2align 3
+.L71:
+	cmpl	%r9d, %r14d	# k1, kend
+	jle	.L69	#,
+	vmovsd	(%r8,%rsi,8), %xmm2	# MEM[base: _475, index: ivtmp.278_457, step: 8, offset: 0B], D__lsm.137
+	cmpl	$3, %r10d	#, D.17376
+	jbe	.L96	#,
+	movq	-112(%rbp), %rdx	# %sfp, ivtmp.264
+	movq	%rdi, %rax	# ivtmp.277, ivtmp.268
+	xorl	%ecx, %ecx	# ivtmp.259
+	movq	%rsi, -104(%rbp)	# ivtmp.278, %sfp
+	vxorpd	%xmm0, %xmm0, %xmm0	# vect__92.173
+.L64:
+	movq	-80(%rbp), %rsi	# %sfp, D.17373
+	addl	$1, %ecx	#, ivtmp.259
+	addq	$32, %rdx	#, ivtmp.264
+	vmovsd	(%rax,%r15), %xmm5	# MEM[base: _449, index: _375, offset: 0B], tmp862
+	vmovupd	-32(%rdx), %xmm1	# MEM[base: _454, offset: 0B], MEM[base: _454, offset: 0B]
+	vinsertf128	$0x1, -16(%rdx), %ymm1, %ymm3	# MEM[base: _454, offset: 0B], MEM[base: _454, offset: 0B], vect__90.171
+	vmovhpd	(%rax,%r15,2), %xmm5, %xmm1	# MEM[base: _449, index: _375, step: 2, offset: 0B], tmp862, tmp449
+	vmovsd	(%rax,%rsi), %xmm6	# MEM[base: _449, index: _450, offset: 0B], tmp864
+	vmovhpd	(%rax), %xmm6, %xmm4	# MEM[base: _449, offset: 0B], tmp864, tmp452
+	addq	-56(%rbp), %rax	# %sfp, ivtmp.268
+	vinsertf128	$0x1, %xmm1, %ymm4, %ymm1	# tmp449, tmp452, vect_cst_.168
+	vmulpd	%ymm1, %ymm3, %ymm1	# vect_cst_.168, vect__90.171, vect__91.172
+	vaddpd	%ymm1, %ymm0, %ymm0	# vect__91.172, vect__92.173, vect__92.173
+	cmpl	%ecx, -68(%rbp)	# ivtmp.259, %sfp
+	ja	.L64	#,
+	vhaddpd	%ymm0, %ymm0, %ymm0	# vect__92.173, vect__92.173, tmp459
+	movq	-104(%rbp), %rsi	# %sfp, ivtmp.278
+	movl	-60(%rbp), %ecx	# %sfp, D.17376
+	vperm2f128	$1, %ymm0, %ymm0, %ymm1	#, tmp459, tmp459, tmp460
+	vaddpd	%ymm1, %ymm0, %ymm0	# tmp460, tmp459, vect__92.175
+	vaddsd	%xmm0, %xmm2, %xmm2	# stmp__92.174, D__lsm.137, D__lsm.137
+	cmpl	%ecx, -64(%rbp)	# D.17376, %sfp
+	je	.L67	#,
+	movl	-72(%rbp), %eax	# %sfp, k1
+.L70:
+	movl	-96(%rbp), %edx	# %sfp, D.17374
+	imull	%eax, %edx	# k1, D.17374
+	movslq	%edx, %rdx	# D.17374, D.17373
+	addq	%rsi, %rdx	# ivtmp.278, D.17373
+	leaq	(%r11,%rdx,8), %rcx	#, ivtmp.255
+	movslq	%eax, %rdx	# k1, D.17373
+	addq	%rbx, %rdx	# D.17375, D.17373
+	leaq	(%r12,%rdx,8), %rdx	#, ivtmp.257
+.L66:
+	vmovsd	(%rdx), %xmm0	# MEM[base: _448, offset: 0B], MEM[base: _448, offset: 0B]
+	addl	$1, %eax	#, k1
+	addq	$8, %rdx	#, ivtmp.257
+	vmulsd	(%rcx), %xmm0, %xmm0	# MEM[base: _447, offset: 0B], MEM[base: _448, offset: 0B], D.17371
+	addq	%r15, %rcx	# D.17373, ivtmp.255
+	vaddsd	%xmm0, %xmm2, %xmm2	# D.17371, D__lsm.137, D__lsm.137
+	cmpl	%eax, %r14d	# k1, kend
+	jg	.L66	#,
+.L67:
+	vmovsd	%xmm2, (%r8,%rsi,8)	# D__lsm.137, MEM[base: _475, index: ivtmp.278_457, step: 8, offset: 0B]
+.L69:
+	addq	$1, %rsi	#, ivtmp.278
+	addq	$8, %rdi	#, ivtmp.277
+	cmpq	%r13, %rsi	# D.17373, ivtmp.278
+	jne	.L71	#,
+.L68:
+	addl	$1, -128(%rbp)	#, %sfp
+	movl	-96(%rbp), %ebx	# %sfp, n
+	movl	-128(%rbp), %eax	# %sfp, j1
+	addl	%ebx, -136(%rbp)	# n, %sfp
+	cmpl	-132(%rbp), %eax	# %sfp, j1
+	jne	.L62	#,
+	movl	-96(%rbp), %r10d	# %sfp, n
+.L59:
+	movl	-144(%rbp), %ebx	# %sfp, i1
+	movl	-184(%rbp), %edi	# %sfp, i1
+	cmpl	%edi, %ebx	# i1, i1
+	jle	.L72	#,
+	movl	-316(%rbp), %eax	# %sfp, D.17376
+	movl	%r10d, -104(%rbp)	# n, %sfp
+	movq	-224(%rbp), %r13	# %sfp, D.17375
+	addq	-336(%rbp), %r13	# %sfp, D.17375
+	movq	-176(%rbp), %rdi	# %sfp, C
+	notl	%eax	# D.17376
+	movl	-232(%rbp), %r10d	# %sfp, jend
+	addl	%ebx, %eax	# i1, D.17375
+	movq	-240(%rbp), %rbx	# %sfp, ivtmp.308
+	addq	%r11, %r13	# A, ivtmp.249
+	movq	%r13, -112(%rbp)	# ivtmp.249, %sfp
+	movq	-248(%rbp), %r13	# %sfp, D.17373
+	leaq	1(%rbx,%rax), %rax	#, D.17375
+	movq	%rbx, %r12	# ivtmp.308, ivtmp.250
+	movq	-256(%rbp), %rbx	# %sfp, ivtmp.247
+	leaq	(%rdi,%rax,8), %rax	#, D.17378
+	movq	%rax, -128(%rbp)	# D.17378, %sfp
+	.p2align 4,,10
+	.p2align 3
+.L73:
+	movl	-132(%rbp), %eax	# %sfp, j1
+	cmpl	%eax, %r10d	# j1, jend
+	jle	.L78	#,
+	movq	-160(%rbp), %rsi	# %sfp, ivtmp.241
+	movl	%eax, %edi	# j1, j1
+	movq	-152(%rbp), %r8	# %sfp, ivtmp.240
+	.p2align 4,,10
+	.p2align 3
+.L81:
+	cmpl	%r9d, %r14d	# k1, kend
+	jle	.L79	#,
+	cmpl	$3, -120(%rbp)	#, %sfp
+	vmovsd	(%rbx,%rsi,8), %xmm2	# MEM[base: _415, index: ivtmp.241_405, step: 8, offset: 0B], D__lsm.136
+	jbe	.L97	#,
+	movq	-112(%rbp), %rax	# %sfp, ivtmp.231
+	movq	%r8, %rdx	# ivtmp.240, ivtmp.227
+	xorl	%ecx, %ecx	# ivtmp.222
+	movq	%rsi, -96(%rbp)	# ivtmp.241, %sfp
+	vxorpd	%xmm0, %xmm0, %xmm0	# vect__119.160
+.L74:
+	movq	-80(%rbp), %rsi	# %sfp, D.17373
+	addl	$1, %ecx	#, ivtmp.222
+	addq	$32, %rdx	#, ivtmp.227
+	vmovsd	(%rax,%r15), %xmm7	# MEM[base: _176, index: _375, offset: 0B], tmp890
+	vmovupd	-32(%rdx), %xmm1	# MEM[base: _402, offset: 0B], MEM[base: _402, offset: 0B]
+	vinsertf128	$0x1, -16(%rdx), %ymm1, %ymm3	# MEM[base: _402, offset: 0B], MEM[base: _402, offset: 0B], vect__117.158
+	vmovhpd	(%rax,%r15,2), %xmm7, %xmm1	# MEM[base: _176, index: _375, step: 2, offset: 0B], tmp890, tmp490
+	vmovsd	(%rax,%rsi), %xmm5	# MEM[base: _176, index: _15, offset: 0B], tmp892
+	vmovhpd	(%rax), %xmm5, %xmm4	# MEM[base: _176, offset: 0B], tmp892, tmp493
+	addq	-56(%rbp), %rax	# %sfp, ivtmp.231
+	vinsertf128	$0x1, %xmm1, %ymm4, %ymm1	# tmp490, tmp493, vect_cst_.155
+	vmulpd	%ymm1, %ymm3, %ymm1	# vect_cst_.155, vect__117.158, vect__118.159
+	vaddpd	%ymm1, %ymm0, %ymm0	# vect__118.159, vect__119.160, vect__119.160
+	cmpl	-68(%rbp), %ecx	# %sfp, ivtmp.222
+	jb	.L74	#,
+	vhaddpd	%ymm0, %ymm0, %ymm0	# vect__119.160, vect__119.160, tmp500
+	movq	-96(%rbp), %rsi	# %sfp, ivtmp.241
+	movl	-60(%rbp), %ecx	# %sfp, D.17376
+	vperm2f128	$1, %ymm0, %ymm0, %ymm1	#, tmp500, tmp500, tmp501
+	vaddpd	%ymm1, %ymm0, %ymm0	# tmp501, tmp500, vect__119.162
+	vaddsd	%xmm0, %xmm2, %xmm2	# stmp__119.161, D__lsm.136, D__lsm.136
+	cmpl	%ecx, -64(%rbp)	# D.17376, %sfp
+	je	.L77	#,
+	movl	-72(%rbp), %eax	# %sfp, k1
+.L80:
+	movl	-104(%rbp), %edx	# %sfp, D.17374
+	imull	%eax, %edx	# k1, D.17374
+	movslq	%edx, %rdx	# D.17374, D.17373
+	addq	%r12, %rdx	# ivtmp.250, D.17373
+	leaq	(%r11,%rdx,8), %rcx	#, ivtmp.218
+	movslq	%eax, %rdx	# k1, D.17373
+	movq	%rcx, -96(%rbp)	# ivtmp.218, %sfp
+	movq	-88(%rbp), %rcx	# %sfp, B
+	addq	%rsi, %rdx	# ivtmp.241, D.17373
+	leaq	(%rcx,%rdx,8), %rdx	#, ivtmp.220
+	movq	-96(%rbp), %rcx	# %sfp, ivtmp.218
+.L76:
+	vmovsd	(%rdx), %xmm0	# MEM[base: _330, offset: 0B], MEM[base: _330, offset: 0B]
+	addl	$1, %eax	#, k1
+	addq	$8, %rdx	#, ivtmp.220
+	vmulsd	(%rcx), %xmm0, %xmm0	# MEM[base: _94, offset: 0B], MEM[base: _330, offset: 0B], D.17371
+	addq	%r15, %rcx	# D.17373, ivtmp.218
+	vaddsd	%xmm0, %xmm2, %xmm2	# D.17371, D__lsm.136, D__lsm.136
+	cmpl	%eax, %r14d	# k1, kend
+	jg	.L76	#,
+.L77:
+	vmovsd	%xmm2, (%rbx,%rsi,8)	# D__lsm.136, MEM[base: _415, index: ivtmp.241_405, step: 8, offset: 0B]
+.L79:
+	addl	$1, %edi	#, j1
+	addq	%r15, %r8	# D.17373, ivtmp.240
+	addq	%r13, %rsi	# D.17373, ivtmp.241
+	cmpl	%r10d, %edi	# jend, j1
+	jne	.L81	#,
+.L78:
+	addq	$8, -112(%rbp)	#, %sfp
+	addq	$8, %rbx	#, ivtmp.247
+	addq	$1, %r12	#, ivtmp.250
+	cmpq	-128(%rbp), %rbx	# %sfp, ivtmp.247
+	jne	.L73	#,
+	movl	-104(%rbp), %r10d	# %sfp, n
+.L72:
+	movl	-180(%rbp), %edi	# %sfp, iend
+	movl	-144(%rbp), %esi	# %sfp, i1
+	cmpl	%esi, %edi	# i1, iend
+	jle	.L82	#,
+	movq	-296(%rbp), %rax	# %sfp, D.17375
+	movslq	%esi, %r13	# i1, D.17375
+	movl	%r10d, -112(%rbp)	# n, %sfp
+	movq	-176(%rbp), %rcx	# %sfp, C
+	movq	%r13, -104(%rbp)	# ivtmp.213, %sfp
+	movl	-232(%rbp), %r10d	# %sfp, jend
+	addq	%r13, %rax	# D.17375, D.17375
+	leaq	(%r11,%rax,8), %rax	#, ivtmp.212
+	movq	%rax, -128(%rbp)	# ivtmp.212, %sfp
+	leaq	(%rcx,%r13,8), %rbx	#, ivtmp.210
+	movl	%edi, %eax	# iend, D.17376
+	subl	$1, %eax	#, D.17376
+	subl	%esi, %eax	# i1, D.17375
+	leaq	1(%r13,%rax), %rax	#, D.17375
+	movq	-248(%rbp), %r13	# %sfp, D.17373
+	leaq	(%rcx,%rax,8), %rax	#, D.17378
+	movq	%rax, -144(%rbp)	# D.17378, %sfp
+	movl	-364(%rbp), %eax	# %sfp, D.17376
+	leal	(%rax,%r14), %r12d	#, D.17376
+	.p2align 4,,10
+	.p2align 3
+.L83:
+	movl	-132(%rbp), %eax	# %sfp, j1
+	cmpl	%eax, %r10d	# j1, jend
+	jle	.L88	#,
+	movq	-160(%rbp), %rsi	# %sfp, ivtmp.204
+	movl	%eax, %edi	# j1, j1
+	movq	-152(%rbp), %r8	# %sfp, ivtmp.203
+	.p2align 4,,10
+	.p2align 3
+.L91:
+	cmpl	%r9d, %r14d	# k1, kend
+	jle	.L89	#,
+	vmovsd	(%rbx,%rsi,8), %xmm2	# MEM[base: _119, index: ivtmp.204_109, step: 8, offset: 0B], D__lsm.135
+	cmpl	$3, %r12d	#, D.17376
+	jbe	.L98	#,
+	movq	-128(%rbp), %rax	# %sfp, ivtmp.194
+	movq	%r8, %rdx	# ivtmp.203, ivtmp.190
+	xorl	%ecx, %ecx	# ivtmp.185
+	movq	%rsi, -96(%rbp)	# ivtmp.204, %sfp
+	vxorpd	%xmm0, %xmm0, %xmm0	# vect__146.147
+.L84:
+	movq	-80(%rbp), %rsi	# %sfp, D.17373
+	addl	$1, %ecx	#, ivtmp.185
+	addq	$32, %rdx	#, ivtmp.190
+	vmovsd	(%rax,%r15), %xmm6	# MEM[base: _356, index: _375, offset: 0B], tmp914
+	vmovupd	-32(%rdx), %xmm1	# MEM[base: _106, offset: 0B], MEM[base: _106, offset: 0B]
+	vinsertf128	$0x1, -16(%rdx), %ymm1, %ymm3	# MEM[base: _106, offset: 0B], MEM[base: _106, offset: 0B], vect__144.145
+	vmovhpd	(%rax,%r15,2), %xmm6, %xmm1	# MEM[base: _356, index: _375, step: 2, offset: 0B], tmp914, tmp526
+	vmovsd	(%rax,%rsi), %xmm7	# MEM[base: _356, index: _353, offset: 0B], tmp916
+	vmovhpd	(%rax), %xmm7, %xmm4	# MEM[base: _356, offset: 0B], tmp916, tmp529
+	addq	-56(%rbp), %rax	# %sfp, ivtmp.194
+	vinsertf128	$0x1, %xmm1, %ymm4, %ymm1	# tmp526, tmp529, vect_cst_.142
+	vmulpd	%ymm1, %ymm3, %ymm1	# vect_cst_.142, vect__144.145, vect__145.146
+	vaddpd	%ymm1, %ymm0, %ymm0	# vect__145.146, vect__146.147, vect__146.147
+	cmpl	-68(%rbp), %ecx	# %sfp, ivtmp.185
+	jb	.L84	#,
+	vhaddpd	%ymm0, %ymm0, %ymm0	# vect__146.147, vect__146.147, tmp536
+	movq	-96(%rbp), %rsi	# %sfp, ivtmp.204
+	movl	-60(%rbp), %ecx	# %sfp, D.17376
+	vperm2f128	$1, %ymm0, %ymm0, %ymm1	#, tmp536, tmp536, tmp537
+	vaddpd	%ymm1, %ymm0, %ymm0	# tmp537, tmp536, vect__146.149
+	vaddsd	%xmm0, %xmm2, %xmm2	# stmp__146.148, D__lsm.135, D__lsm.135
+	cmpl	%ecx, -64(%rbp)	# D.17376, %sfp
+	je	.L87	#,
+	movl	-72(%rbp), %eax	# %sfp, k1
+.L90:
+	movl	-112(%rbp), %edx	# %sfp, D.17374
+	imull	%eax, %edx	# k1, D.17374
+	movslq	%edx, %rdx	# D.17374, D.17373
+	addq	-104(%rbp), %rdx	# %sfp, D.17373
+	leaq	(%r11,%rdx,8), %rcx	#, ivtmp.181
+	movslq	%eax, %rdx	# k1, D.17373
+	movq	%rcx, -96(%rbp)	# ivtmp.181, %sfp
+	movq	-88(%rbp), %rcx	# %sfp, B
+	addq	%rsi, %rdx	# ivtmp.204, D.17373
+	leaq	(%rcx,%rdx,8), %rdx	#, ivtmp.183
+	movq	-96(%rbp), %rcx	# %sfp, ivtmp.181
+.L86:
+	vmovsd	(%rdx), %xmm0	# MEM[base: _361, offset: 0B], MEM[base: _361, offset: 0B]
+	addl	$1, %eax	#, k1
+	addq	$8, %rdx	#, ivtmp.183
+	vmulsd	(%rcx), %xmm0, %xmm0	# MEM[base: _360, offset: 0B], MEM[base: _361, offset: 0B], D.17371
+	addq	%r15, %rcx	# D.17373, ivtmp.181
+	vaddsd	%xmm0, %xmm2, %xmm2	# D.17371, D__lsm.135, D__lsm.135
+	cmpl	%eax, %r14d	# k1, kend
+	jg	.L86	#,
+.L87:
+	vmovsd	%xmm2, (%rbx,%rsi,8)	# D__lsm.135, MEM[base: _119, index: ivtmp.204_109, step: 8, offset: 0B]
+.L89:
+	addl	$1, %edi	#, j1
+	addq	%r15, %r8	# D.17373, ivtmp.203
+	addq	%r13, %rsi	# D.17373, ivtmp.204
+	cmpl	%r10d, %edi	# jend, j1
+	jne	.L91	#,
+.L88:
+	addq	$8, -128(%rbp)	#, %sfp
+	addq	$8, %rbx	#, ivtmp.210
+	addq	$1, -104(%rbp)	#, %sfp
+	cmpq	-144(%rbp), %rbx	# %sfp, ivtmp.210
+	jne	.L83	#,
+	movl	-112(%rbp), %r10d	# %sfp, n
+.L82:
+	addq	$256, -224(%rbp)	#, %sfp
+	addq	$256, -256(%rbp)	#, %sfp
+	addq	$32, -240(%rbp)	#, %sfp
+	movq	-224(%rbp), %rax	# %sfp, ivtmp.309
+	subq	$256, -192(%rbp)	#, %sfp
+	cmpq	-328(%rbp), %rax	# %sfp, ivtmp.309
+	jne	.L92	#,
+	movl	-280(%rbp), %edi	# %sfp, D.17376
+	movl	%r9d, %r13d	# k1, k1
+	movl	%r10d, %r12d	# n, n
+	movq	%r11, %rbx	# A, A
+	addl	%edi, -276(%rbp)	# D.17376, %sfp
+	movl	-288(%rbp), %eax	# %sfp, j1
+	movq	-304(%rbp), %rdi	# %sfp, D.17375
+	addq	%rdi, -264(%rbp)	# D.17375, %sfp
+	movl	-320(%rbp), %edi	# %sfp, D.17374
+	movl	%eax, -228(%rbp)	# j1, %sfp
+	cmpl	%edi, %eax	# D.17374, j1
+	jne	.L93	#,
+	movl	-280(%rbp), %edi	# %sfp, D.17376
+	movq	%r15, %r14	# D.17373, D.17373
+	movl	%r10d, %r13d	# n, n
+	addl	%edi, -284(%rbp)	# D.17376, %sfp
+	addq	$32, -168(%rbp)	#, %sfp
+	movq	-56(%rbp), %rdi	# %sfp, D.17373
+	movq	-168(%rbp), %rax	# %sfp, ivtmp.326
+	addq	%rdi, -272(%rbp)	# D.17373, %sfp
+	cmpq	-344(%rbp), %rax	# %sfp, ivtmp.326
+	jne	.L94	#,
+	vzeroupper
+	addq	$320, %rsp	#,
+	popq	%rbx	#
+	.cfi_restore 3
+	popq	%r10	#
+	.cfi_restore 10
+	.cfi_def_cfa 10, 0
+	popq	%r12	#
+	.cfi_restore 12
+	popq	%r13	#
+	.cfi_restore 13
+	popq	%r14	#
+	.cfi_restore 14
+	popq	%r15	#
+	.cfi_restore 15
+	popq	%rbp	#
+	.cfi_restore 6
+	leaq	-8(%r10), %rsp	#,
+	.cfi_def_cfa 7, 8
+.L125:
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L98:
+	.cfi_escape 0xf,0x3,0x76,0x58,0x6
+	.cfi_escape 0x10,0x3,0x2,0x76,0x50
+	.cfi_escape 0x10,0x6,0x2,0x76,0
+	.cfi_escape 0x10,0xc,0x2,0x76,0x60
+	.cfi_escape 0x10,0xd,0x2,0x76,0x68
+	.cfi_escape 0x10,0xe,0x2,0x76,0x70
+	.cfi_escape 0x10,0xf,0x2,0x76,0x78
+	movl	%r9d, %eax	# k1, k1
+	jmp	.L90	#
+	.p2align 4,,10
+	.p2align 3
+.L96:
+	movl	%r9d, %eax	# k1, k1
+	jmp	.L70	#
+	.p2align 4,,10
+	.p2align 3
+.L97:
+	movl	%r9d, %eax	# k1, k1
+	jmp	.L80	#
+	.cfi_endproc
+.LFE2290:
+	.size	avx_dgemm_slow, .-avx_dgemm_slow
+	.section	.text.unlikely
+.LCOLDE8:
+	.text
+.LHOTE8:
+	.section	.text.unlikely
+.LCOLDB9:
+	.text
+.LHOTB9:
+	.p2align 4,,15
+	.globl	do_4x4_block_fast
+	.type	do_4x4_block_fast, @function
+do_4x4_block_fast:
+.LFB2288:
+	.cfi_startproc
+	leaq	8(%rsp), %r10	#,
+	.cfi_def_cfa 10, 0
+	movslq	%edi, %rdi	# n, D.17399
+	andq	$-32, %rsp	#,
+	vmovupd	(%r8), %ymm5	#* C, c0
+	pushq	-8(%r10)	#
+	salq	$3, %rdi	#, D.17399
+	pushq	%rbp	#
+	leaq	(%rcx,%rdi), %r9	#, B
+	.cfi_escape 0x10,0x6,0x2,0x76,0
+	movq	%rsp, %rbp	#,
+	pushq	%r13	#
+	pushq	%r12	#
+	.cfi_escape 0x10,0xd,0x2,0x76,0x78
+	.cfi_escape 0x10,0xc,0x2,0x76,0x70
+	leaq	(%r8,%rdi), %r12	#, C
+	pushq	%r10	#
+	.cfi_escape 0xf,0x3,0x76,0x68,0x6
+	leaq	(%r9,%rdi), %r10	#, B
+	pushq	%rbx	#
+	.cfi_escape 0x10,0x3,0x2,0x76,0x60
+	leaq	(%r12,%rdi), %rbx	#, C
+	vmovupd	(%r12), %ymm4	#* C, c1
+	leaq	(%rbx,%rdi), %r13	#, C
+	vmovupd	(%rbx), %ymm3	#* C, c2
+	vmovupd	0(%r13), %ymm2	#* C, c3
+	testl	%esi, %esi	# kdepth
+	jle	.L130	#,
+	leaq	(%r10,%rdi), %r11	#, D.17402
+	xorl	%eax, %eax	# ivtmp.332
+	.p2align 4,,10
+	.p2align 3
+.L131:
+	vmovupd	(%rdx), %ymm0	#* A, tmp120
+	addq	%rdi, %rdx	# D.17399, A
+	vbroadcastsd	(%rcx,%rax,8), %ymm1	# MEM[base: B_20(D), index: ivtmp.332_70, step: 8, offset: 0B], D.17400
+	vmulpd	%ymm1, %ymm0, %ymm1	# D.17400, tmp120, tmp123
+	vaddpd	%ymm1, %ymm5, %ymm5	# tmp123, c0, c0
+	vbroadcastsd	(%r9,%rax,8), %ymm1	# MEM[base: B_21, index: ivtmp.332_70, step: 8, offset: 0B], D.17400
+	vmulpd	%ymm1, %ymm0, %ymm1	# D.17400, tmp120, tmp126
+	vaddpd	%ymm1, %ymm4, %ymm4	# tmp126, c1, c1
+	vbroadcastsd	(%r10,%rax,8), %ymm1	# MEM[base: B_22, index: ivtmp.332_70, step: 8, offset: 0B], D.17400
+	vmulpd	%ymm1, %ymm0, %ymm1	# D.17400, tmp120, tmp129
+	vaddpd	%ymm1, %ymm3, %ymm3	# tmp129, c2, c2
+	vbroadcastsd	(%r11,%rax,8), %ymm1	# MEM[base: _68, index: ivtmp.332_70, step: 8, offset: 0B], D.17400
+	addq	$1, %rax	#, ivtmp.332
+	vmulpd	%ymm1, %ymm0, %ymm0	# D.17400, tmp120, tmp132
+	vaddpd	%ymm0, %ymm2, %ymm2	# tmp132, c3, c3
+	cmpl	%eax, %esi	# ivtmp.332, kdepth
+	jg	.L131	#,
+.L130:
+	vmovupd	%ymm5, (%r8)	# c0,* C
+	vmovupd	%ymm4, (%r12)	# c1,* C
+	vmovupd	%ymm3, (%rbx)	# c2,* C
+	vmovupd	%ymm2, 0(%r13)	# c3,* C
+	vzeroupper
+	popq	%rbx	#
+	popq	%r10	#
+	.cfi_def_cfa 10, 0
+	popq	%r12	#
+	popq	%r13	#
+	popq	%rbp	#
+	leaq	-8(%r10), %rsp	#,
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2288:
+	.size	do_4x4_block_fast, .-do_4x4_block_fast
+	.section	.text.unlikely
+.LCOLDE9:
+	.text
+.LHOTE9:
+	.section	.text.unlikely
+.LCOLDB10:
+	.text
+.LHOTB10:
+	.p2align 4,,15
+	.globl	avx_dgemm_fast
+	.type	avx_dgemm_fast, @function
+avx_dgemm_fast:
+.LFB2289:
+	.cfi_startproc
+	testl	%edi, %edi	# n
+	jle	.L202	#,
+	leaq	8(%rsp), %r10	#,
+	.cfi_def_cfa 10, 0
+	andq	$-32, %rsp	#,
+	movl	%edi, %eax	# n, D.17610
+	pushq	-8(%r10)	#
+	pushq	%rbp	#
+	sall	$5, %eax	#, D.17610
+	.cfi_escape 0x10,0x6,0x2,0x76,0
+	movq	%rsp, %rbp	#,
+	pushq	%r15	#
+	pushq	%r14	#
+	pushq	%r13	#
+	pushq	%r12	#
+	.cfi_escape 0x10,0xf,0x2,0x76,0x78
+	.cfi_escape 0x10,0xe,0x2,0x76,0x70
+	.cfi_escape 0x10,0xd,0x2,0x76,0x68
+	.cfi_escape 0x10,0xc,0x2,0x76,0x60
+	movl	%edi, %r12d	# n, n
+	pushq	%r10	#
+	.cfi_escape 0xf,0x3,0x76,0x58,0x6
+	movl	%r12d, %r13d	# n, n
+	pushq	%rbx	#
+	.cfi_escape 0x10,0x3,0x2,0x76,0x50
+	movq	%rdx, %rbx	# B, B
+	subq	$320, %rsp	#,
+	movl	%eax, -280(%rbp)	# D.17610, %sfp
+	cltq
+	movq	%rax, %rdi	# D.17607, D.17607
+	movq	%rax, -56(%rbp)	# D.17607, %sfp
+	leal	-1(%r12), %eax	#, D.17610
+	movq	%rcx, -176(%rbp)	# C, %sfp
+	salq	$3, %rdi	#, D.17609
+	shrl	$5, %eax	#, D.17610
+	movq	%rbx, -88(%rbp)	# B, %sfp
+	movq	%rsi, %rbx	# A, A
+	movl	%eax, %edx	# D.17610, D.17607
+	addl	$1, %eax	#, D.17610
+	movq	%rdi, -304(%rbp)	# D.17609, %sfp
+	leaq	1(%rdx), %rcx	#, D.17607
+	sall	$5, %eax	#, D.17608
+	movq	$0, -168(%rbp)	#, %sfp
+	movl	%eax, -320(%rbp)	# D.17608, %sfp
+	salq	$5, %rdx	#, D.17609
+	salq	$5, %rcx	#, D.17607
+	leal	0(,%r12,4), %eax	#, D.17610
+	movq	%rcx, -344(%rbp)	# D.17607, %sfp
+	movq	$0, -272(%rbp)	#, %sfp
+	cltq
+	movl	$0, -284(%rbp)	#, %sfp
+	salq	$3, %rax	#, D.17609
+	movq	%rax, -200(%rbp)	# D.17609, %sfp
+	movslq	%r12d, %rax	# n, D.17607
+	leaq	0(,%rax,8), %r14	#, D.17607
+	movq	%rax, -248(%rbp)	# D.17607, %sfp
+	leaq	32(%rdx), %rax	#, D.17609
+	movq	%rax, -360(%rbp)	# D.17609, %sfp
+	movq	%r14, %rax	# D.17607, D.17607
+	negq	%rax	# D.17607
+	movq	%rax, -80(%rbp)	# D.17607, %sfp
+.L171:
+	movq	-168(%rbp), %rdi	# %sfp, ivtmp.535
+	movl	$0, -276(%rbp)	#, %sfp
+	movl	$0, -228(%rbp)	#, %sfp
+	movl	%edi, %eax	# ivtmp.535, tmp788
+	movl	%edi, %r15d	# ivtmp.535, k1
+	addl	$32, %eax	#, D.17610
+	cmpl	%eax, %r13d	# D.17610, n
+	cmovle	%r13d, %eax	# n,, kend
+	movl	%eax, %r12d	# kend, kend
+	movslq	-284(%rbp), %rax	# %sfp, D.17609
+	movq	%rax, %rdx	# D.17609, tmp410
+	negq	%rdx	# tmp410
+	leaq	0(,%rdx,8), %rsi	#, ivtmp.527
+	movq	%rsi, -264(%rbp)	# ivtmp.527, %sfp
+	leaq	0(,%rax,8), %rsi	#, ivtmp.518
+	movq	%rsi, -312(%rbp)	# ivtmp.518, %sfp
+	leaq	0(,%rdi,8), %rsi	#, D.17609
+	movq	%rsi, -352(%rbp)	# D.17609, %sfp
+	movq	-360(%rbp), %rsi	# %sfp, D.17609
+	leaq	(%rax,%rsi), %rdx	#, D.17609
+	leaq	0(,%rdx,8), %rsi	#, D.17609
+	movq	%rsi, -328(%rbp)	# D.17609, %sfp
+	movl	%r12d, %esi	# kend, niters.373
+	subl	%edi, %esi	# ivtmp.535, niters.373
+	leal	-4(%rsi), %edx	#, D.17610
+	movl	%esi, -64(%rbp)	# niters.373, %sfp
+	shrl	$2, %edx	#, D.17610
+	leal	1(%rdx), %esi	#, bnd.374
+	movl	%esi, -68(%rbp)	# bnd.374, %sfp
+	sall	$2, %esi	#, D.17610
+	movl	%esi, -60(%rbp)	# D.17610, %sfp
+	addl	%edi, %esi	# ivtmp.535, k1
+	movq	-248(%rbp), %rdi	# %sfp, D.17609
+	addq	-272(%rbp), %rdi	# %sfp, D.17609
+	movl	%esi, -72(%rbp)	# k1, %sfp
+	movq	%rdi, -296(%rbp)	# D.17609, %sfp
+	subq	%rax, %rdi	# D.17609, D.17609
+	movq	%rdi, %rax	# D.17609, D.17609
+	salq	$3, %rax	#, D.17609
+	movq	%rax, -336(%rbp)	# D.17609, %sfp
+	movl	%r12d, %eax	# kend, D.17608
+	subl	%r15d, %eax	# k1, D.17608
+	movl	%eax, -116(%rbp)	# D.17608, %sfp
+	movl	%r15d, %eax	# k1, D.17610
+	notl	%eax	# D.17610
+	movl	%eax, -364(%rbp)	# D.17610, %sfp
+	addl	%r12d, %eax	# kend, D.17610
+	movl	%eax, -120(%rbp)	# D.17610, %sfp
+	movl	%r13d, %eax	# n, n
+	movl	%r15d, %r13d	# k1, k1
+	movq	%r14, %r15	# D.17607, D.17607
+	movl	%r12d, %r14d	# kend, kend
+	movl	%eax, %r12d	# n, n
+.L170:
+	movl	-228(%rbp), %esi	# %sfp, j1
+	movl	%r13d, %r9d	# k1, k1
+	movl	%r12d, %r10d	# n, n
+	movq	%rbx, %r11	# A, A
+	movq	$0, -240(%rbp)	#, %sfp
+	movl	%esi, %eax	# j1, j1
+	addl	$32, %eax	#, j1
+	cmpl	%r12d, %eax	# n, j1
+	movl	%eax, -288(%rbp)	# j1, %sfp
+	cmovg	%r12d, %eax	# jend,, n, jend
+	movl	%eax, %edi	# jend, jend
+	movl	%eax, -232(%rbp)	# jend, %sfp
+	subl	%esi, %eax	# j1, D.17608
+	cltd
+	shrl	$30, %edx	#, tmp419
+	addl	%edx, %eax	# tmp419, tmp420
+	andl	$3, %eax	#, tmp421
+	subl	%edx, %eax	# tmp419, tmp422
+	subl	%eax, %edi	# tmp422, j1
+	movl	%edi, %eax	# j1, j1
+	movl	%edi, -132(%rbp)	# j1, %sfp
+	movq	-176(%rbp), %rdi	# %sfp, C
+	imull	%r12d, %eax	# n, D.17610
+	cltq
+	movq	%rdi, -256(%rbp)	# C, %sfp
+	movq	-88(%rbp), %rdi	# %sfp, B
+	movq	%rax, -160(%rbp)	# D.17607, %sfp
+	addq	-168(%rbp), %rax	# %sfp, D.17607
+	leaq	(%rdi,%rax,8), %rax	#, ivtmp.449
+	movq	%rax, -152(%rbp)	# ivtmp.449, %sfp
+	movq	-352(%rbp), %rax	# %sfp, D.17609
+	movq	%rax, -192(%rbp)	# D.17609, %sfp
+	movq	-312(%rbp), %rax	# %sfp, ivtmp.518
+	movq	%rax, -224(%rbp)	# ivtmp.518, %sfp
+.L169:
+	movq	-240(%rbp), %rdi	# %sfp, ivtmp.517
+	movl	-228(%rbp), %ecx	# %sfp, j1
+	movl	-132(%rbp), %esi	# %sfp, j1
+	movl	%edi, %eax	# ivtmp.517, tmp828
+	movl	%edi, -184(%rbp)	# tmp828, %sfp
+	addl	$32, %eax	#, D.17610
+	movl	%edi, -316(%rbp)	# tmp829, %sfp
+	cmpl	%eax, %r10d	# D.17610, n
+	cmovle	%r10d, %eax	# n,, iend
+	movl	%eax, %ebx	# iend, iend
+	movl	%eax, -180(%rbp)	# iend, %sfp
+	subl	%edi, %eax	# ivtmp.517, D.17608
+	cltd
+	shrl	$30, %edx	#, tmp429
+	addl	%edx, %eax	# tmp429, tmp430
+	andl	$3, %eax	#, tmp431
+	subl	%edx, %eax	# tmp429, tmp432
+	subl	%eax, %ebx	# tmp432, i1
+	movl	%ebx, %eax	# i1, i1
+	movl	%ebx, -144(%rbp)	# i1, %sfp
+	cmpl	%esi, %ecx	# j1, j1
+	jge	.L136	#,
+	movq	-224(%rbp), %rsi	# %sfp, ivtmp.518
+	movl	%edi, %r13d	# ivtmp.517, D.17610
+	movl	%ecx, -128(%rbp)	# j1, %sfp
+	notl	%r13d	# D.17610
+	movq	%r15, -208(%rbp)	# D.17607, %sfp
+	movq	-176(%rbp), %r15	# %sfp, C
+	addl	%eax, %r13d	# i1, D.17610
+	movl	%r14d, -136(%rbp)	# kend, %sfp
+	shrl	$2, %r13d	#,
+	movl	%r9d, -216(%rbp)	# k1, %sfp
+	movq	%rsi, %rbx	# ivtmp.518, ivtmp.507
+	addq	-264(%rbp), %rbx	# %sfp, ivtmp.507
+	addq	$1, %r13	#, D.17609
+	movl	%r10d, -96(%rbp)	# n, %sfp
+	salq	$5, %r13	#, D.17609
+	movq	%r11, -104(%rbp)	# A, %sfp
+	movq	%r13, -112(%rbp)	# D.17609, %sfp
+	movq	%rsi, %r13	# ivtmp.518, ivtmp.518
+	.p2align 4,,10
+	.p2align 3
+.L137:
+	movl	-184(%rbp), %edi	# %sfp, i1
+	cmpl	%edi, -144(%rbp)	# i1, %sfp
+	jle	.L140	#,
+	movq	-192(%rbp), %rax	# %sfp, ivtmp.520
+	xorl	%r14d, %r14d	# ivtmp.500
+	leaq	(%rbx,%rax), %r12	#, D.17609
+	addq	-88(%rbp), %r12	# %sfp, D.17606
+	vzeroupper
+	.p2align 4,,10
+	.p2align 3
+.L138:
+	leaq	(%r14,%r13), %rdx	#, D.17609
+	movl	-116(%rbp), %esi	# %sfp,
+	addq	-104(%rbp), %rdx	# %sfp, D.17606
+	leaq	(%rbx,%r14), %rcx	#, D.17609
+	addq	$32, %r14	#, ivtmp.500
+	movl	-96(%rbp), %edi	# %sfp,
+	leaq	(%r15,%rcx), %r8	#,
+	movq	%r12, %rcx	# D.17606,
+	call	do_4x4_block_fast	#
+	cmpq	-112(%rbp), %r14	# %sfp, ivtmp.500
+	jne	.L138	#,
+.L140:
+	addl	$4, -128(%rbp)	#, %sfp
+	addq	-200(%rbp), %rbx	# %sfp, ivtmp.507
+	movl	-128(%rbp), %eax	# %sfp, j1
+	cmpl	-132(%rbp), %eax	# %sfp, j1
+	jl	.L137	#,
+	movl	-144(%rbp), %edi	# %sfp, i1
+	movl	-216(%rbp), %r9d	# %sfp, k1
+	movq	-104(%rbp), %r11	# %sfp, A
+	movq	-208(%rbp), %r15	# %sfp, D.17607
+	movslq	%edi, %rax	# i1,
+	movl	-136(%rbp), %r14d	# %sfp, kend
+	movq	%rax, %rbx	# D.17607, D.17607
+	movq	%rax, -216(%rbp)	# D.17607, %sfp
+	addq	-296(%rbp), %rax	# %sfp, D.17609
+	movl	-120(%rbp), %r10d	# %sfp, D.17610
+	movq	-88(%rbp), %r12	# %sfp, B
+	leaq	(%r11,%rax,8), %rax	#, ivtmp.486
+	movq	%rax, -208(%rbp)	# ivtmp.486, %sfp
+	movl	-276(%rbp), %eax	# %sfp, ivtmp.526
+	movl	%eax, -136(%rbp)	# ivtmp.526, %sfp
+	movl	-228(%rbp), %eax	# %sfp, j1
+	movl	%eax, -128(%rbp)	# j1, %sfp
+	movl	-180(%rbp), %eax	# %sfp, iend
+	subl	$1, %eax	#, D.17610
+	subl	%edi, %eax	# i1, D.17607
+	leaq	1(%rbx,%rax), %r13	#, D.17607
+	.p2align 4,,10
+	.p2align 3
+.L139:
+	movl	-144(%rbp), %ebx	# %sfp, i1
+	cmpl	%ebx, -180(%rbp)	# i1, %sfp
+	jle	.L145	#,
+	movslq	-136(%rbp), %rbx	# %sfp, D.17609
+	movq	-176(%rbp), %rax	# %sfp, C
+	movq	-216(%rbp), %rsi	# %sfp, ivtmp.487
+	movq	-208(%rbp), %rdi	# %sfp, ivtmp.486
+	leaq	(%rax,%rbx,8), %r8	#, D.17606
+	movq	-168(%rbp), %rax	# %sfp, ivtmp.535
+	addq	%rbx, %rax	# D.17609, D.17607
+	leaq	(%r12,%rax,8), %rax	#, ivtmp.473
+	movq	%rax, -112(%rbp)	# ivtmp.473, %sfp
+	.p2align 4,,10
+	.p2align 3
+.L148:
+	cmpl	%r9d, %r14d	# k1, kend
+	jle	.L146	#,
+	vmovsd	(%r8,%rsi,8), %xmm2	# MEM[base: _475, index: ivtmp.487_457, step: 8, offset: 0B], D__lsm.346
+	cmpl	$3, %r10d	#, D.17610
+	jbe	.L173	#,
+	movq	-112(%rbp), %rdx	# %sfp, ivtmp.473
+	movq	%rdi, %rax	# ivtmp.486, ivtmp.477
+	xorl	%ecx, %ecx	# ivtmp.468
+	movq	%rsi, -104(%rbp)	# ivtmp.487, %sfp
+	vxorpd	%xmm0, %xmm0, %xmm0	# vect__92.382
+.L141:
+	movq	-80(%rbp), %rsi	# %sfp, D.17607
+	addl	$1, %ecx	#, ivtmp.468
+	addq	$32, %rdx	#, ivtmp.473
+	vmovsd	(%rax,%r15), %xmm5	# MEM[base: _449, index: _375, offset: 0B], tmp862
+	vmovupd	-32(%rdx), %xmm1	# MEM[base: _454, offset: 0B], MEM[base: _454, offset: 0B]
+	vinsertf128	$0x1, -16(%rdx), %ymm1, %ymm3	# MEM[base: _454, offset: 0B], MEM[base: _454, offset: 0B], vect__90.380
+	vmovhpd	(%rax,%r15,2), %xmm5, %xmm1	# MEM[base: _449, index: _375, step: 2, offset: 0B], tmp862, tmp449
+	vmovsd	(%rax,%rsi), %xmm6	# MEM[base: _449, index: _450, offset: 0B], tmp864
+	vmovhpd	(%rax), %xmm6, %xmm4	# MEM[base: _449, offset: 0B], tmp864, tmp452
+	addq	-56(%rbp), %rax	# %sfp, ivtmp.477
+	vinsertf128	$0x1, %xmm1, %ymm4, %ymm1	# tmp449, tmp452, vect_cst_.377
+	vmulpd	%ymm1, %ymm3, %ymm1	# vect_cst_.377, vect__90.380, vect__91.381
+	vaddpd	%ymm1, %ymm0, %ymm0	# vect__91.381, vect__92.382, vect__92.382
+	cmpl	%ecx, -68(%rbp)	# ivtmp.468, %sfp
+	ja	.L141	#,
+	vhaddpd	%ymm0, %ymm0, %ymm0	# vect__92.382, vect__92.382, tmp459
+	movq	-104(%rbp), %rsi	# %sfp, ivtmp.487
+	movl	-60(%rbp), %ecx	# %sfp, D.17610
+	vperm2f128	$1, %ymm0, %ymm0, %ymm1	#, tmp459, tmp459, tmp460
+	vaddpd	%ymm1, %ymm0, %ymm0	# tmp460, tmp459, vect__92.384
+	vaddsd	%xmm0, %xmm2, %xmm2	# stmp__92.383, D__lsm.346, D__lsm.346
+	cmpl	%ecx, -64(%rbp)	# D.17610, %sfp
+	je	.L144	#,
+	movl	-72(%rbp), %eax	# %sfp, k1
+.L147:
+	movl	-96(%rbp), %edx	# %sfp, D.17608
+	imull	%eax, %edx	# k1, D.17608
+	movslq	%edx, %rdx	# D.17608, D.17607
+	addq	%rsi, %rdx	# ivtmp.487, D.17607
+	leaq	(%r11,%rdx,8), %rcx	#, ivtmp.464
+	movslq	%eax, %rdx	# k1, D.17607
+	addq	%rbx, %rdx	# D.17609, D.17607
+	leaq	(%r12,%rdx,8), %rdx	#, ivtmp.466
+.L143:
+	vmovsd	(%rdx), %xmm0	# MEM[base: _448, offset: 0B], MEM[base: _448, offset: 0B]
+	addl	$1, %eax	#, k1
+	addq	$8, %rdx	#, ivtmp.466
+	vmulsd	(%rcx), %xmm0, %xmm0	# MEM[base: _447, offset: 0B], MEM[base: _448, offset: 0B], D.17605
+	addq	%r15, %rcx	# D.17607, ivtmp.464
+	vaddsd	%xmm0, %xmm2, %xmm2	# D.17605, D__lsm.346, D__lsm.346
+	cmpl	%eax, %r14d	# k1, kend
+	jg	.L143	#,
+.L144:
+	vmovsd	%xmm2, (%r8,%rsi,8)	# D__lsm.346, MEM[base: _475, index: ivtmp.487_457, step: 8, offset: 0B]
+.L146:
+	addq	$1, %rsi	#, ivtmp.487
+	addq	$8, %rdi	#, ivtmp.486
+	cmpq	%r13, %rsi	# D.17607, ivtmp.487
+	jne	.L148	#,
+.L145:
+	addl	$1, -128(%rbp)	#, %sfp
+	movl	-96(%rbp), %ebx	# %sfp, n
+	movl	-128(%rbp), %eax	# %sfp, j1
+	addl	%ebx, -136(%rbp)	# n, %sfp
+	cmpl	-132(%rbp), %eax	# %sfp, j1
+	jne	.L139	#,
+	movl	-96(%rbp), %r10d	# %sfp, n
+.L136:
+	movl	-144(%rbp), %ebx	# %sfp, i1
+	movl	-184(%rbp), %edi	# %sfp, i1
+	cmpl	%edi, %ebx	# i1, i1
+	jle	.L149	#,
+	movl	-316(%rbp), %eax	# %sfp, D.17610
+	movl	%r10d, -104(%rbp)	# n, %sfp
+	movq	-224(%rbp), %r13	# %sfp, D.17609
+	addq	-336(%rbp), %r13	# %sfp, D.17609
+	movq	-176(%rbp), %rdi	# %sfp, C
+	notl	%eax	# D.17610
+	movl	-232(%rbp), %r10d	# %sfp, jend
+	addl	%ebx, %eax	# i1, D.17609
+	movq	-240(%rbp), %rbx	# %sfp, ivtmp.517
+	addq	%r11, %r13	# A, ivtmp.458
+	movq	%r13, -112(%rbp)	# ivtmp.458, %sfp
+	movq	-248(%rbp), %r13	# %sfp, D.17607
+	leaq	1(%rbx,%rax), %rax	#, D.17609
+	movq	%rbx, %r12	# ivtmp.517, ivtmp.459
+	movq	-256(%rbp), %rbx	# %sfp, ivtmp.456
+	leaq	(%rdi,%rax,8), %rax	#, D.17612
+	movq	%rax, -128(%rbp)	# D.17612, %sfp
+	.p2align 4,,10
+	.p2align 3
+.L150:
+	movl	-132(%rbp), %eax	# %sfp, j1
+	cmpl	%eax, %r10d	# j1, jend
+	jle	.L155	#,
+	movq	-160(%rbp), %rsi	# %sfp, ivtmp.450
+	movl	%eax, %edi	# j1, j1
+	movq	-152(%rbp), %r8	# %sfp, ivtmp.449
+	.p2align 4,,10
+	.p2align 3
+.L158:
+	cmpl	%r9d, %r14d	# k1, kend
+	jle	.L156	#,
+	cmpl	$3, -120(%rbp)	#, %sfp
+	vmovsd	(%rbx,%rsi,8), %xmm2	# MEM[base: _415, index: ivtmp.450_405, step: 8, offset: 0B], D__lsm.345
+	jbe	.L174	#,
+	movq	-112(%rbp), %rax	# %sfp, ivtmp.440
+	movq	%r8, %rdx	# ivtmp.449, ivtmp.436
+	xorl	%ecx, %ecx	# ivtmp.431
+	movq	%rsi, -96(%rbp)	# ivtmp.450, %sfp
+	vxorpd	%xmm0, %xmm0, %xmm0	# vect__119.369
+.L151:
+	movq	-80(%rbp), %rsi	# %sfp, D.17607
+	addl	$1, %ecx	#, ivtmp.431
+	addq	$32, %rdx	#, ivtmp.436
+	vmovsd	(%rax,%r15), %xmm7	# MEM[base: _176, index: _375, offset: 0B], tmp890
+	vmovupd	-32(%rdx), %xmm1	# MEM[base: _402, offset: 0B], MEM[base: _402, offset: 0B]
+	vinsertf128	$0x1, -16(%rdx), %ymm1, %ymm3	# MEM[base: _402, offset: 0B], MEM[base: _402, offset: 0B], vect__117.367
+	vmovhpd	(%rax,%r15,2), %xmm7, %xmm1	# MEM[base: _176, index: _375, step: 2, offset: 0B], tmp890, tmp490
+	vmovsd	(%rax,%rsi), %xmm5	# MEM[base: _176, index: _15, offset: 0B], tmp892
+	vmovhpd	(%rax), %xmm5, %xmm4	# MEM[base: _176, offset: 0B], tmp892, tmp493
+	addq	-56(%rbp), %rax	# %sfp, ivtmp.440
+	vinsertf128	$0x1, %xmm1, %ymm4, %ymm1	# tmp490, tmp493, vect_cst_.364
+	vmulpd	%ymm1, %ymm3, %ymm1	# vect_cst_.364, vect__117.367, vect__118.368
+	vaddpd	%ymm1, %ymm0, %ymm0	# vect__118.368, vect__119.369, vect__119.369
+	cmpl	-68(%rbp), %ecx	# %sfp, ivtmp.431
+	jb	.L151	#,
+	vhaddpd	%ymm0, %ymm0, %ymm0	# vect__119.369, vect__119.369, tmp500
+	movq	-96(%rbp), %rsi	# %sfp, ivtmp.450
+	movl	-60(%rbp), %ecx	# %sfp, D.17610
+	vperm2f128	$1, %ymm0, %ymm0, %ymm1	#, tmp500, tmp500, tmp501
+	vaddpd	%ymm1, %ymm0, %ymm0	# tmp501, tmp500, vect__119.371
+	vaddsd	%xmm0, %xmm2, %xmm2	# stmp__119.370, D__lsm.345, D__lsm.345
+	cmpl	%ecx, -64(%rbp)	# D.17610, %sfp
+	je	.L154	#,
+	movl	-72(%rbp), %eax	# %sfp, k1
+.L157:
+	movl	-104(%rbp), %edx	# %sfp, D.17608
+	imull	%eax, %edx	# k1, D.17608
+	movslq	%edx, %rdx	# D.17608, D.17607
+	addq	%r12, %rdx	# ivtmp.459, D.17607
+	leaq	(%r11,%rdx,8), %rcx	#, ivtmp.427
+	movslq	%eax, %rdx	# k1, D.17607
+	movq	%rcx, -96(%rbp)	# ivtmp.427, %sfp
+	movq	-88(%rbp), %rcx	# %sfp, B
+	addq	%rsi, %rdx	# ivtmp.450, D.17607
+	leaq	(%rcx,%rdx,8), %rdx	#, ivtmp.429
+	movq	-96(%rbp), %rcx	# %sfp, ivtmp.427
+.L153:
+	vmovsd	(%rdx), %xmm0	# MEM[base: _330, offset: 0B], MEM[base: _330, offset: 0B]
+	addl	$1, %eax	#, k1
+	addq	$8, %rdx	#, ivtmp.429
+	vmulsd	(%rcx), %xmm0, %xmm0	# MEM[base: _94, offset: 0B], MEM[base: _330, offset: 0B], D.17605
+	addq	%r15, %rcx	# D.17607, ivtmp.427
+	vaddsd	%xmm0, %xmm2, %xmm2	# D.17605, D__lsm.345, D__lsm.345
+	cmpl	%eax, %r14d	# k1, kend
+	jg	.L153	#,
+.L154:
+	vmovsd	%xmm2, (%rbx,%rsi,8)	# D__lsm.345, MEM[base: _415, index: ivtmp.450_405, step: 8, offset: 0B]
+.L156:
+	addl	$1, %edi	#, j1
+	addq	%r15, %r8	# D.17607, ivtmp.449
+	addq	%r13, %rsi	# D.17607, ivtmp.450
+	cmpl	%r10d, %edi	# jend, j1
+	jne	.L158	#,
+.L155:
+	addq	$8, -112(%rbp)	#, %sfp
+	addq	$8, %rbx	#, ivtmp.456
+	addq	$1, %r12	#, ivtmp.459
+	cmpq	-128(%rbp), %rbx	# %sfp, ivtmp.456
+	jne	.L150	#,
+	movl	-104(%rbp), %r10d	# %sfp, n
+.L149:
+	movl	-180(%rbp), %edi	# %sfp, iend
+	movl	-144(%rbp), %esi	# %sfp, i1
+	cmpl	%esi, %edi	# i1, iend
+	jle	.L159	#,
+	movq	-296(%rbp), %rax	# %sfp, D.17609
+	movslq	%esi, %r13	# i1, D.17609
+	movl	%r10d, -112(%rbp)	# n, %sfp
+	movq	-176(%rbp), %rcx	# %sfp, C
+	movq	%r13, -104(%rbp)	# ivtmp.422, %sfp
+	movl	-232(%rbp), %r10d	# %sfp, jend
+	addq	%r13, %rax	# D.17609, D.17609
+	leaq	(%r11,%rax,8), %rax	#, ivtmp.421
+	movq	%rax, -128(%rbp)	# ivtmp.421, %sfp
+	leaq	(%rcx,%r13,8), %rbx	#, ivtmp.419
+	movl	%edi, %eax	# iend, D.17610
+	subl	$1, %eax	#, D.17610
+	subl	%esi, %eax	# i1, D.17609
+	leaq	1(%r13,%rax), %rax	#, D.17609
+	movq	-248(%rbp), %r13	# %sfp, D.17607
+	leaq	(%rcx,%rax,8), %rax	#, D.17612
+	movq	%rax, -144(%rbp)	# D.17612, %sfp
+	movl	-364(%rbp), %eax	# %sfp, D.17610
+	leal	(%rax,%r14), %r12d	#, D.17610
+	.p2align 4,,10
+	.p2align 3
+.L160:
+	movl	-132(%rbp), %eax	# %sfp, j1
+	cmpl	%eax, %r10d	# j1, jend
+	jle	.L165	#,
+	movq	-160(%rbp), %rsi	# %sfp, ivtmp.413
+	movl	%eax, %edi	# j1, j1
+	movq	-152(%rbp), %r8	# %sfp, ivtmp.412
+	.p2align 4,,10
+	.p2align 3
+.L168:
+	cmpl	%r9d, %r14d	# k1, kend
+	jle	.L166	#,
+	vmovsd	(%rbx,%rsi,8), %xmm2	# MEM[base: _119, index: ivtmp.413_109, step: 8, offset: 0B], D__lsm.344
+	cmpl	$3, %r12d	#, D.17610
+	jbe	.L175	#,
+	movq	-128(%rbp), %rax	# %sfp, ivtmp.403
+	movq	%r8, %rdx	# ivtmp.412, ivtmp.399
+	xorl	%ecx, %ecx	# ivtmp.394
+	movq	%rsi, -96(%rbp)	# ivtmp.413, %sfp
+	vxorpd	%xmm0, %xmm0, %xmm0	# vect__146.356
+.L161:
+	movq	-80(%rbp), %rsi	# %sfp, D.17607
+	addl	$1, %ecx	#, ivtmp.394
+	addq	$32, %rdx	#, ivtmp.399
+	vmovsd	(%rax,%r15), %xmm6	# MEM[base: _356, index: _375, offset: 0B], tmp914
+	vmovupd	-32(%rdx), %xmm1	# MEM[base: _106, offset: 0B], MEM[base: _106, offset: 0B]
+	vinsertf128	$0x1, -16(%rdx), %ymm1, %ymm3	# MEM[base: _106, offset: 0B], MEM[base: _106, offset: 0B], vect__144.354
+	vmovhpd	(%rax,%r15,2), %xmm6, %xmm1	# MEM[base: _356, index: _375, step: 2, offset: 0B], tmp914, tmp526
+	vmovsd	(%rax,%rsi), %xmm7	# MEM[base: _356, index: _353, offset: 0B], tmp916
+	vmovhpd	(%rax), %xmm7, %xmm4	# MEM[base: _356, offset: 0B], tmp916, tmp529
+	addq	-56(%rbp), %rax	# %sfp, ivtmp.403
+	vinsertf128	$0x1, %xmm1, %ymm4, %ymm1	# tmp526, tmp529, vect_cst_.351
+	vmulpd	%ymm1, %ymm3, %ymm1	# vect_cst_.351, vect__144.354, vect__145.355
+	vaddpd	%ymm1, %ymm0, %ymm0	# vect__145.355, vect__146.356, vect__146.356
+	cmpl	-68(%rbp), %ecx	# %sfp, ivtmp.394
+	jb	.L161	#,
+	vhaddpd	%ymm0, %ymm0, %ymm0	# vect__146.356, vect__146.356, tmp536
+	movq	-96(%rbp), %rsi	# %sfp, ivtmp.413
+	movl	-60(%rbp), %ecx	# %sfp, D.17610
+	vperm2f128	$1, %ymm0, %ymm0, %ymm1	#, tmp536, tmp536, tmp537
+	vaddpd	%ymm1, %ymm0, %ymm0	# tmp537, tmp536, vect__146.358
+	vaddsd	%xmm0, %xmm2, %xmm2	# stmp__146.357, D__lsm.344, D__lsm.344
+	cmpl	%ecx, -64(%rbp)	# D.17610, %sfp
+	je	.L164	#,
+	movl	-72(%rbp), %eax	# %sfp, k1
+.L167:
+	movl	-112(%rbp), %edx	# %sfp, D.17608
+	imull	%eax, %edx	# k1, D.17608
+	movslq	%edx, %rdx	# D.17608, D.17607
+	addq	-104(%rbp), %rdx	# %sfp, D.17607
+	leaq	(%r11,%rdx,8), %rcx	#, ivtmp.390
+	movslq	%eax, %rdx	# k1, D.17607
+	movq	%rcx, -96(%rbp)	# ivtmp.390, %sfp
+	movq	-88(%rbp), %rcx	# %sfp, B
+	addq	%rsi, %rdx	# ivtmp.413, D.17607
+	leaq	(%rcx,%rdx,8), %rdx	#, ivtmp.392
+	movq	-96(%rbp), %rcx	# %sfp, ivtmp.390
+.L163:
+	vmovsd	(%rdx), %xmm0	# MEM[base: _361, offset: 0B], MEM[base: _361, offset: 0B]
+	addl	$1, %eax	#, k1
+	addq	$8, %rdx	#, ivtmp.392
+	vmulsd	(%rcx), %xmm0, %xmm0	# MEM[base: _360, offset: 0B], MEM[base: _361, offset: 0B], D.17605
+	addq	%r15, %rcx	# D.17607, ivtmp.390
+	vaddsd	%xmm0, %xmm2, %xmm2	# D.17605, D__lsm.344, D__lsm.344
+	cmpl	%eax, %r14d	# k1, kend
+	jg	.L163	#,
+.L164:
+	vmovsd	%xmm2, (%rbx,%rsi,8)	# D__lsm.344, MEM[base: _119, index: ivtmp.413_109, step: 8, offset: 0B]
+.L166:
+	addl	$1, %edi	#, j1
+	addq	%r15, %r8	# D.17607, ivtmp.412
+	addq	%r13, %rsi	# D.17607, ivtmp.413
+	cmpl	%r10d, %edi	# jend, j1
+	jne	.L168	#,
+.L165:
+	addq	$8, -128(%rbp)	#, %sfp
+	addq	$8, %rbx	#, ivtmp.419
+	addq	$1, -104(%rbp)	#, %sfp
+	cmpq	-144(%rbp), %rbx	# %sfp, ivtmp.419
+	jne	.L160	#,
+	movl	-112(%rbp), %r10d	# %sfp, n
+.L159:
+	addq	$256, -224(%rbp)	#, %sfp
+	addq	$256, -256(%rbp)	#, %sfp
+	addq	$32, -240(%rbp)	#, %sfp
+	movq	-224(%rbp), %rax	# %sfp, ivtmp.518
+	subq	$256, -192(%rbp)	#, %sfp
+	cmpq	-328(%rbp), %rax	# %sfp, ivtmp.518
+	jne	.L169	#,
+	movl	-280(%rbp), %edi	# %sfp, D.17610
+	movl	%r9d, %r13d	# k1, k1
+	movl	%r10d, %r12d	# n, n
+	movq	%r11, %rbx	# A, A
+	addl	%edi, -276(%rbp)	# D.17610, %sfp
+	movl	-288(%rbp), %eax	# %sfp, j1
+	movq	-304(%rbp), %rdi	# %sfp, D.17609
+	addq	%rdi, -264(%rbp)	# D.17609, %sfp
+	movl	-320(%rbp), %edi	# %sfp, D.17608
+	movl	%eax, -228(%rbp)	# j1, %sfp
+	cmpl	%edi, %eax	# D.17608, j1
+	jne	.L170	#,
+	movl	-280(%rbp), %edi	# %sfp, D.17610
+	movq	%r15, %r14	# D.17607, D.17607
+	movl	%r10d, %r13d	# n, n
+	addl	%edi, -284(%rbp)	# D.17610, %sfp
+	addq	$32, -168(%rbp)	#, %sfp
+	movq	-56(%rbp), %rdi	# %sfp, D.17607
+	movq	-168(%rbp), %rax	# %sfp, ivtmp.535
+	addq	%rdi, -272(%rbp)	# D.17607, %sfp
+	cmpq	-344(%rbp), %rax	# %sfp, ivtmp.535
+	jne	.L171	#,
+	vzeroupper
+	addq	$320, %rsp	#,
+	popq	%rbx	#
+	.cfi_restore 3
+	popq	%r10	#
+	.cfi_restore 10
+	.cfi_def_cfa 10, 0
+	popq	%r12	#
+	.cfi_restore 12
+	popq	%r13	#
+	.cfi_restore 13
+	popq	%r14	#
+	.cfi_restore 14
+	popq	%r15	#
+	.cfi_restore 15
+	popq	%rbp	#
+	.cfi_restore 6
+	leaq	-8(%r10), %rsp	#,
+	.cfi_def_cfa 7, 8
+.L202:
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L175:
+	.cfi_escape 0xf,0x3,0x76,0x58,0x6
+	.cfi_escape 0x10,0x3,0x2,0x76,0x50
+	.cfi_escape 0x10,0x6,0x2,0x76,0
+	.cfi_escape 0x10,0xc,0x2,0x76,0x60
+	.cfi_escape 0x10,0xd,0x2,0x76,0x68
+	.cfi_escape 0x10,0xe,0x2,0x76,0x70
+	.cfi_escape 0x10,0xf,0x2,0x76,0x78
+	movl	%r9d, %eax	# k1, k1
+	jmp	.L167	#
+	.p2align 4,,10
+	.p2align 3
+.L173:
+	movl	%r9d, %eax	# k1, k1
+	jmp	.L147	#
+	.p2align 4,,10
+	.p2align 3
+.L174:
+	movl	%r9d, %eax	# k1, k1
+	jmp	.L157	#
+	.cfi_endproc
+.LFE2289:
+	.size	avx_dgemm_fast, .-avx_dgemm_fast
+	.section	.text.unlikely
+.LCOLDE10:
+	.text
+.LHOTE10:
+	.section	.text.unlikely
+.LCOLDB11:
+	.text
+.LHOTB11:
+	.p2align 4,,15
+	.globl	test
+	.type	test, @function
+test:
+.LFB2291:
+	.cfi_startproc
+	testl	%edi, %edi	# n
+	jle	.L227	#,
+	leaq	32(%rcx), %r8	#, D.17654
+	leaq	32(%rsi), %rax	#, D.17654
+	cmpq	%r8, %rsi	# D.17654, A
+	setnb	%r9b	#, D.17655
+	cmpq	%rax, %rcx	# D.17654, C
+	setnb	%al	#, D.17655
+	orl	%r9d, %eax	# D.17655, D.17655
+	cmpl	$6, %edi	#, n
+	seta	%r9b	#, D.17655
+	testb	%r9b, %al	# D.17655, D.17655
+	je	.L215	#,
+	leaq	32(%rdx), %rax	#, D.17654
+	cmpq	%r8, %rdx	# D.17654, B
+	setnb	%r8b	#, D.17655
+	cmpq	%rax, %rcx	# D.17654, C
+	setnb	%al	#, D.17655
+	orb	%al, %r8b	# D.17655, tmp157
+	je	.L215	#,
+	leal	-4(%rdi), %r8d	#, D.17656
+	xorl	%eax, %eax	# ivtmp.571
+	xorl	%r10d, %r10d	# ivtmp.568
+	shrl	$2, %r8d	#, D.17656
+	addl	$1, %r8d	#, bnd.541
+	leal	0(,%r8,4), %r9d	#, ratio_mult_vf.542
+.L209:
+	vmovupd	(%rdx,%rax), %xmm0	# MEM[base: B_12(D), index: ivtmp.571_55, offset: 0B], MEM[base: B_12(D), index: ivtmp.571_55, offset: 0B]
+	vinsertf128	$0x1, 16(%rdx,%rax), %ymm0, %ymm1	# MEM[base: B_12(D), index: ivtmp.571_55, offset: 0B], MEM[base: B_12(D), index: ivtmp.571_55, offset: 0B], vect__14.549
+	addl	$1, %r10d	#, ivtmp.568
+	vmovupd	(%rsi,%rax), %xmm0	# MEM[base: A_9(D), index: ivtmp.571_55, offset: 0B], MEM[base: A_9(D), index: ivtmp.571_55, offset: 0B]
+	vinsertf128	$0x1, 16(%rsi,%rax), %ymm0, %ymm0	# MEM[base: A_9(D), index: ivtmp.571_55, offset: 0B], MEM[base: A_9(D), index: ivtmp.571_55, offset: 0B], vect__11.546
+	vaddpd	%ymm0, %ymm1, %ymm0	# vect__11.546, vect__14.549, vect__15.550
+	vmovups	%xmm0, (%rcx,%rax)	#, MEM[base: C_7(D), index: ivtmp.571_55, offset: 0B]
+	vextractf128	$0x1, %ymm0, 16(%rcx,%rax)	# vect__15.550, MEM[base: C_7(D), index: ivtmp.571_55, offset: 0B]
+	addq	$32, %rax	#, ivtmp.571
+	cmpl	%r10d, %r8d	# ivtmp.568, bnd.541
+	ja	.L209	#,
+	cmpl	%r9d, %edi	# ratio_mult_vf.542, n
+	je	.L226	#,
+	movslq	%r9d, %rax	# ratio_mult_vf.542, D.17657
+	salq	$3, %rax	#, D.17657
+	addq	%rax, %rsi	# D.17657, D.17654
+	addq	%rax, %rdx	# D.17657, D.17654
+	addq	%rax, %rcx	# D.17657, D.17654
+	xorl	%eax, %eax	# ivtmp.561
+.L211:
+	vmovsd	(%rdx,%rax,8), %xmm0	# MEM[base: _20, index: ivtmp.561_34, step: 8, offset: 0B], MEM[base: _20, index: ivtmp.561_34, step: 8, offset: 0B]
+	vaddsd	(%rsi,%rax,8), %xmm0, %xmm0	# MEM[base: _41, index: ivtmp.561_34, step: 8, offset: 0B], MEM[base: _20, index: ivtmp.561_34, step: 8, offset: 0B], D.17658
+	vmovsd	%xmm0, (%rcx,%rax,8)	# D.17658, MEM[base: _8, index: ivtmp.561_34, step: 8, offset: 0B]
+	addq	$1, %rax	#, ivtmp.561
+	leal	(%r9,%rax), %r8d	#, D.17656
+	cmpl	%r8d, %edi	# D.17656, n
+	jg	.L211	#,
+.L226:
+	vzeroupper
+.L227:
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L215:
+	xorl	%eax, %eax	# ivtmp.554
+	.p2align 4,,10
+	.p2align 3
+.L208:
+	vmovsd	(%rdx,%rax,8), %xmm0	# MEM[base: B_12(D), index: ivtmp.554_70, step: 8, offset: 0B], MEM[base: B_12(D), index: ivtmp.554_70, step: 8, offset: 0B]
+	vaddsd	(%rsi,%rax,8), %xmm0, %xmm0	# MEM[base: A_9(D), index: ivtmp.554_70, step: 8, offset: 0B], MEM[base: B_12(D), index: ivtmp.554_70, step: 8, offset: 0B], D.17658
+	vmovsd	%xmm0, (%rcx,%rax,8)	# D.17658, MEM[base: C_7(D), index: ivtmp.554_70, step: 8, offset: 0B]
+	addq	$1, %rax	#, ivtmp.554
+	cmpl	%eax, %edi	# ivtmp.554, n
+	jg	.L208	#,
+	ret
+	.cfi_endproc
+.LFE2291:
+	.size	test, .-test
+	.section	.text.unlikely
+.LCOLDE11:
+	.text
+.LHOTE11:
+	.section	.rodata.str1.1
+.LC12:
+	.string	"%s\nSize:\tGflops\n"
+.LC15:
+	.string	"%d\t%.3g\n"
+.LC18:
+	.string	"error in matrix multiply"
+	.section	.text.unlikely
+.LCOLDB19:
+	.text
+.LHOTB19:
+	.p2align 4,,15
+	.globl	benchmark
+	.type	benchmark, @function
+benchmark:
+.LFB2292:
+	.cfi_startproc
+	pushq	%r15	#
+	.cfi_def_cfa_offset 16
+	.cfi_offset 15, -16
+	xorl	%eax, %eax	#
+	movq	%rsi, %r15	# f, f
+	movl	$.LC12, %esi	#,
+	pushq	%r14	#
+	.cfi_def_cfa_offset 24
+	.cfi_offset 14, -24
+	movq	%r9, %r14	# B, B
+	pushq	%r13	#
+	.cfi_def_cfa_offset 32
+	.cfi_offset 13, -32
+	pushq	%r12	#
+	.cfi_def_cfa_offset 40
+	.cfi_offset 12, -40
+	movq	%rdx, %r12	# test_sizes, test_sizes
+	movq	%rdi, %rdx	# desc,
+	movl	$1, %edi	#,
+	pushq	%rbp	#
+	.cfi_def_cfa_offset 48
+	.cfi_offset 6, -48
+	movl	%ecx, %ebp	# nsizes, nsizes
+	pushq	%rbx	#
+	.cfi_def_cfa_offset 56
+	.cfi_offset 3, -56
+	subq	$56, %rsp	#,
+	.cfi_def_cfa_offset 112
+	movq	%r8, (%rsp)	# A, %sfp
+	movq	112(%rsp), %rbx	# C, C
+	call	__printf_chk	#
+	testl	%ebp, %ebp	# nsizes
+	jle	.L248	#,
+	leal	-1(%rbp), %eax	#, D.17682
+	movq	%r12, 16(%rsp)	# ivtmp.594, %sfp
+	leaq	4(%r12,%rax,4), %rax	#, D.17679
+	movq	%rax, 40(%rsp)	# D.17679, %sfp
+.L239:
+	movq	16(%rsp), %rax	# %sfp, ivtmp.594
+	movq	(%rsp), %rdi	# %sfp,
+	movl	(%rax), %r12d	# MEM[base: _51, offset: 0B], n
+	movl	%r12d, %eax	# n, D.17684
+	imull	%r12d, %eax	# n, D.17684
+	movl	%eax, %ebp	# D.17684, D.17684
+	movl	%eax, %esi	# D.17684,
+	movl	%eax, 28(%rsp)	# D.17684, %sfp
+	call	fill	#
+	movl	%ebp, %esi	# D.17684,
+	movq	%r14, %rdi	# B,
+	call	fill	#
+	movl	%ebp, %esi	# D.17684,
+	movq	%rbx, %rdi	# C,
+	movl	$1, %ebp	#, n_iterations
+	call	fill	#
+	vxorpd	%xmm6, %xmm6, %xmm6	# D.17683
+	vcvtsi2sd	%r12d, %xmm6, %xmm6	# n, D.17683, D.17683
+	vmovsd	%xmm6, 32(%rsp)	# D.17683, %sfp
+	.p2align 4,,10
+	.p2align 3
+.L232:
+	movq	%rbx, %rcx	# C,
+	movq	%r14, %rdx	# B,
+	movq	(%rsp), %rsi	# %sfp,
+	movl	%r12d, %edi	# n,
+	call	*%r15	# f
+	xorl	%eax, %eax	#
+	xorl	%r13d, %r13d	# it
+	call	wall_time	#
+	vmovsd	%xmm0, 8(%rsp)	#, %sfp
+	.p2align 4,,10
+	.p2align 3
+.L231:
+	addl	$1, %r13d	#, it
+	movq	%rbx, %rcx	# C,
+	movq	%r14, %rdx	# B,
+	movq	(%rsp), %rsi	# %sfp,
+	movl	%r12d, %edi	# n,
+	call	*%r15	# f
+	cmpl	%ebp, %r13d	# n_iterations, it
+	jne	.L231	#,
+	leal	(%r13,%r13), %ebp	#, n_iterations
+	xorl	%eax, %eax	#
+	call	wall_time	#
+	vsubsd	8(%rsp), %xmm0, %xmm0	# %sfp, D.17683, seconds
+	vmovsd	.LC13(%rip), %xmm4	#, tmp188
+	vcomisd	%xmm0, %xmm4	# seconds, tmp188
+	ja	.L232	#,
+	vmovsd	32(%rsp), %xmm5	# %sfp, D.17683
+	vxorpd	%xmm1, %xmm1, %xmm1	# D.17683
+	movl	%r12d, %edx	# n,
+	movl	$.LC15, %esi	#,
+	vcvtsi2sd	%r13d, %xmm1, %xmm1	# it, D.17683, D.17683
+	movl	$1, %edi	#,
+	vmulsd	%xmm5, %xmm5, %xmm2	# D.17683, D.17683, D.17683
+	movl	$1, %eax	#,
+	vmulsd	.LC14(%rip), %xmm2, %xmm2	#, D.17683, D.17683
+	vmulsd	%xmm5, %xmm2, %xmm2	# D.17683, D.17683, D.17683
+	vmulsd	%xmm1, %xmm2, %xmm1	# D.17683, D.17683, D.17683
+	vdivsd	%xmm0, %xmm1, %xmm0	# seconds, D.17683, Gflops_s
+	call	__printf_chk	#
+	movslq	28(%rsp), %rbp	# %sfp, D.17685
+	xorl	%esi, %esi	#
+	movq	%rbx, %rdi	# C,
+	leaq	0(,%rbp,8), %r13	#, D.17685
+	movq	%r13, %rdx	# D.17685,
+	call	memset	#
+	movq	%r13, %rdi	# D.17685,
+	call	malloc	#
+	movq	%r13, %rdx	# D.17685,
+	xorl	%esi, %esi	#
+	movq	%rax, %rdi	# Co,
+	movq	%rax, %rbp	#, Co
+	call	memset	#
+	movq	(%rsp), %r13	# %sfp, A
+	movq	%rbp, %rcx	# Co,
+	movq	%r14, %rdx	# B,
+	movl	%r12d, %edi	# n,
+	movq	%r13, %rsi	# A,
+	call	naive_dgemm	#
+	movq	%rbx, %rcx	# C,
+	movq	%r14, %rdx	# B,
+	movq	%r13, %rsi	# A,
+	movl	%r12d, %edi	# n,
+	call	*%r15	# f
+	movl	28(%rsp), %eax	# %sfp,
+	testl	%eax, %eax	#
+	je	.L233	#,
+	vmovsd	(%rbx), %xmm0	# *C_25(D), *C_25(D)
+	vsubsd	0(%rbp), %xmm0, %xmm0	# *Co_47, *C_25(D), D.17683
+	vandpd	.LC16(%rip), %xmm0, %xmm0	#, D.17683, D.17683
+	vcomisd	.LC17(%rip), %xmm0	#, D.17683
+	ja	.L236	#,
+	movl	28(%rsp), %eax	# %sfp, D.17684
+	xorl	%esi, %esi	# ivtmp.584
+	subl	$1, %eax	#, D.17682
+	salq	$3, %rax	#, D.17682
+	jmp	.L237	#
+	.p2align 4,,10
+	.p2align 3
+.L238:
+	vmovsd	8(%rbx,%rsi), %xmm0	# MEM[base: C_25(D), index: ivtmp.584_37, offset: 8B], MEM[base: C_25(D), index: ivtmp.584_37, offset: 8B]
+	vsubsd	8(%rbp,%rsi), %xmm0, %xmm0	# MEM[base: Co_47, index: ivtmp.584_37, offset: 8B], MEM[base: C_25(D), index: ivtmp.584_37, offset: 8B], D.17683
+	addq	$8, %rsi	#, ivtmp.584
+	vandpd	.LC16(%rip), %xmm0, %xmm0	#, D.17683, D.17683
+	vcomisd	.LC17(%rip), %xmm0	#, D.17683
+	ja	.L236	#,
+.L237:
+	cmpq	%rax, %rsi	# D.17682, ivtmp.584
+	jne	.L238	#,
+.L233:
+	addq	$4, 16(%rsp)	#, %sfp
+	movq	16(%rsp), %rax	# %sfp, ivtmp.594
+	cmpq	40(%rsp), %rax	# %sfp, ivtmp.594
+	jne	.L239	#,
+.L248:
+	addq	$56, %rsp	#,
+	.cfi_remember_state
+	.cfi_def_cfa_offset 56
+	popq	%rbx	#
+	.cfi_def_cfa_offset 48
+	popq	%rbp	#
+	.cfi_def_cfa_offset 40
+	popq	%r12	#
+	.cfi_def_cfa_offset 32
+	popq	%r13	#
+	.cfi_def_cfa_offset 24
+	popq	%r14	#
+	.cfi_def_cfa_offset 16
+	popq	%r15	#
+	.cfi_def_cfa_offset 8
+	ret
+.L236:
+	.cfi_restore_state
+	movl	$.LC18, %edi	#,
+	call	perror	#
+	movq	%rbx, %rdx	# C,
+	movl	%r12d, %esi	# n,
+	movl	%r12d, %edi	# n,
+	call	printmatrix	#
+	movl	%r12d, %edi	# n,
+	movq	%rbp, %rdx	# Co,
+	movl	%r12d, %esi	# n,
+	call	printmatrix	#
+	movl	$1, %edi	#,
+	call	exit	#
+	.cfi_endproc
+.LFE2292:
+	.size	benchmark, .-benchmark
+	.section	.text.unlikely
+.LCOLDE19:
+	.text
+.LHOTE19:
+	.section	.rodata.str1.1
+.LC20:
+	.string	"avx_fast"
+.LC21:
+	.string	"avx_slow"
+	.section	.text.unlikely
+.LCOLDB22:
+	.section	.text.startup,"ax",@progbits
+.LHOTB22:
+	.p2align 4,,15
+	.globl	main
+	.type	main, @function
+main:
+.LFB2293:
+	.cfi_startproc
+	pushq	%rbp	#
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movl	$17, %ecx	#,
+	movl	$avx_dgemm_fast, %esi	#,
+	movl	$.LC20, %edi	#,
+	movq	%rsp, %rbp	#,
+	.cfi_def_cfa_register 6
+	pushq	%r13	#
+	pushq	%r12	#
+	leaq	-112(%rbp), %rdx	#, tmp131
+	pushq	%rbx	#
+	subq	$88, %rsp	#,
+	.cfi_offset 13, -24
+	.cfi_offset 12, -32
+	.cfi_offset 3, -40
+	movl	$4, -112(%rbp)	#, test_sizes
+	movq	%fs:40, %rax	#, tmp129
+	movq	%rax, -40(%rbp)	# tmp129, D.17704
+	xorl	%eax, %eax	# tmp129
+	subq	$919376, %rsp	#,
+	movl	$6, -108(%rbp)	#, test_sizes
+	movq	%rsp, %rbx	#, tmp99
+	subq	$919376, %rsp	#,
+	movl	$7, -104(%rbp)	#, test_sizes
+	movq	%rsp, %r12	#, tmp109
+	subq	$919376, %rsp	#,
+	movq	%rbx, %r8	# tmp99,
+	movl	$8, -100(%rbp)	#, test_sizes
+	movq	%rsp, %r13	#, tmp119
+	subq	$8, %rsp	#,
+	movq	%r12, %r9	# tmp109,
+	movl	$16, -96(%rbp)	#, test_sizes
+	pushq	%r13	# tmp119
+	movl	$32, -92(%rbp)	#, test_sizes
+	movl	$64, -88(%rbp)	#, test_sizes
+	movl	$65, -84(%rbp)	#, test_sizes
+	movl	$66, -80(%rbp)	#, test_sizes
+	movl	$67, -76(%rbp)	#, test_sizes
+	movl	$128, -72(%rbp)	#, test_sizes
+	movl	$153, -68(%rbp)	#, test_sizes
+	movl	$185, -64(%rbp)	#, test_sizes
+	movl	$251, -60(%rbp)	#, test_sizes
+	movl	$285, -56(%rbp)	#, test_sizes
+	movl	$301, -52(%rbp)	#, test_sizes
+	movl	$339, -48(%rbp)	#, test_sizes
+	call	benchmark	#
+	movl	$17, %ecx	#,
+	movq	%r12, %r9	# tmp109,
+	movq	%rbx, %r8	# tmp99,
+	leaq	-112(%rbp), %rdx	#, tmp132
+	movl	$avx_dgemm_slow, %esi	#,
+	movl	$.LC21, %edi	#,
+	movq	%r13, (%rsp)	# tmp119,
+	call	benchmark	#
+	xorl	%eax, %eax	#
+	movq	-40(%rbp), %rcx	# D.17704, tmp130
+	xorq	%fs:40, %rcx	#, tmp130
+	jne	.L254	#,
+	leaq	-24(%rbp), %rsp	#,
+	popq	%rbx	#
+	popq	%r12	#
+	popq	%r13	#
+	popq	%rbp	#
+	.cfi_remember_state
+	.cfi_def_cfa 7, 8
+	ret
+.L254:
+	.cfi_restore_state
+	call	__stack_chk_fail	#
+	.cfi_endproc
+.LFE2293:
+	.size	main, .-main
+	.section	.text.unlikely
+.LCOLDE22:
+	.section	.text.startup
+.LHOTE22:
+	.section	.rodata.cst8,"aM",@progbits,8
+	.align 8
+.LC0:
+	.long	3894859413
+	.long	1041313291
+	.align 8
+.LC2:
+	.long	0
+	.long	1072693248
+	.align 8
+.LC13:
+	.long	2576980378
+	.long	1069128089
+	.align 8
+.LC14:
+	.long	3894859413
+	.long	1042361867
+	.section	.rodata.cst16,"aM",@progbits,16
+	.align 16
+.LC16:
+	.long	4294967295
+	.long	2147483647
+	.long	0
+	.long	0
+	.section	.rodata.cst8
+	.align 8
+.LC17:
+	.long	1202590843
+	.long	1065646817
+	.ident	"GCC: (Gentoo 4.9.3 p1.5, pie-0.6.4) 4.9.3"
+	.section	.note.GNU-stack,"",@progbits

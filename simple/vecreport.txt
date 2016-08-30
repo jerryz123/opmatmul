@@ -1,0 +1,3 @@
+rm -f matmul matmul.o
+cc -c -Wall -std=gnu99 -save-temps -O2  -ftree-vectorize -fopt-info-vec -msse -msse2 -mavx -mavx2 -mfma -march=ivybridge -ffast-math  matmul.c
+cc -o matmul matmul.o -lrt -g -lm -ldl -O2  -ftree-vectorize -fopt-info-vec -msse -msse2 -mavx -mavx2 -mfma -march=ivybridge -ffast-math

@@ -22,53 +22,144 @@ void transpose (int m, int n, double* A, double* At)
 /* A is M by K
  * B is K by N
  * C is M by N*/
-void do_4x4_block(int M, int N, int K, int depth,  double* A, double* B, double* C) {
-  __m256d bx0, bx1, bx2, bx3;
+void do_4x4_block(int M, int N, int K, int depth,  const double* restrict A, const double* restrict B, double* restrict C) {
+ 
+  double* restrict B0 = B;
+  double* restrict B1 = B + K;
+  double* restrict B2 = B + K * 2;
+  double* restrict B3 = B + K * 3;
 
-  __m256d acol;
-
-  double* C0p = C;
-  C += M;
-  double* C1p = C;
-  C += M;
-  double* C2p = C;
-  C += M;
-  double* C3p = C;
+  double* restrict Cp = C;
   
-  __m256d c0 = _mm256_loadu_pd(C0p);
-  __m256d c1 = _mm256_loadu_pd(C1p);
-  __m256d c2 = _mm256_loadu_pd(C2p);
-  __m256d c3 = _mm256_loadu_pd(C3p);
+  double b0, b1, b2, b3;
+  
+  double a0, a1, a2, a3;
 
-  double* B0 = B;
-  B += K;
-  double* B1 = B;
-  B += K;
-  double* B2 = B;
-  B += K;
-  double* B3 = B;
+  double c00 = C[0];
+  double c01 = C[1];
+  double c02 = C[2];
+  double c03 = C[3];
+  C += M;
+  double c10 = C[0];
+  double c11 = C[1];
+  double c12 = C[2];
+  double c13 = C[3];
+  C += M;
+  double c20 = C[0];
+  double c21 = C[1];
+  double c22 = C[2];
+  double c23 = C[3];
+  C += M;
+  double c30 = C[0];
+  double c31 = C[1];
+  double c32 = C[2];
+  double c33 = C[3];
+  C = Cp;
+  
+  for (int k = 0; k < depth; k ++) {
+    b0 = B0[k];
+    b1 = B1[k];
+    b2 = B2[k];
+    b3 = B3[k];
 
-  for (int i = 0; i < depth; i++) {
-    acol = _mm256_loadu_pd(A);
-    A += M;
+    a0 = A[0];
+    a1 = A[1];
+    a2 = A[2];
+    a3 = A[3];
+
+    A += 4;
+      
+    c00 += a0 * b0;
+    c01 += a1 * b0;
+    c02 += a2 * b0;
+    c03 += a3 * b0;
     
-    bx0 = _mm256_set1_pd(B0[i]);
-    bx1 = _mm256_set1_pd(B1[i]);
-    bx2 = _mm256_set1_pd(B2[i]);
-    bx3 = _mm256_set1_pd(B3[i]);
+    c10 += a0 * b1;
+    c11 += a1 * b1;
+    c12 += a2 * b1;
+    c13 += a3 * b1;
 
-    c0 = _mm256_add_pd(c0, _mm256_mul_pd(acol, bx0));
-    c1 = _mm256_add_pd(c1, _mm256_mul_pd(acol, bx1));
-    c2 = _mm256_add_pd(c2, _mm256_mul_pd(acol, bx2));
-    c3 = _mm256_add_pd(c3, _mm256_mul_pd(acol, bx3));
+    c20 += a0 * b2;
+    c21 += a1 * b2;
+    c22 += a2 * b2;
+    c23 += a3 * b2;
 
+    c30 += a0 * b3;
+    c31 += a1 * b3;
+    c32 += a2 * b3;
+    c33 += a3 * b3;
     
   }
+  C[0] = c00;
+  C[1] = c01;
+  C[2] = c02;
+  C[3] = c03;
+  C += M;
+  C[0] = c10;
+  C[1] = c11;
+  C[2] = c12;
+  C[3] = c13;
+  C += M;
+  C[0] = c20;
+  C[1] = c21;
+  C[2] = c22;
+  C[3] = c23;
+  C += M;
+  C[0] = c30;
+  C[1] = c31;
+  C[2] = c32;
+  C[3] = c33;
+  
+  
+  /* __m256d bx0, bx1, bx2, bx3; */
+  
+  /* __m256d acol; */
 
-  _mm256_storeu_pd(C0p, c0);
-  _mm256_storeu_pd(C1p, c1);
-  _mm256_storeu_pd(C2p, c2);
-  _mm256_storeu_pd(C3p, c3);
+  /* double* C0p = C; */
+  /* /\* C += 4; *\/ */
+  /* C += M; */
+  /* double* C1p = C; */
+  /* /\* C += 4; *\/ */
+  /* C += M; */
+  /* double* C2p = C; */
+  /* /\* C += 4; *\/ */
+  /* C += M; */
+  /* double* C3p = C; */
+  
+  /* __m256d c0 = _mm256_loadu_pd(C0p); */
+  /* __m256d c1 = _mm256_loadu_pd(C1p); */
+  /* __m256d c2 = _mm256_loadu_pd(C2p); */
+  /* __m256d c3 = _mm256_loadu_pd(C3p); */
+
+  /* double* B0 = B; */
+  /* B += K; */
+  /* double* B1 = B; */
+  /* B += K; */
+  /* double* B2 = B; */
+  /* B += K; */
+  /* double* B3 = B; */
+
+  /* for (int i = 0; i < depth; i++) { */
+  /*   acol = _mm256_loadu_pd(A); */
+  /*   A += M; */
+    
+  /*   bx0 = _mm256_set1_pd(B0[i]); */
+  /*   bx1 = _mm256_set1_pd(B1[i]); */
+  /*   bx2 = _mm256_set1_pd(B2[i]); */
+  /*   bx3 = _mm256_set1_pd(B3[i]); */
+
+  /*   c0 = _mm256_add_pd(c0, _mm256_mul_pd(acol, bx0)); */
+  /*   c1 = _mm256_add_pd(c1, _mm256_mul_pd(acol, bx1)); */
+  /*   c2 = _mm256_add_pd(c2, _mm256_mul_pd(acol, bx2)); */
+  /*   c3 = _mm256_add_pd(c3, _mm256_mul_pd(acol, bx3)); */
+
+    
+  /* } */
+
+  /* _mm256_storeu_pd(C0p, c0); */
+  /* _mm256_storeu_pd(C1p, c1); */
+  /* _mm256_storeu_pd(C2p, c2); */
+  /* _mm256_storeu_pd(C3p, c3); */
 }
 
 void do_bfringex4_block(int M, int N, int K, int depth, double* A, double* B, double* C, int bfringe) {
@@ -320,6 +411,21 @@ void do_4xrfringe_block(int M, int N, int K, int depth, double* A, double* B, do
   }
 }
 
+void copy4x4toa(int M, double* X, double* Xt) {
+  _mm256_store_pd(Xt, _mm256_loadu_pd(X));
+  _mm256_store_pd(Xt + 4, _mm256_loadu_pd(X + M));
+  _mm256_store_pd(Xt + 8, _mm256_loadu_pd(X + M * 2));
+  _mm256_store_pd(Xt + 12, _mm256_loadu_pd(X + M * 3));
+  
+}
+void copy4x4tou(int S, double* X, double* Xt) {
+  _mm256_storeu_pd(Xt, _mm256_load_pd(X));
+  _mm256_storeu_pd(Xt + S, _mm256_load_pd(X + 4));
+  _mm256_storeu_pd(Xt + S * 2, _mm256_load_pd(X + 8));
+  _mm256_storeu_pd(Xt + S  *3, _mm256_load_pd(X + 12));
+  
+}
+    
 
 /* A is M by K
  * B is K by N
@@ -335,6 +441,8 @@ void do_l1_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double
   int rfringe = jdepth % 4;
   int rboundary = jdepth - rfringe;
   int bboundary = idepth - bfringe;
+
+  /* double* Ct = (double*)_mm_malloc(4*4*sizeof(double), 32); */
   
 
   /* double* Ap = A; */
@@ -344,7 +452,9 @@ void do_l1_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double
 
     for (i = 0; i < bboundary ; i += 4) {
       /* do_4x4_block(M, N, K, kdepth, Ap, Bp, Cp); */
+      /* copy4x4toa(M, C + i + j * M, Ct); */
       do_4x4_block(M, N, K, kdepth, A + i, B + j * K, C + i + j * M);
+      /* copy4x4tou(M, Ct, C + i + j * M); */
       /* Ap += 4; */
       /* Cp += 4; */
     }
@@ -374,8 +484,6 @@ void do_l1_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double
 
 }
 
-
-    
 /* This routine performs a dgemm operation
  *  C := C + A * B
  * where A is M x K,
@@ -384,6 +492,7 @@ void do_l1_block(int M, int N, int K, int idepth, int jdepth, int kdepth, double
  * All in column-major format
  * On  exit, A and B maintain their input values. */  
 void my_dgemm (int M, int N, int K, double* A, double* B, double* C) {
+  
   /* L2 Blocking */
   for (int k2 = 0; k2 < K; k2 += L2_BLOCK_SIZE) {
     int k2end = min(k2 + L2_BLOCK_SIZE, K);
@@ -408,7 +517,7 @@ void my_dgemm (int M, int N, int K, double* A, double* B, double* C) {
 	
       }
     }
-  }
+  }  
 }
 
 
