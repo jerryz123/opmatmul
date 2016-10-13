@@ -1,0 +1,24 @@
+CC = riscv64-unknown-elf-gcc
+OPT = -O3 -funroll-loops -ftree-vectorize -fopt-info-vec -ffast-math -fverbose-asm 
+MKLROOT = /opt/intel/compilers_and_libraries_2016.2.181/linux/mkl
+CFLAGS = -Wall -std=gnu99 -save-temps -fverbose-asm $(OPT)  -static -fno-common -fno-builtin
+LDFLAGS = -Wall -fverbose-asm $(OPT)
+# librt is needed for clock_gettime
+LDLIBS= -g -lm 
+targets = matmul
+objects = matmul.o
+
+.PHONY : default
+default : all
+.PHONY : all
+all : clean $(targets)
+
+matmul : matmul.o
+	$(CC) -o $@ $^ $(LDLIBS) 
+
+%.o : %.c
+	$(CC) -c $(CFLAGS) $<
+
+.PHONY: clean
+clean:
+	rm -f $(targets) $(objects)

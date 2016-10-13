@@ -2,89 +2,89 @@
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "matmul.c"
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 1 3
-# 10 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/ieeefp.h" 1 3
-# 11 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/_ansi.h" 1 3
-# 15 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/_ansi.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/newlib.h" 1 3
-# 16 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/_ansi.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/config.h" 1 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 1 3
+# 10 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/ieeefp.h" 1 3
+# 11 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/_ansi.h" 1 3
+# 15 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/_ansi.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/newlib.h" 1 3
+# 16 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/_ansi.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/config.h" 1 3
 
 
 
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/ieeefp.h" 1 3
-# 5 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/config.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/features.h" 1 3
-# 6 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/config.h" 2 3
-# 17 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/_ansi.h" 2 3
-# 12 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/ieeefp.h" 1 3
+# 5 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/config.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/features.h" 1 3
+# 6 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/config.h" 2 3
+# 17 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/_ansi.h" 2 3
+# 12 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 2 3
 
 
 
 
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 1 3 4
-# 216 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 3 4
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 1 3 4
+# 216 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 3 4
 
-# 216 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 3 4
+# 216 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 3 4
 typedef long unsigned int size_t;
-# 328 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 3 4
+# 328 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 3 4
 typedef int wchar_t;
-# 17 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 2 3
+# 17 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 2 3
 
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 1 3
-# 13 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/_ansi.h" 1 3
-# 14 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 1 3 4
-# 149 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 3 4
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 1 3
+# 13 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/_ansi.h" 1 3
+# 14 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 1 3 4
+# 149 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 3 4
 typedef long int ptrdiff_t;
-# 15 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/_types.h" 1 3
-# 12 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/_types.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_types.h" 1 3
+# 15 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/_types.h" 1 3
+# 12 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/_types.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_types.h" 1 3
 
 
 
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 1 3
-# 27 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 1 3
+# 27 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef signed char __int8_t;
 
 typedef unsigned char __uint8_t;
-# 41 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 41 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef short int __int16_t;
 
 typedef short unsigned int __uint16_t;
-# 63 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 63 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef int __int32_t;
 
 typedef unsigned int __uint32_t;
-# 89 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 89 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef long int __int64_t;
 
 typedef long unsigned int __uint64_t;
-# 120 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 120 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef signed char __int_least8_t;
 
 typedef unsigned char __uint_least8_t;
-# 146 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 146 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef short int __int_least16_t;
 
 typedef short unsigned int __uint_least16_t;
-# 168 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 168 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef int __int_least32_t;
 
 typedef unsigned int __uint_least32_t;
-# 186 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 186 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef long int __int_least64_t;
 
 typedef long unsigned int __uint_least64_t;
-# 200 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_default_types.h" 3
+# 200 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_default_types.h" 3
 typedef long int __intptr_t;
 
 typedef long unsigned int __uintptr_t;
-# 5 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/_types.h" 2 3
+# 5 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/_types.h" 2 3
 
 
 typedef unsigned long long __dev_t;
@@ -96,24 +96,28 @@ typedef unsigned int __uid_t;
 typedef unsigned int __gid_t;
 
 
-typedef long long _off_t;
+typedef long _off_t;
 
 
 typedef unsigned long long _fpos_t;
 
 
-typedef unsigned long long time_t;
+typedef long time_t;
 
 
-typedef unsigned long long __ino_t;
+typedef unsigned long __ino_t;
 
 
 typedef unsigned int __nlink_t;
 
 
 typedef long signed int _ssize_t;
-# 13 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/_types.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/lock.h" 1 3
+
+typedef int blksize_t;
+
+typedef long blkcnt_t;
+# 13 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/_types.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/lock.h" 1 3
 
 
 
@@ -121,14 +125,14 @@ typedef long signed int _ssize_t;
 
 typedef int _LOCK_T;
 typedef int _LOCK_RECURSIVE_T;
-# 14 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/_types.h" 2 3
-# 31 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/_types.h" 3
+# 14 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/_types.h" 2 3
+# 31 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/_types.h" 3
 __extension__ typedef long long _off64_t;
-# 67 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/_types.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 1 3 4
-# 357 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 3 4
+# 67 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/_types.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 1 3 4
+# 357 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 3 4
 typedef unsigned int wint_t;
-# 68 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/_types.h" 2 3
+# 68 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/_types.h" 2 3
 
 
 
@@ -150,10 +154,10 @@ typedef _LOCK_RECURSIVE_T _flock_t;
 
 
 typedef void *_iconv_t;
-# 16 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 2 3
-# 25 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 16 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 2 3
+# 25 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 typedef unsigned int __ULong;
-# 38 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 38 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 struct _reent;
 
 
@@ -197,7 +201,7 @@ struct _on_exit_args {
 
  __ULong _is_cxa;
 };
-# 91 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 91 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 struct _atexit {
  struct _atexit *_next;
  int _ind;
@@ -205,12 +209,12 @@ struct _atexit {
  void (*_fns[32])(void);
         struct _on_exit_args _on_exit_args;
 };
-# 115 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 115 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 struct __sbuf {
  unsigned char *_base;
  int _size;
 };
-# 179 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 179 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 struct __sFILE {
   unsigned char *_p;
   int _r;
@@ -261,7 +265,7 @@ struct __sFILE {
   _mbstate_t _mbstate;
   int _flags2;
 };
-# 285 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 285 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 typedef struct __sFILE __FILE;
 
 
@@ -272,7 +276,7 @@ struct _glue
   int _niobs;
   __FILE *_iobs;
 };
-# 317 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 317 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 struct _rand48 {
   unsigned short _seed[3];
   unsigned short _mult[3];
@@ -282,7 +286,7 @@ struct _rand48 {
 
 
 };
-# 569 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 569 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 struct _reent
 {
   int _errno;
@@ -362,22 +366,22 @@ struct _reent
   struct _glue __sglue;
   __FILE __sf[3];
 };
-# 762 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/reent.h" 3
+# 762 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/reent.h" 3
 extern struct _reent *_impure_ptr ;
 extern struct _reent *const _global_impure_ptr ;
 
 void _reclaim_reent (struct _reent *);
-# 19 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/cdefs.h" 1 3
-# 45 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/cdefs.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 1 3 4
-# 46 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/cdefs.h" 2 3
-# 20 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/stdlib.h" 1 3
-# 21 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 2 3
+# 19 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/cdefs.h" 1 3
+# 45 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/cdefs.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 1 3 4
+# 46 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/cdefs.h" 2 3
+# 20 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/stdlib.h" 1 3
+# 21 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 2 3
 
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/alloca.h" 1 3
-# 23 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/alloca.h" 1 3
+# 23 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 2 3
 
 
 
@@ -593,7 +597,7 @@ unsigned long long _strtoull_r (struct _reent *, const char *restrict __n, char 
 void cfree (void *);
 int unsetenv (const char *__string);
 int _unsetenv_r (struct _reent *, const char *__string);
-# 246 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 3
+# 246 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 3
 char * _dtoa_r (struct _reent *, double, int, int, int *, int*, char**);
 
 void * _malloc_r (struct _reent *, size_t) ;
@@ -605,36 +609,36 @@ void _mstats_r (struct _reent *, char *);
 int _system_r (struct _reent *, const char *);
 
 void __eprintf (const char *, const char *, unsigned int, const char *);
-# 279 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdlib.h" 3
+# 279 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdlib.h" 3
 extern long double strtold (const char *restrict, char **restrict);
 
 
 
 
 # 2 "matmul.c" 2
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 1 3
-# 36 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 1 3 4
-# 37 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 1 3
+# 36 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 1 3 4
+# 37 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 2 3
 
 
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stdarg.h" 1 3 4
-# 40 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stdarg.h" 3 4
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stdarg.h" 1 3 4
+# 40 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stdarg.h" 3 4
 typedef __builtin_va_list __gnuc_va_list;
-# 40 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 2 3
-# 48 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 1 3
-# 69 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 1 3 4
-# 70 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 2 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/types.h" 1 3
-# 19 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/types.h" 3
+# 40 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 2 3
+# 48 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 1 3
+# 69 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 1 3 4
+# 70 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/types.h" 1 3
+# 19 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/types.h" 3
 typedef long int __off_t;
 typedef int __pid_t;
 
 __extension__ typedef long long int __loff_t;
-# 71 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 2 3
-# 93 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 3
+# 71 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 2 3
+# 93 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 3
 typedef unsigned char u_char;
 
 
@@ -660,7 +664,7 @@ typedef unsigned long ulong;
 
 
 typedef unsigned long clock_t;
-# 130 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 3
+# 130 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 3
 struct timespec {
   time_t tv_sec;
   long tv_nsec;
@@ -683,7 +687,7 @@ typedef char * caddr_t;
 
 
 typedef __ino_t ino_t;
-# 188 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 3
+# 188 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 3
 typedef _off_t off_t;
 typedef __dev_t dev_t;
 typedef __uid_t uid_t;
@@ -694,11 +698,11 @@ typedef __gid_t gid_t;
 
 
 typedef int pid_t;
-# 208 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 3
+# 208 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 3
 typedef long key_t;
 
 typedef _ssize_t ssize_t;
-# 224 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 3
+# 224 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 3
 typedef unsigned int mode_t __attribute__ ((__mode__ (__SI__)));
 
 
@@ -707,7 +711,7 @@ typedef unsigned int mode_t __attribute__ ((__mode__ (__SI__)));
 
 
 typedef __nlink_t nlink_t;
-# 256 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 3
+# 256 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 3
 typedef long fd_mask;
 
 
@@ -719,7 +723,7 @@ typedef long fd_mask;
 typedef struct _types_fd_set {
  fd_mask fds_bits[(((64)+(((sizeof (fd_mask) * 8))-1))/((sizeof (fd_mask) * 8)))];
 } _types_fd_set;
-# 287 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/types.h" 3
+# 287 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/types.h" 3
 typedef unsigned long clockid_t;
 
 
@@ -731,7 +735,7 @@ typedef unsigned long timer_t;
 
 typedef unsigned long useconds_t;
 typedef long suseconds_t;
-# 49 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 2 3
+# 49 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 2 3
 
 
 
@@ -746,9 +750,9 @@ typedef _fpos_t fpos_t;
 
 
 
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/stdio.h" 1 3
-# 64 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 2 3
-# 164 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/stdio.h" 1 3
+# 64 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 2 3
+# 164 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
 FILE * tmpfile (void);
 char * tmpnam (char *);
 
@@ -811,7 +815,7 @@ int sprintf (char *restrict, const char *restrict, ...) __attribute__ ((__format
                                                             ;
 int remove (const char *);
 int rename (const char *, const char *);
-# 235 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
+# 235 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
 int fseeko (FILE *, off_t, int);
 off_t ftello ( FILE *);
 
@@ -881,7 +885,7 @@ int vsnprintf (char *restrict, size_t, const char *restrict, __gnuc_va_list) __a
                                                             ;
 int vsscanf (const char *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
                                                            ;
-# 313 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
+# 313 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
 FILE * fdopen (int, const char *);
 
 int fileno (FILE *);
@@ -898,7 +902,7 @@ int ftrylockfile (FILE *);
 void funlockfile (FILE *);
 int putc_unlocked (int, FILE *);
 int putchar_unlocked (int);
-# 338 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
+# 338 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
 int dprintf (int, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
                                                             ;
 
@@ -1066,10 +1070,10 @@ int fgetc_unlocked (FILE *);
 int fputc_unlocked (int, FILE *);
 size_t fread_unlocked (void * restrict, size_t _size, size_t _n, FILE *restrict);
 size_t fwrite_unlocked (const void * restrict , size_t _size, size_t _n, FILE *);
-# 538 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
+# 538 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
 int __srget_r (struct _reent *, FILE *);
 int __swbuf_r (struct _reent *, int, FILE *);
-# 562 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
+# 562 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
 FILE *funopen (const void * __cookie, int (*__readfn)(void * __cookie, char *__buf, int __n), int (*__writefn)(void * __cookie, const char *__buf, int __n), fpos_t (*__seekfn)(void * __cookie, fpos_t __off, int __whence), int (*__closefn)(void * __cookie))
 
 
@@ -1114,13 +1118,13 @@ FILE *fopencookie (void *__cookie, const char *__mode, cookie_io_functions_t __f
                                                          ;
 FILE *_fopencookie_r (struct _reent *, void *__cookie, const char *__mode, cookie_io_functions_t __functions)
                                                          ;
-# 725 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/stdio.h" 3
+# 725 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/stdio.h" 3
 
 # 3 "matmul.c" 2
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/string.h" 1 3
-# 17 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/string.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 1 3 4
-# 18 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/string.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/string.h" 1 3
+# 17 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/string.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 1 3 4
+# 18 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/string.h" 2 3
 
 
 
@@ -1194,7 +1198,7 @@ char *strndup (const char *, size_t);
 
 
 char *_strndup_r (struct _reent *, const char *, size_t);
-# 106 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/string.h" 3
+# 106 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/string.h" 3
 int strerror_r (int, char *, size_t)
              __asm__ ("" "__xpg_strerror_r");
 
@@ -1232,8 +1236,8 @@ char *strupr (char *);
 
 
 char *strsignal (int __signo);
-# 163 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/string.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/sys/string.h" 1 3
+# 163 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/string.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/sys/string.h" 1 3
 
 
 
@@ -1244,21 +1248,21 @@ static inline unsigned long __libc_detect_null(unsigned long w)
     mask = ((mask << 16) << 16) | mask;
   return ~(((w & mask) + mask) | w | mask);
 }
-# 164 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/string.h" 2 3
+# 164 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/string.h" 2 3
 
 
 # 4 "matmul.c" 2
 
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/float.h" 1 3 4
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/float.h" 1 3 4
 # 6 "matmul.c" 2
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 1 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 1 3
 
 
 
 
 
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/ieeefp.h" 1 3
-# 7 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/ieeefp.h" 1 3
+# 7 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 2 3
 
 
 
@@ -1284,7 +1288,7 @@ union __ldmath
   long double ld;
   __ULong i[4];
 };
-# 108 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 108 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
 extern double atan (double);
 extern double cos (double);
 extern double sin (double);
@@ -1313,10 +1317,10 @@ extern double log10 (double);
 extern double pow (double, double);
 extern double sqrt (double);
 extern double fmod (double, double);
-# 155 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 155 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
     typedef float float_t;
     typedef double double_t;
-# 199 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 199 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
 extern int __isinff (float x);
 extern int __isinfd (double x);
 extern int __isnanf (float x);
@@ -1325,7 +1329,7 @@ extern int __fpclassifyf (float x);
 extern int __fpclassifyd (double x);
 extern int __signbitf (float x);
 extern int __signbitd (double x);
-# 259 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 259 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
 extern double infinity (void);
 extern double nan (const char *);
 extern int finite (double);
@@ -1522,7 +1526,7 @@ extern long double remainderl (long double, long double);
 extern long double lgammal (long double);
 extern long double erfl (long double);
 extern long double erfcl (long double);
-# 469 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 469 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
 extern double drem (double, double);
 extern void sincos (double, double *, double *);
 extern double gamma_r (double, int *);
@@ -1559,9 +1563,9 @@ extern float exp10f (float);
 
 
 extern float pow10f (float);
-# 514 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 514 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
 extern int *__signgam (void);
-# 525 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 525 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
 struct exception
 
 {
@@ -1577,7 +1581,7 @@ struct exception
 
 
 extern int matherr (struct exception *e);
-# 589 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 589 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
 enum __fdlibm_version
 {
   __fdlibm_ieee = -1,
@@ -1590,27 +1594,24 @@ enum __fdlibm_version
 
 
 extern enum __fdlibm_version __fdlib_version;
-# 609 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 3
+# 609 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 3
 
 
 
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/fastmath.h" 1 3
-# 613 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/math.h" 2 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/fastmath.h" 1 3
+# 613 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/math.h" 2 3
 # 7 "matmul.c" 2
 
 
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/time.h" 1 3
+# 15 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/time.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/lib/gcc/riscv64-unknown-elf/6.1.0/include/stddef.h" 1 3 4
+# 16 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/time.h" 2 3
 
 
-
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/time.h" 1 3
-# 15 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/time.h" 3
-# 1 "/home/jerryz123/riscv-toolchain/lib/gcc/riscv64-unknown-elf/5.3.0/include/stddef.h" 1 3 4
-# 16 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/time.h" 2 3
-
-
-# 1 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/machine/time.h" 1 3
-# 19 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/time.h" 2 3
-# 29 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/time.h" 3
+# 1 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/machine/time.h" 1 3
+# 19 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/time.h" 2 3
+# 29 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/time.h" 3
 
 
 struct tm
@@ -1686,18 +1687,32 @@ typedef struct __tzinfo_struct
 } __tzinfo_type;
 
 __tzinfo_type *__gettzinfo (void);
-# 129 "/home/jerryz123/riscv-toolchain/riscv64-unknown-elf/include/time.h" 3
+# 129 "/home/eecs/jerryz123/riscv-tools/riscv64-unknown-elf/include/time.h" 3
 extern long _timezone;
 extern int _daylight;
 extern char *_tzname[2];
-# 13 "matmul.c" 2
-# 23 "matmul.c"
+# 10 "matmul.c" 2
+# 20 "matmul.c"
 
-# 23 "matmul.c"
+# 20 "matmul.c"
 typedef double vector __attribute__((vector_size(4 * sizeof(double))));
-# 37 "matmul.c"
+
+
+int __attribute__((optimize("O0"))) rdcycle() {
+  int out = 0;
+  asm("rdcycle %0" : "=r" (out));
+  return out;
+}
+
+int __attribute__((optimize("O0"))) rdinstret() {
+  int out = 0;
+  asm("rdinstret %0" : "=r" (out));
+  return out;
+}
+
 void fill (double* p, int n) {
   for (int i = 0; i < n; i++) {
+    p[i] = rand()% 10;
     p[i] = 1;
   }
 }
@@ -1712,89 +1727,142 @@ void printmatrix (int m, int n, double* M) {
   printf("\n");
 }
 
-void naive_dgemm(int n, double* __restrict__ A, double* __restrict__ B, double* __restrict__ C) {
-
-  for (int i = 0; i < n; i++) {
-
-    for (int j = 0; j < n; j++) {
-      double t = C[i + j * n];
-
-      for (int k = 0; k < n; k++) {
-
-   double a = A[i + k * n];
-   double b = B[k + j * n];
+void naive_dgemm(int M, int N, int K, double* __restrict__ A, double* __restrict__ B, double* __restrict__ C) {
+  for (int m = 0; m < M; m++) {
+    for (int n = 0; n < N; n++) {
+      double t = C[m + n * M];
+      for (int k = 0; k < K; k++) {
+   double a = A[m + k * M];
+   double b = B[k + n * K];
    t += a * b;
       }
-      C[i + j * n] = t;
+      C[m + n * M] = t;
     }
   }
 }
 
-void do_4x4_block(int n, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
-  vector c[4];
-  for (int j = 0; j < 4; j++) {
-    asm("# initial memcopy");
-    memcpy(c + j, C + n * j, 32);
+void naive_4x4_dgemm(int M, int N, int K, double* restrict A, double* restrict B, double* restrict C) {
+  for (int m = 0; m < 4; m++) {
+    for (int n= 0; n < 4; n++) {
+      double t = C[m + n * M];
+      for (int k = 0; k < 4; k++) {
+   double a = A[m + k * M];
+   double b = B[k + n * K];
+   t += a * b;
+      }
+      C[m + n * M] = t;
+    }
   }
 
-  for (int k = 0; k < kdepth; k++) {
+}
+void slow_dgemm(int M, int N, int K, double* restrict A, double* restrict B, double* restrict C) {
+  for (int m = 0; m < M ; m++) {
+    for (int n = 0; n < N; n++) {
+      for (int k = 0; k < K; k++) {
+ C[m + n * M] += A[m + k * M] * B[k + n * K];
+      }
+    }
+  }
+}
+
+void slow_4x4_dgemm(int M, int N, int K, double* restrict A, double* restrict B, double* restrict C) {
+  for (int m = 0; m < 4 ; m++) {
+    for (int n = 0; n < 4; n++) {
+      for (int k = 0; k < 4; k++) {
+ C[m + n * M] += A[m + k * M] * B[k + n * K];
+      }
+    }
+  }
+}
+
+void fast_4x4_dgemm(int M, int N, int K, double* restrict A, double* restrict B, double* restrict C) {
+  vector c[4];
+  for (int n = 0; n < 4; n++) {
+    asm("# initial memcopy");
+    memcpy(c + n, C + n * M, 4*sizeof(double));
+  }
+  for (int k = 0; k < 4; k++) {
     vector a;
-    memcpy(&a, A + k * n, 32);
-    for (int j = 0; j < 4; j++) {
-      double bv = B[k + j * n];
+    memcpy(&a, A + k * M, 32);
+    for (int n = 0; n < 4; n++) {
+      double bv = B[k + n * K];
       vector b = {bv, bv, bv, bv};
 
-      c[j] += a * b;
+      c[n] += a * b;
     }
   }
-  for (int j = 0; j < 4; j++) {
+  for (int n = 0; n < 4; n++) {
     asm("# final memcopy");
-    memcpy(C + n * j, c + j, 32);
+    memcpy(C + n * M, c + n, 4*sizeof(double));
   }
-# 120 "matmul.c"
+}
+
+void do_4x4_block_fast(int M, int N, int K, int kdepth, double* restrict A, double* restrict B, double* restrict C) {
+  vector c[4];
+  for (int n = 0; n < 4; n++) {
+    asm("# initial memcopy");
+    memcpy(c + n, C + n * M, 4*sizeof(double));
+  }
+  for (int k = 0; k < kdepth; k++) {
+    vector a;
+    memcpy(&a, A + k * M, 32);
+    for (int n = 0; n < 4; n++) {
+      double bv = B[k + n * K];
+      vector b = {bv, bv, bv, bv};
+
+      c[n] += a * b;
+    }
+  }
+  for (int n = 0; n < 4; n++) {
+    asm("# final memcopy");
+    memcpy(C + n * M, c + n, 4*sizeof(double));
+  }
 }
 
 
-void avx_dgemm_slow(int n, double* restrict A, double* restrict B, double* restrict C) {
-  for (int k = 0; k < n; k += 32){
-    int kend = (((k + 32)<(n))?(k + 32):(n));
-    for (int j = 0; j < n; j += 32){
-      int jend = (((j + 32)<(n))?(j + 32):(n));
-      for (int i = 0; i < n; i += 32){
- int iend = (((i + 32)<(n))?(i + 32):(n));
 
- int bfringe = (iend - i) % 4;
- int rfringe = (jend - j) % 4;
+void blocked_dgemm(int M, int N, int K, double* restrict A, double* restrict B, double* restrict C) {
+  for (int k = 0; k < K; k += 32){
+    int kend = (((k + 32)<(K))?(k + 32):(K));
+    for (int n = 0; n < N; n += 32){
+      int nend = (((n + 32)<(N))?(n + 32):(N));
+      for (int m = 0; m < M; m += 32){
+ int mend = (((m + 32)<(M))?(m + 32):(M));
 
- int bboundary = iend - bfringe;
- int rboundary = jend - rfringe;
+ int bfringe = (mend - m) % 4;
+ int rfringe = (nend - n) % 4;
 
- int i1, j1, k1;
- for (j1 = j; j1 < rboundary; j1 += 4){
-   for (i1 = i; i1 < bboundary; i1 += 4){
+ int bboundary = mend - bfringe;
+ int rboundary = nend - rfringe;
 
-     do_4x4_block(n, kend - k, A + i1 + k * n, B + k + j1 * n, C + i1 + j1 * n);
+ int m1, n1, k1;
+ for (n1 = n; n1 < rboundary; n1 += 4){
+   for (m1 = m; m1 < bboundary; m1 += 4){
+     do_4x4_block_fast(M, N, K, kend - k, A + m1 + k * M, B + k + n1 * K, C + m1 + n1 * M);
    }
-
  }
- for (j1 = j; j1 < rboundary; j1++) {
-   for (i1 = bboundary ; i1 < iend; i1++) {
-     for (k1 = k; k1 < kend; k1 ++) {
-       C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+ if (bfringe > 0) {
+   for (n1 = n; n1 < rboundary; n1++) {
+     for (m1 = bboundary ; m1 < mend; m1++) {
+       for (k1 = k; k1 < kend; k1 ++) {
+  C[m1 + n1 * M] += A[m1 + k1 * M] * B[k1 + n1 * K];
+       }
      }
    }
  }
- for (i1 = i; i1 < bboundary; i1 ++) {
-   for (j1 = rboundary; j1 < jend; j1++) {
-     for (k1 = k; k1 < kend; k1++) {
-       C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+ if (rfringe > 0) {
+   for (m1 = m; m1 < bboundary; m1 ++) {
+     for (n1 = rboundary; n1 < nend; n1++) {
+       for (k1 = k; k1 < kend; k1++) {
+  C[m1 + n1 * M] += A[m1 + k1 * M] * B[k1 + n1 * K];
+       }
      }
    }
  }
- for (i1 = bboundary; i1 < iend; i1++) {
-   for (j1 = rboundary; j1 < jend; j1++) {
+ for (m1 = bboundary; m1 < mend; m1++) {
+   for (n1 = rboundary; n1 < nend; n1++) {
      for (k1 = k; k1 < kend; k1++) {
-       C[i1 + j1 * n] += A[i1 + k1 * n] * B[k1 + j1 * n];
+       C[m1 + n1 * M] += A[m1 + k1 * M] * B[k1 + n1 * K];
      }
    }
  }
@@ -1803,79 +1871,89 @@ void avx_dgemm_slow(int n, double* restrict A, double* restrict B, double* restr
   }
 }
 
+void benchmark_once(void (*f)(int, int, int, double*, double*, double*), int m, int n, int k) {
+  double* A = (double*)malloc(m * k * sizeof(double));
+  double* B = (double*)malloc(k * n * sizeof(double));
+  double* C = (double*)malloc(m * n * sizeof(double));
+  double* Co = (double*)malloc(m * n * sizeof(double));
 
-void test(int n, double* A, double* B, double* C) {
+  fill(A, m * k);
+  fill(B, k * n);
+  fill(C, m * n);
 
-  for (int i = 0; i < n; i++) {
-    C[i] = A[i] + B[i];
+  (*f)(m, n, k, A, B, C);
+
+  int start_ins = rdinstret();
+  int start = rdcycle();
+  (*f)(m, n, k, A, B, C);
+  int cycles = rdcycle() - start;
+  int instructions = rdinstret() - start_ins;
+
+
+  memcpy(Co, C, sizeof(double) * m * n);
+  memset(C, 0, m * n * sizeof(C));
+  memset(Co, 0, m * n * sizeof(Co));
+
+
+  (*f)(m, n, k, A, B, C);
+  naive_4x4_dgemm(m, n, k, A, B, Co);
+
+  for (int i = 0; i < m * n ; i++) {
+    if (fabs(C[i] - Co[i]) > 0.01) {
+      perror("error in matrix multiply");
+      printmatrix(m, n , C);
+      printmatrix(m, n , Co);
+      exit(
+# 228 "matmul.c" 3
+          1
+# 228 "matmul.c"
+                      );
+    }
   }
 
+  free(A);
+  free(B);
+  free(C);
+  free(Co);
+  printf("%d\t%d\t%d\t%d\t%d\n", m, n, k , cycles, instructions);
 }
 
-void benchmark (char* desc, void (*f)(int, double*, double*, double*), int* test_sizes, int nsizes) {
+void benchmark (char* desc, void(*f)(int, int, int, double*, double*, double*), int* m, int* n, int* k) {
+  printf("%s\nM\tN\tK\tCycles\tInstructions\n", desc);
+  int numm = sizeof(m) / sizeof(int);
+  int numn = sizeof(n) / sizeof(int);
+  int numk = sizeof(k) / sizeof(int);
 
-  printf("%s\nSize:\tGflops\n", desc);
-  for (int isize = 0; isize < nsizes; isize++) {
-    int n = test_sizes[isize];
-
-    double A[n*n];
-    double B[n*n];
-    double C[n*n];
-
-
-
-
-
-    double Gflops_s, seconds = -1.0;
-    double timeout = 0.1;
-
-
-    int n_iterations = 1;
-    for (int it = 0; it < n_iterations; it++) {
-      (*f)(n, A, B, C);
-    }
-
-    Gflops_s = 0;
-
-    printf("%d\t%.3g\n", n, Gflops_s);
-
-    memset(C, 0, n * n * sizeof(double));
-
-    double* Co = (double*)malloc(n * n * sizeof(double));
-    memset(Co, 0, n * n * sizeof(double));
-
-    naive_dgemm(n, A, B, Co);
-    (*f)(n, A, B, C);
-
-    for (int i = 0; i < n * n; i++) {
-      if (fabs(C[i] - Co[i]) > 0.01) {
-     perror("error in matrix multiply");
-     printmatrix(n, n, C);
-     printmatrix(n, n, Co);
-     exit(
-# 220 "matmul.c" 3
-         1
-# 220 "matmul.c"
-                     );
+  for ( ; numm > 1; numm--) {
+    for ( ; numn > 1; numn--) {
+      for ( ; numk > 1; numk--) {
+ benchmark_once(f, *m++, *n++, *k++);
       }
     }
   }
 }
-
-
-
-
+# 261 "matmul.c"
 int main (int argc, char **argv) {
-  int test_sizes[] = {4, 6, 7, 8, 16, 32, 64, 65, 66, 67, 128, 153, 185, 251, 285, 301, 339};
+  int s;
+  if (argc == 2) {
+    s = atoi(argv[1]);
+  } else{
+    s = 4;
+  }
 
-  int nsizes = sizeof(test_sizes) / sizeof(int);
-  int nmax = test_sizes[nsizes - 1];
+  int* m = (int*)malloc(sizeof(int));
+  int* n = (int*)malloc(sizeof(int));
+  int* k = (int*)malloc(sizeof(int));
+  m[0] = s;
+  n[0] = s;
+  k[0] = s;
 
 
 
 
 
-  benchmark("avx_slow", avx_dgemm_slow, test_sizes, nsizes);
 
-
+  benchmark("naive_4x4", naive_4x4_dgemm, m, n, k);
+  benchmark("slow_4x4", slow_4x4_dgemm, m, n, k);
+  benchmark("fast_4x4", fast_4x4_dgemm, m, n, k);
 }

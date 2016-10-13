@@ -1,6 +1,6 @@
 CC = gcc
  
-OPT = -O3  -ftree-vectorize -fopt-info-vec -msse -msse2 -mavx -mavx2 -march=ivybridge -ffast-math -fverbose-asm -funroll-loops 
+OPT = -O3  -ftree-vectorize -fopt-info-vec -msse -msse2 -mavx -mavx2 -ffast-math -fverbose-asm -funroll-loops 
 MKLROOT = /opt/intel/compilers_and_libraries_2016.2.181/linux/mkl
 CFLAGS = -Wall -std=gnu99 -save-temps $(OPT) 
 

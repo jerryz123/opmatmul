@@ -1,14 +1,28 @@
 #include <stdio.h>
 
+int rdcycles() {
+  int out;
+  asm("rdcycle %0" : "=r" (out));
+  return out;
+}
+
+
+
 int main(char argc, char** args) {
-  double A[2];
-  double B[2];
-  double C[2];
+  double A[200];
+  double B[200];
+  double C[200];
   int i;
-  for (i = 0; i < 2; i++) {
+  int start = rdcycles();
+  for (i = 0; i < 200; i++) {
+    C[i] = i;
+    A[i] = i * i;
+    B[i] = 2 * i;
+  }
+
+  for (i = 0; i < 200; i++) {
     C[i] = A[i] * B[i] + C[i];
   }
-  for (i = 0; i < 2; i++) {
-    printf("%f\n", C[i]);
-  }
+  int end = rdcycles();
+  printf("Cycles:\t%d\n", end - start);
 }

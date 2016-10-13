@@ -1,0 +1,6 @@
+naive
+Size:	Cycles	Instructions
+100	4611259	4611259
+avx_slow
+Size:	Cycles	Instructions
+100	12524398	12524398
